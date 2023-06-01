@@ -1,0 +1,6 @@
+Anmeldeseite:
+
+- vergleichen der eingegebenen Daten mit der Datenbank
+- Neue Lernende werden eingetragen
+- Zusätzlich wird das Datum der Ersten Anmeldung erfasst
+- Userdaten (name, id)  werden an $_SESSION - Variable übergeben
