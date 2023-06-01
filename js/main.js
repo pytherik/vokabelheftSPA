@@ -4,19 +4,21 @@ import {header} from "./header.js";
 import Login from './login.js';
 import {StartPage} from "./startPage.js";
 
-header();
-let user;
 
-const loadStartPage = () => {
+header();
+if(!localStorage.getItem('username')){
+  localStorage.setItem('username','');
+  }
+
+let username = localStorage.getItem('username');
+const loadStartPage = (user) => {
   container.innerHTML='';
   header();
-  const benutzer = user.name;
   const starter = new StartPage();
-  starter.createUserListContainer(benutzer);
+  starter.createUserListContainer(user);
   // container.innerHTML = `<h1>Hallo ${benutzer}</h1>`;
 
 }
-
 if(!username) {
   const login = new Login();
   login.createUserInputs();
@@ -30,18 +32,22 @@ if(!username) {
       formData.append('name', nameInput.value);
       formData.append('password', passInput.value);
       formData.append('action', 'userLogin');
-      const response = await fetch('http://localhost:63342/VokabelheftSPA/actionSwitch.php',
+      const response = await fetch('http://localhost:63342/vokabelheftSPA/actionSwitch.php',
         {
           body: formData,
           method: 'POST'
         });
-      user = await response.json();
+      const user = await response.json();
       console.log(user);
-      loadStartPage();
+      loadStartPage(user.name);
+      localStorage.setItem('username', user.name);
+      localStorage.setItem('userId', user.id);
 
-      console.log(user);
+      console.log(user.name);
     } catch (error) {
       console.log(error);
     }
   })
+} else {
+  loadStartPage(localStorage.getItem('username'));
 }

@@ -13,9 +13,9 @@ switch ($action) {
       $password = $_POST['password'];
       $user = (new User())->createOrGetUser($name, $password);
 //      session_start();
-      $_SESSION['username'] = $user->getName();
-      $_SESSION['id'] = $user->getId();
-      $username = $_SESSION['username'];
+//      $_SESSION['username'] = $user->getName();
+//      $_SESSION['userId'] = $user->getId();
+//      $userId = $_SESSION['userId'];
       echo json_encode($user);
     }
     break;

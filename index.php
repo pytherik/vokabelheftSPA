@@ -1,10 +1,3 @@
-<?php
-session_start();
-
-$username = $_SESSION['username'] ?? '';
-echo "<script>let username ='$username';</script>";
-?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,12 +6,12 @@ echo "<script>let username ='$username';</script>";
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="scss/style.css">
+  <script type="module" src="js/main.js"></script>
   <title>Vokabelheft</title>
 </head>
 <body>
 <div class="container">
 
 </div>
-  <script type="module" src="js/main.js"></script>
 </body>
 </html>
