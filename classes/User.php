@@ -87,9 +87,9 @@ class User implements JsonSerializable
   /**
    * @return string
    */
-  public function getEntryDate(): string
+  public function getRegisteredAt(): string
   {
-    return $this->entry_date;
+    return $this->registered_at;
   }
 
 }

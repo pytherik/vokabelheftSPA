@@ -39,6 +39,7 @@ if(!username) {
         });
       const user = await response.json();
       console.log(user);
+      console.log(typeof user);
       loadStartPage(user.name);
       localStorage.setItem('username', user.name);
       localStorage.setItem('userId', user.id);
