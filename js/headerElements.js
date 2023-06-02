@@ -1,4 +1,4 @@
-export const header = () => {
+export const headerElements = () => {
   const container = document.querySelector('.container');
   const header = document.createElement('h1');
   header.className = 'heading';

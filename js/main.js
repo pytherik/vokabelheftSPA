@@ -1,19 +1,34 @@
 import {container} from './domElements.js'
 import {title} from "./domElements.js";
-import {header} from "./header.js";
-import Login from './login.js';
-import {StartPage} from "./startPage.js";
+import {headerElements} from "./headerElements.js";
+import Login from './loginView.js';
+import {StartPage} from "./startView.js";
 
+function clearStorage() {
+  let session = sessionStorage.getItem('register');
+  if (session == null) {
+    localStorage.removeItem('username');
+    localStorage.removeItem('userId');
+  }
+  sessionStorage.setItem('register', 1);
+}
 
-header();
+window.addEventListener('load', clearStorage);
+
+headerElements();
 if(!localStorage.getItem('username')){
   localStorage.setItem('username','');
   }
+// window.onbeforeunload = function() {
+//   localStorage.removeItem('username');
+//   localStorage.removeItem('userId');
+//   return '';
+// }
 
 let username = localStorage.getItem('username');
 const loadStartPage = (user) => {
   container.innerHTML='';
-  header();
+  headerElements();
   const starter = new StartPage();
   starter.createUserListContainer(user);
   // container.innerHTML = `<h1>Hallo ${benutzer}</h1>`;
