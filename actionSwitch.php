@@ -4,9 +4,10 @@ spl_autoload_register(function ($class) {
   include sprintf('classes/%s.php', $class);
 });
 
-//$action = $_POST['action'];
-$action = 'getUserContent';
-$_POST['userId'] = 1;
+//$action = 'getUserContent';
+//$_POST['userId'] = 1;
+$action = $_POST['action'];
+
 switch ($action) {
   case 'userLogin':
     if (isset($_POST['name']) && isset($_POST['password'])) {
@@ -20,6 +21,11 @@ switch ($action) {
     if (isset($_POST['userId'])) {
       $id = $_POST['userId'];
       $content = (new UserContent())->getAllAsObjects($id);
+//      foreach ($content as $item) {
+//        echo "<pre>";
+//        print_r($item);
+//        echo "</pre>";
+//      }
       echo json_encode($content);
     }
     break;

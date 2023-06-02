@@ -2,7 +2,7 @@ import {container} from './domElements.js'
 import {title} from "./domElements.js";
 import {headerElements} from "./headerElements.js";
 import Login from './loginView.js';
-import {StartPage} from "./startView.js";
+import {StartView} from "./startView.js";
 
 function clearStorage() {
   let session = sessionStorage.getItem('register');
@@ -29,8 +29,8 @@ let username = localStorage.getItem('username');
 const loadStartPage = (user) => {
   container.innerHTML='';
   headerElements();
-  const starter = new StartPage();
-  starter.createUserListContainer(user);
+  const starter = new StartView();
+  starter.createUserListContainer();
   // container.innerHTML = `<h1>Hallo ${benutzer}</h1>`;
 
 }
