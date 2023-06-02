@@ -74,14 +74,45 @@ body {
   width: 40%;
   height: 100%;
 }
-.table span {
+.table__header {
   font-size: 1.5rem;
 }
 
 .latest-entries {
   width: 100%;
-  height: 100%;
+  height: 50vh;
   background: #666;
+  padding: 2rem 0.5rem;
+  border-radius: 10px;
+}
+.latest-entries div {
+  display: flex;
+  justify-content: space-between;
+}
+.latest-entries .word,
+.latest-entries .date {
+  font-size: 1.4rem;
+  padding: 0.2rem 1rem;
+}
+
+.edit,
+.delete {
+  width: 2rem;
+  font-size: 1.4rem;
+  margin: 0.1rem 0.5rem;
+  background: #dddddd;
+  border: none;
+  border-radius: 50%;
+}
+
+.edit:hover,
+.delete:hover,
+.word:hover {
+  filter: brightness(80%);
+}
+
+.delete {
+  color: red;
 }
 
 /*# sourceMappingURL=style.css.map */

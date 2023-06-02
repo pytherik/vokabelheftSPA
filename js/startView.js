@@ -9,6 +9,8 @@ export class StartView {
   }
 
   async createUserListContainer() {
+    let wordId = 0;
+    let wordLang = '';
     const userContent = await this.getUsercontent();
     console.log(userContent);
     const table = document.createElement('div');
@@ -17,13 +19,26 @@ export class StartView {
     const latestEntries = document.createElement('div');
     latestEntries.className = 'latest-entries';
     latestEntries.id = 'user-table';
-    const englishVocables = userContent.filter(content => content.english_id !== 0);
-    console.log(englishVocables);
-    const germanVocables =  userContent.filter(content => content.german_id !== 0);
-    console.log(germanVocables);
-    userContent.forEach((content) => {
+    let idx = 0;
+    userContent.forEach((content, idx) => {
+      let addedAt = content.added_at;
+      addedAt = addedAt.split('-').reverse().join('.');
       const word = content.word;
-      latestEntries.insertAdjacentHTML('beforeend', `<span class="word"></span>${word}<span class="date">${content.added_at}</span>`)
+      if(content.english_id !== 0) {
+        wordId = content.english_id;
+        wordLang = 'en';
+      } else {
+        wordId = content.german_id;
+        wordLang = 'de';
+      }
+      const lang = 'en';
+      latestEntries.insertAdjacentHTML('beforeend',
+        `<div class="row">
+           <span class="word" data-id="${wordId}" data-lang="${wordLang}">${idx+1}. ${word}</span>
+           <div><span class="date">(${wordLang}) ${addedAt}</span>
+           <button class="edit">&#10000;</button>
+           <button class="delete">&#10006;</button></div>
+         </div>`)
     });
     table.insertAdjacentHTML('beforeend',tableHeader);
     table.insertAdjacentElement('beforeend',latestEntries);
@@ -41,15 +56,10 @@ export class StartView {
         body: formData,
         method: 'POST'
       });
-      const content = await response.json();
-      console.log(content);
-      return content;
+
+      return await response.json();
     } catch (error) {
       console.log(error);
     }
-  }
-
-  async getVocable(content) {
-
   }
 }

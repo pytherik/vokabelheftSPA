@@ -12,29 +12,31 @@ function clearStorage() {
   }
   sessionStorage.setItem('register', 1);
 }
-
 window.addEventListener('load', clearStorage);
 
-headerElements();
-if(!localStorage.getItem('username')){
-  localStorage.setItem('username','');
-  }
 // window.onbeforeunload = function() {
 //   localStorage.removeItem('username');
 //   localStorage.removeItem('userId');
 //   return '';
 // }
 
+if(!localStorage.getItem('username')){
+  localStorage.setItem('username','');
+  }
+
+
 let username = localStorage.getItem('username');
 const loadStartPage = (user) => {
   container.innerHTML='';
-  headerElements();
+  headerElements('zuletz hinzugefügt');
+  title.innerText = 'Start Learning'
   const starter = new StartView();
   starter.createUserListContainer();
-  // container.innerHTML = `<h1>Hallo ${benutzer}</h1>`;
 
 }
+
 if(!username) {
+  headerElements('Anmeldung');
   const login = new Login();
   login.createUserInputs();
   const submit = document.getElementById('formSubmit');

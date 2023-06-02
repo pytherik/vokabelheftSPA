@@ -24,8 +24,7 @@ class UserContent implements JsonSerializable
                               ?string $addedAt=null,
                               ?int $enlishId=null,
                               ?int $germanId=null,
-                              ?string $description=null,
-                              ?string $word=null)
+                              ?string $description=null)
   {
     if (isset($id) && isset($userId) && isset($addedAt)) {
       $this->id = $id;
@@ -45,7 +44,7 @@ class UserContent implements JsonSerializable
     }
   }
 
-  public function getAllAsObjects($id): array
+  public function getAllAsObjects(int $id): array
   {
     try {
       $dbh = DBConnect::connect();
@@ -59,7 +58,7 @@ class UserContent implements JsonSerializable
           $row['english_id'] = 0;
         } else {
           $row['german_id'] = 0;
-        };
+        }
         if($row['description'] === null) {
           $row['description'] = '';
         }

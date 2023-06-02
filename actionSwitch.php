@@ -21,14 +21,9 @@ switch ($action) {
     if (isset($_POST['userId'])) {
       $id = $_POST['userId'];
       $content = (new UserContent())->getAllAsObjects($id);
-//      foreach ($content as $item) {
-//        echo "<pre>";
-//        print_r($item);
-//        echo "</pre>";
-//      }
       echo json_encode($content);
     }
     break;
   default:
-    echo 'hallo';
+    echo 'default case has happened!';
 }

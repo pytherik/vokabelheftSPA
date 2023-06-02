@@ -1,11 +1,10 @@
-export const headerElements = () => {
+export const headerElements = (page) => {
   const container = document.querySelector('.container');
-  const header = document.createElement('h1');
-  header.className = 'heading';
-  header.textContent = 'Vokabelheft'
-  const subHeader = document.createElement('h3');
-  subHeader.className = 'sub-heading';
-  subHeader.textContent = 'Anmeldung';
-  container.insertAdjacentElement('beforeend', header);
-  container.insertAdjacentElement('beforeend', subHeader);
+  container.innerHTML = '';
+
+  const header = `<h1 class="heading">Vokabelheft</h1>`
+  const subHeader = `<h3 class="sub-heading">${page}</h3>`
+
+  container.insertAdjacentHTML('beforeend', header);
+  container.insertAdjacentHTML('beforeend', subHeader);
 }
