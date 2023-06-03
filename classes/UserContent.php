@@ -46,6 +46,7 @@ class UserContent implements JsonSerializable
 
   public function getAllAsObjects(int $id): array
   {
+
     try {
       $dbh = DBConnect::connect();
       $sql = "SELECT * FROM user_pool WHERE user_id = :userId ORDER BY added_at DESC";

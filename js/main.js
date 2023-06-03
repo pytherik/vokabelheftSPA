@@ -26,12 +26,13 @@ if(!localStorage.getItem('username')){
 
 
 let username = localStorage.getItem('username');
-const loadStartPage = (user) => {
-  container.innerHTML='';
+
+const loadStartPage = async () => {
+  container.innerHTML = '';
   headerElements('zuletz hinzugefügt');
-  title.innerText = 'Start Learning'
+  title.innerText = 'Start'
   const starter = new StartView();
-  starter.createUserListContainer();
+  await starter.createListContainer();
 
 }
 
@@ -56,16 +57,13 @@ if(!username) {
         });
       const user = await response.json();
       console.log(user);
-      console.log(typeof user);
-      loadStartPage(user.name);
       localStorage.setItem('username', user.name);
       localStorage.setItem('userId', user.id);
-
-      console.log(user.name);
+      await loadStartPage();
     } catch (error) {
       console.log(error);
     }
   })
 } else {
-  loadStartPage(localStorage.getItem('username'));
+  loadStartPage();
 }
