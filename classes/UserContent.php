@@ -2,70 +2,57 @@
 
 class UserContent implements JsonSerializable
 {
-  private int $id;
-  private int $userId;
-  private string $addedAt;
-  private int $englishId;
-  private int $germanId;
-  private string $description;
+  private int $word_id;
   private string $word;
+  private string $wordclass;
+  private int $created_by;
+  private string $author_name;
+  private string $created_at;
 
   /**
-   * @param int|null $id
-   * @param int|null $userId
-   * @param string|null $addedAt
-   * @param int|null $enlishId
-   * @param int|null $germanId
-   * @param string|null $description
+   * @param int|null $word_id
    * @param string|null $word
+   * @param string|null $wordclass
+   * @param int|null $created_by
+   * @param string|null $author_name
+   * @param string|null $created_at
    */
-  public function __construct(?int $id=null,
-                              ?int $userId=null,
-                              ?string $addedAt=null,
-                              ?int $enlishId=null,
-                              ?int $germanId=null,
-                              ?string $description=null)
+  public function __construct(?int    $word_id = null,
+                              ?string $word = null,
+                              ?string $wordclass = null,
+                              ?int    $created_by = null,
+                              ?string $author_name = null,
+                              ?string $created_at = null)
   {
-    if (isset($id) && isset($userId) && isset($addedAt)) {
-      $this->id = $id;
-      $this->userId = $userId;
-      $this->addedAt = $addedAt;
-      $this->englishId = $enlishId;
-      $this->germanId = $germanId;
-      $this->description = $description;
-      if ($this->englishId !== 0) {
-        $english = (new English())->getObjectById($this->englishId);
-        $this->word = $english->getWord();
-      } else {
-        $german = (new German())->getObjectById($this->germanId);
-        $this->word = $german->getWord();
-      }
-
+    if (isset($word_id) &&
+      isset($word) &&
+      isset($wordclass) &&
+      isset($created_by) &&
+      isset($author_name) &&
+      isset($created_at))
+    {
+      $this->word_id = $word_id;
+      $this->word = $word;
+      $this->wordclass = $wordclass;
+      $this->created_by = $created_by;
+      $this->author_name = $author_name;
+      $this->created_at = $created_at;
     }
   }
 
+
   public function getAllAsObjects(int $id): array
   {
-
     try {
       $dbh = DBConnect::connect();
-      $sql = "SELECT * FROM user_pool WHERE user_id = :userId ORDER BY added_at DESC";
+      $sql = USER_POOL_ENGLISH;
       $stmt = $dbh->prepare($sql);
       $stmt->bindParam('userId', $id);
       $stmt->execute();
       $content = [];
-      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        if($row['english_id'] === null){
-          $row['english_id'] = 0;
-        } else {
-          $row['german_id'] = 0;
-        }
-        if($row['description'] === null) {
-          $row['description'] = '';
-        }
-        $content[] = new UserContent($row['id'], $row['user_id'],
-          $row['added_at'], $row['english_id'],
-          $row['german_id'], $row['description']);
+//      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      while ($row = $stmt->fetchObject(__CLASS__)) {
+        $content[] = $row;
       }
       return $content;
     } catch (PDOException $e) {
@@ -76,63 +63,15 @@ class UserContent implements JsonSerializable
 
   public function jsonSerialize(): array
   {
-    return [
-      'id' => $this->id,
-      'user_id' => $this->userId,
-      'added_at' => $this->addedAt,
-      'english_id' => $this->englishId,
-      'german_id' => $this->germanId,
-      'description' => $this->description,
-      'word' => $this->word
-    ];
+    return get_object_vars($this);
   }
 
   /**
    * @return int
    */
-  public function getId(): int
+  public function getWordId(): int
   {
-    return $this->id;
-  }
-
-  /**
-   * @return int
-   */
-  public function getUserId(): int
-  {
-    return $this->userId;
-  }
-
-  /**
-   * @return string
-   */
-  public function getAddedAt(): string
-  {
-    return $this->addedAt;
-  }
-
-  /**
-   * @return int
-   */
-  public function getEnglishId(): int
-  {
-    return $this->englishId;
-  }
-
-  /**
-   * @return int
-   */
-  public function getGermanId(): int
-  {
-    return $this->germanId;
-  }
-
-  /**
-   * @return string
-   */
-  public function getDescription(): string
-  {
-    return $this->description;
+    return $this->word_id;
   }
 
   /**
@@ -143,4 +82,35 @@ class UserContent implements JsonSerializable
     return $this->word;
   }
 
+  /**
+   * @return string
+   */
+  public function getWordclass(): string
+  {
+    return $this->wordclass;
+  }
+
+  /**
+   * @return int
+   */
+  public function getCreatedBy(): int
+  {
+    return $this->created_by;
+  }
+
+  /**
+   * @return string
+   */
+  public function getAuthorName(): string
+  {
+    return $this->author_name;
+  }
+
+  /**
+   * @return int
+   */
+  public function getCreatedAt(): int
+  {
+    return $this->created_at;
+  }
 }

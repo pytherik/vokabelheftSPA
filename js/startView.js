@@ -15,8 +15,8 @@ export class StartView {
     } else {
     }
     let wordId = 0;
-    let wordLang = '';
     const userContent = await this.getUsercontent(allUsers);
+    console.log(userContent);
     const table = document.createElement('div');
     table.className = 'table';
     const tableHeader = `<span class="table__header">Von ${headerContent}</span>`;
@@ -24,20 +24,13 @@ export class StartView {
     latestEntries.className = 'latest-entries';
     latestEntries.id = 'user-table';
     userContent.forEach((content, idx) => {
-      let addedAt = content.added_at;
+      let addedAt = content.created_at;
       addedAt = addedAt.split('-').reverse().join('.');
       const word = content.word;
-      if(content.english_id !== 0) {
-        wordId = content.english_id;
-        wordLang = 'en';
-      } else {
-        wordId = content.german_id;
-        wordLang = 'de';
-      }
       latestEntries.insertAdjacentHTML('beforeend',
         `<div class="row">
-           <span class="word" data-id="${wordId}" data-lang="${wordLang}">${idx+1}. ${word}</span>
-           <div><span class="date">(${wordLang}) ${addedAt}</span>
+           <span class="word" data-id="${content.word_id}">${idx+1}. ${content.word}</span>
+           <div><span class="word">von ${content.author_name}</span><span class="date">(${content.wordclass.slice(0,1)}) ${addedAt}</span>
            <button class="edit">&#10000;</button>
            <button class="delete">&#10006;</button></div>
          </div>`)

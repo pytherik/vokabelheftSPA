@@ -13,6 +13,7 @@ CREATE TABLE user
 CREATE TABLE english
 (
     id           INT AUTO_INCREMENT PRIMARY KEY,
+    created_at   DATE,
     word         VARCHAR(100),
     description  VARCHAR(256)
 );
@@ -20,6 +21,7 @@ CREATE TABLE english
 CREATE TABLE german
 (
     id           INT AUTO_INCREMENT PRIMARY KEY,
+    created_at   DATE,
     word         VARCHAR(100),
     description  VARCHAR(256)
 );
@@ -60,38 +62,38 @@ VALUES (NULL, 'Erik', 'geheim', '2022-03-01'),
        (NULL, 'Johnny', 'special', '2022-03-01');
 
 INSERT INTO english
-VALUES (NULL, 'walk', NULL),
-       (NULL, 'go', NULL),
-       (NULL, 'run', NULL),
-       (NULL, 'eat', NULL),
-       (NULL, 'meal', NULL),
-       (NULL, 'sleep', NULL),
-       (NULL, 'drink', NULL);
+VALUES (NULL, '2022-03-01', 'walk', NULL),
+       (NULL, '2022-03-01', 'go', NULL),
+       (NULL, '2022-03-18', 'run', NULL),
+       (NULL, '2022-03-18', 'eat', NULL),
+       (NULL, '2022-03-18', 'meal', NULL),
+       (NULL, '2022-03-21', 'sleep', NULL),
+       (NULL, '2022-03-21', 'drink', NULL);
 
 INSERT INTO german
-VALUES (NULL, 'laufen', NULL),
-       (NULL, 'gehen', NULL),
-       (NULL, 'rennen', NULL),
-       (NULL, 'essen', NULL),
-       (NULL, 'das Essen', NULL),
-       (NULL, 'schlafen', NULL),
-       (NULL, 'der Schlaf', NULL),
-       (NULL, 'trinken', NULL),
-       (NULL, 'das Getränk', NULL);
+VALUES (NULL, '2022-03-21', 'laufen', NULL),
+       (NULL, '2022-03-01', 'gehen', NULL),
+       (NULL, '2022-03-18', 'rennen', NULL),
+       (NULL, '2022-03-18', 'essen', NULL),
+       (NULL, '2022-03-18', 'das Essen', NULL),
+       (NULL, '2022-03-21', 'schlafen', NULL),
+       (NULL, '2022-03-21', 'der Schlaf', NULL),
+       (NULL, '2022-03-21', 'trinken', NULL),
+       (NULL, '2022-03-21', 'das Getränk', NULL);
 
 INSERT INTO english_german VALUES
-                               (NULL, '1.3.22', 1, 1, 1, 1),
-                               (NULL, '1.3.22', 1, 1, 2, 1),
-                               (NULL, '1.3.22', 1, 2, 1, 1),
-                               (NULL, '1.3.22', 1, 2, 2, 1),
-                               (NULL, '1.3.22', 1, 3, 1, 1),
-                               (NULL, '18.3.22', 1, 3, 3, 1),
-                               (NULL, '18.3.22', 2, 4, 4, 1),
-                               (NULL, '18.3.22', 2, 5, 5, 2),
-                               (NULL, '21.3.22', 2, 6, 6, 1),
-                               (NULL, '21.3.22', 1, 6, 7, 2),
-                               (NULL, '21.3.22', 3, 7, 8, 1),
-                               (NULL, '21.3.22', 3, 7, 9, 2);
+                               (NULL, '2022-03-01', 1, 1, 1, 1),
+                               (NULL, '2022-03-01', 1, 1, 2, 1),
+                               (NULL, '2022-03-01', 1, 2, 1, 1),
+                               (NULL, '2022-03-01', 1, 2, 2, 1),
+                               (NULL, '2022-03-18', 1, 3, 1, 1),
+                               (NULL, '2022-03-18', 1, 3, 3, 1),
+                               (NULL, '2022-03-18', 2, 4, 4, 1),
+                               (NULL, '2022-03-18', 2, 5, 5, 2),
+                               (NULL, '2022-03-21', 2, 6, 6, 1),
+                               (NULL, '2022-03-21', 1, 6, 7, 2),
+                               (NULL, '2022-03-21', 3, 7, 8, 1),
+                               (NULL, '2022-03-21', 3, 7, 9, 2);
 
 
 INSERT INTO user_pool

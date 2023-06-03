@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+include 'queries.php';
 spl_autoload_register(function ($class) {
   include sprintf('classes/%s.php', $class);
 });
@@ -21,6 +22,9 @@ switch ($action) {
     if (isset($_POST['userId'])) {
       $id = $_POST['userId'];
       $content = (new UserContent())->getAllAsObjects($id);
+//      echo "<pre>";
+//      print_r($content);
+//      echo "</pre>";
       echo json_encode($content);
     }
     break;

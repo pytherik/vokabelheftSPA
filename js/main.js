@@ -29,7 +29,7 @@ let username = localStorage.getItem('username');
 
 const loadStartPage = async () => {
   container.innerHTML = '';
-  headerElements('zuletz hinzugefügt');
+  headerElements('zuletzt hinzugefügt');
   title.innerText = 'Start'
   const starter = new StartView();
   await starter.createListContainer();
