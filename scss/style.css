@@ -71,35 +71,46 @@ body {
 }
 
 .table {
+  margin-top: 20%;
   width: 40%;
   height: 100%;
+  overflow: hidden;
 }
 .table__header {
   font-size: 1.5rem;
 }
 
 .latest-entries {
+  margin-top: 1rem;
   width: 100%;
-  height: 50vh;
+  height: 30vh;
   background: #666;
-  padding: 2rem 0.5rem;
+  padding: 0.2rem 0.8rem 0.5rem 0.2rem;
   border-radius: 10px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  box-sizing: content-box;
 }
 .latest-entries div {
   display: flex;
   justify-content: space-between;
 }
-.latest-entries .word,
-.latest-entries .date {
-  font-size: 1.4rem;
+.latest-entries .word {
+  font-size: 1.2rem;
   padding: 0.2rem 1rem;
+}
+.latest-entries .date,
+.latest-entries .author {
+  line-height: 27px;
+  font-size: 0.8rem;
 }
 
 .edit,
 .delete {
-  width: 2rem;
-  font-size: 1.4rem;
-  margin: 0.1rem 0.5rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  font-size: 1rem;
+  margin: 0.1rem 0.2rem;
   background: #dddddd;
   border: none;
   border-radius: 50%;
@@ -113,6 +124,64 @@ body {
 
 .delete {
   color: red;
+}
+
+.button-container {
+  width: 68vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-green-big {
+  width: 30.5vw;
+  height: 4rem;
+  background-color: #88ac78;
+  font-size: 1.5rem;
+  color: #fff;
+  border-radius: 15px;
+}
+
+.btn-green-big:hover {
+  filter: brightness(120%);
+}
+
+.lang-icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.lang-icon:hover {
+  filter: brightness(120%);
+}
+
+@media (max-width: 1400px) {
+  .date {
+    display: none;
+  }
+}
+@media (max-width: 1100px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    width: 95vw;
+  }
+  .table {
+    width: 100%;
+    margin: 3% 0;
+  }
+  .button-container {
+    width: 95vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .btn-green-big {
+    width: 100%;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

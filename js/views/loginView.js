@@ -1,5 +1,5 @@
-import {container} from './domElements.js'
-import {title} from "./domElements.js";
+const title = document.querySelector('title');
+const container = document.querySelector('.container');
 
 export default class Login {
   createUserInputs () {

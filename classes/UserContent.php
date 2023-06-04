@@ -41,11 +41,15 @@ class UserContent implements JsonSerializable
   }
 
 
-  public function getAllAsObjects(int $id): array
+  public function getAllAsObjects(int $id, string $lang): array
   {
     try {
       $dbh = DBConnect::connect();
-      $sql = ($id === 0) ? ALL_USERS_POOL_GERMAN: USER_POOL_ENGLISH;
+      if ($lang === 'en') {
+        $sql = ($id === 0) ? ALL_USERS_POOL_ENGLISH: USER_POOL_ENGLISH;
+      } else {
+        $sql = ($id === 0) ? ALL_USERS_POOL_GERMAN: USER_POOL_GERMAN;
+      }
       $stmt = $dbh->prepare($sql);
       if ($id !== 0) {
         $stmt->bindParam('userId', $id);

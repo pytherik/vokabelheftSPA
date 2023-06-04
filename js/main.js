@@ -1,9 +1,11 @@
-import {container} from './domElements.js'
-import {title} from "./domElements.js";
-import {headerElements} from "./headerElements.js";
-import Login from './loginView.js';
-import {StartView} from "./startView.js";
+import {headerElements} from "./elements/headerElements.js";
+import Login from './views/loginView.js';
+import {ListView} from "./views/listView.js";
+import {buttonElements} from "./elements/buttonElements.js";
+import {langElements} from "./elements/langElements.js";
 
+const container = document.querySelector('.container');
+const title =  document.querySelector('title');
 function clearStorage() {
   let session = sessionStorage.getItem('register');
   if (session == null) {
@@ -27,14 +29,41 @@ if(!localStorage.getItem('username')){
 
 let username = localStorage.getItem('username');
 
+
 const loadStartPage = async () => {
+  title.innerText = 'Start'
   container.innerHTML = '';
   headerElements('zuletzt hinzugefügt');
-  title.innerText = 'Start'
-  const starter = new StartView();
-  await starter.createListContainer();
+  langElements();
 
+  const buttonDe = document.getElementById('lang-de');
+  buttonDe.addEventListener('click', () => {
+    console.log('btn-de clicked');
+    localStorage.setItem('lang', 'de');
+    loadStartPage();
+  })
+
+  const buttonEn = document.getElementById('lang-en');
+  buttonEn.addEventListener('click', () => {
+    console.log('btn-en clicked');
+    localStorage.setItem('lang', 'en');
+    loadStartPage();
+  });
+
+  const starter = new ListView();
+  await starter.createListContainer();
+  buttonElements();
+  const buttonUser = document.getElementById('btn-user');
+  buttonUser.addEventListener('click', () => {
+    console.log('btn-user clicked');
+  })
+  const buttonAllUsers = document.getElementById('btn-all-users');
+  buttonAllUsers.addEventListener('click', () => {
+    console.log('btn-all-users clicked');
+  })
 }
+
+
 
 if(!username) {
   headerElements('Anmeldung');
@@ -59,6 +88,7 @@ if(!username) {
       console.log(user);
       localStorage.setItem('username', user.name);
       localStorage.setItem('userId', user.id);
+      localStorage.setItem('lang', 'en');
       await loadStartPage();
     } catch (error) {
       console.log(error);

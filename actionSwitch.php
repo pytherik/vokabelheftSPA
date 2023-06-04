@@ -20,7 +20,8 @@ switch ($action) {
     break;
   case 'getUserContent':
     $id = $_POST['userId'];
-    $content = (new UserContent())->getAllAsObjects($id);
+    $lang = $_POST['lang'];
+    $content = (new UserContent())->getAllAsObjects($id, $lang);
 //      echo "<pre>";
 //      print_r($content);
 //      echo "</pre>";
