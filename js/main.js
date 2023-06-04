@@ -1,7 +1,6 @@
 import {headerElements} from "./elements/headerElements.js";
 import Login from './views/loginView.js';
 import {ListView} from "./views/listView.js";
-import {buttonElements} from "./elements/buttonElements.js";
 import {langElements} from "./elements/langElements.js";
 
 const container = document.querySelector('.container');
@@ -36,31 +35,38 @@ const loadStartPage = async () => {
   headerElements('zuletzt hinzugefügt');
   langElements();
 
+  const starter = new ListView();
+  await starter.createListContainer(true);
+
+  const buttonUser = document.getElementById('btn-user');
+  const buttonAllUsers = document.getElementById('btn-all-users');
   const buttonDe = document.getElementById('lang-de');
-  buttonDe.addEventListener('click', () => {
-    console.log('btn-de clicked');
+  const buttonEn = document.getElementById('lang-en');
+
+  buttonDe.addEventListener('click', async () => {
+    buttonEn.classList.add('inactive');
+    buttonDe.classList.remove('inactive');
     localStorage.setItem('lang', 'de');
-    loadStartPage();
+    await starter.createListContainer();
   })
 
-  const buttonEn = document.getElementById('lang-en');
-  buttonEn.addEventListener('click', () => {
-    console.log('btn-en clicked');
+  buttonEn.addEventListener('click', async () => {
+    buttonEn.classList.remove('inactive');
+    buttonDe.classList.add('inactive');
     localStorage.setItem('lang', 'en');
-    loadStartPage();
+    await starter.createListContainer();
   });
 
-  const starter = new ListView();
-  await starter.createListContainer();
-  buttonElements();
-  const buttonUser = document.getElementById('btn-user');
+
   buttonUser.addEventListener('click', () => {
     console.log('btn-user clicked');
   })
-  const buttonAllUsers = document.getElementById('btn-all-users');
+
   buttonAllUsers.addEventListener('click', () => {
     console.log('btn-all-users clicked');
   })
+
+
 }
 
 

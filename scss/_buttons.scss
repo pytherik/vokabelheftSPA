@@ -1,0 +1,52 @@
+.edit,
+.delete {
+  width: 1.4rem;
+  height: 1.4rem;
+  font-size: 1rem;
+  margin: .1rem .2rem;
+  background: #dddddd;
+  border: none;
+  border-radius: 50%;
+}
+
+.edit:hover,
+.delete:hover,
+.word:hover {
+  filter: brightness(80%);
+}
+
+.delete {
+  color: red;
+}
+
+.button-container {
+  width: 68vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-green-big {
+  width: 30.5vw;
+  height: 4rem;
+  background-color: #88ac78;
+  font-size: 1.5rem;
+  color: #fff;
+  border-radius: 15px;
+}
+
+.btn-green-big:hover {
+  filter: brightness(120%);
+}
+
+.lang-icon {
+  width: 3rem;
+  height: 3rem;
+  &.inactive {
+    filter: brightness(50%);
+  }
+}
+
+.lang-icon:hover {
+  filter: brightness(120%);
+}
+

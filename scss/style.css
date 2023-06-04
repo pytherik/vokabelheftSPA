@@ -1,4 +1,56 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+.edit,
+.delete {
+  width: 1.4rem;
+  height: 1.4rem;
+  font-size: 1rem;
+  margin: 0.1rem 0.2rem;
+  background: #dddddd;
+  border: none;
+  border-radius: 50%;
+}
+
+.edit:hover,
+.delete:hover,
+.word:hover {
+  filter: brightness(80%);
+}
+
+.delete {
+  color: red;
+}
+
+.button-container {
+  width: 68vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-green-big {
+  width: 30.5vw;
+  height: 4rem;
+  background-color: #88ac78;
+  font-size: 1.5rem;
+  color: #fff;
+  border-radius: 15px;
+}
+
+.btn-green-big:hover {
+  filter: brightness(120%);
+}
+
+.lang-icon {
+  width: 3rem;
+  height: 3rem;
+}
+.lang-icon.inactive {
+  filter: brightness(50%);
+}
+
+.lang-icon:hover {
+  filter: brightness(120%);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -86,7 +138,6 @@ body {
   height: 30vh;
   background: #666;
   padding: 0.2rem 0.8rem 0.5rem 0.2rem;
-  border-radius: 10px;
   overflow-x: hidden;
   overflow-y: scroll;
   box-sizing: content-box;
@@ -103,55 +154,6 @@ body {
 .latest-entries .author {
   line-height: 27px;
   font-size: 0.8rem;
-}
-
-.edit,
-.delete {
-  width: 1.4rem;
-  height: 1.4rem;
-  font-size: 1rem;
-  margin: 0.1rem 0.2rem;
-  background: #dddddd;
-  border: none;
-  border-radius: 50%;
-}
-
-.edit:hover,
-.delete:hover,
-.word:hover {
-  filter: brightness(80%);
-}
-
-.delete {
-  color: red;
-}
-
-.button-container {
-  width: 68vw;
-  display: flex;
-  justify-content: space-between;
-}
-
-.btn-green-big {
-  width: 30.5vw;
-  height: 4rem;
-  background-color: #88ac78;
-  font-size: 1.5rem;
-  color: #fff;
-  border-radius: 15px;
-}
-
-.btn-green-big:hover {
-  filter: brightness(120%);
-}
-
-.lang-icon {
-  width: 3rem;
-  height: 3rem;
-}
-
-.lang-icon:hover {
-  filter: brightness(120%);
 }
 
 @media (max-width: 1400px) {
