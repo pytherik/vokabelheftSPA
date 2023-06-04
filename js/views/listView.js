@@ -5,7 +5,6 @@ export class ListView {
   constructor() {
     this.userId = localStorage.getItem('userId');
     this.username = localStorage.getItem('username');
-    this.lang = localStorage.getItem('lang');
   }
 
   buildTableElement = (headerContent, tableId) => {
@@ -13,7 +12,7 @@ export class ListView {
     table.className = 'table';
     table.id = tableId
     const tableHeader = `<span class="table__header">Von ${headerContent}</span>`;
-    table.insertAdjacentHTML('beforeend',tableHeader);
+    table.insertAdjacentHTML('beforeend', tableHeader);
     return table
   }
   buildButtonElements = () => {
@@ -33,8 +32,8 @@ export class ListView {
   async createListContainer(firstBuild=false) {
     let content;
     if (firstBuild) {
-    content = document.createElement('div');
-    content.className = 'content';
+      content = document.createElement('div');
+      content.className = 'content';
     } else {
       content = document.querySelector('.content');
       content.innerHTML = '';
@@ -58,34 +57,60 @@ export class ListView {
     container.insertAdjacentElement('beforeend', this.buildButtonElements());
   }
 
-   async getLatestEntries(allUsers=false) {
+  async getLatestEntries(allUsers = false) {
     let lastestEntriesId = 'user-table;';
     let dataId = 'word-id';
-    if(allUsers) {
-       lastestEntriesId = 'all-users-table';
-       dataId = 'all-words-id'
+    let myContent;
+    if (allUsers) {
+      myContent = await this.getUsercontent(false)
+      lastestEntriesId = 'all-users-table';
+      dataId = 'all-words-id'
     }
     const userContent = await this.getUsercontent(allUsers);
     console.log(userContent);
     const latestEntries = document.createElement('div');
     latestEntries.className = 'latest-entries';
     latestEntries.id = lastestEntriesId;
+    let row = '';
     userContent.forEach((content, idx) => {
       let addedAt = content.created_at;
       addedAt = addedAt.split('-').reverse().join('.');
-      latestEntries.insertAdjacentHTML('beforeend',
+      row =
         `<div class="row">
-           <div><span class="word" data-${dataId}="${content.word_id}">${idx+1}. ${content.word} (${content.wordclass.slice(0,1)})</span></div>
-           <div><span class="date"> ${addedAt}</span><span class="author"> (${content.author_name})</span>
-           <button class="edit">&#10000;</button>
+           <div><span class="word" data-${dataId}="${content.word_id}">${idx + 1}. ${content.word} (${content.wordclass.slice(0, 1)})</span></div>
+           <div><span class="date"> ${addedAt}</span><span class="author"> (${content.author_name})</span>`;
+      if (allUsers) {
+        const result = this.checkUserContent(myContent, content.word_id);
+        if(result === true){
+          row += `<span class="remove">&#10004</span></div></div>`;
+        } else {
+          row += `<button class="add">+</button></div></div`;
+        }
+      } else {
+        row +=
+          `<button class="edit">&#10000;</button>
            <button class="delete">&#10006;</button></div>
-         </div>`)
+         </div>`
+
+      }
+
+      latestEntries.insertAdjacentHTML('beforeend', row);
     });
     return latestEntries;
   }
 
+  checkUserContent = (myContent, wordId) => {
+    let result = false;
+    myContent.forEach(content => {
+      if (content.word_id === wordId) {
+        result = true;
+      }
+    })
+    return result;
+  }
 
   getUsercontent = async (allUsers) => {
+    const lang = localStorage.getItem('lang');
     let fetchId = this.userId;
     if (allUsers) {
       fetchId = 0;
@@ -95,7 +120,7 @@ export class ListView {
       const formData = new FormData();
       formData.append('action', 'getUserContent');
       formData.append('userId', fetchId);
-      formData.append('lang', this.lang);
+      formData.append('lang', lang);
       const response = await fetch(url, {
         body: formData,
         method: 'POST'

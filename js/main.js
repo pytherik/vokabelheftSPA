@@ -32,10 +32,12 @@ let username = localStorage.getItem('username');
 const loadStartPage = async () => {
   title.innerText = 'Start'
   container.innerHTML = '';
-  headerElements('zuletzt hinzugefügt');
-  langElements();
+  headerElements('zuletzt hinzugefügt'); // Überschriften
+  langElements();                        // language Flag-Buttons
 
   const starter = new ListView();
+
+  //info firstBuild=true: erster Aufruf erstellt .content - div
   await starter.createListContainer(true);
 
   const buttonUser = document.getElementById('btn-user');
@@ -43,21 +45,22 @@ const loadStartPage = async () => {
   const buttonDe = document.getElementById('lang-de');
   const buttonEn = document.getElementById('lang-en');
 
+  //info language Flag-Buttons
   buttonDe.addEventListener('click', async () => {
     buttonEn.classList.add('inactive');
     buttonDe.classList.remove('inactive');
     localStorage.setItem('lang', 'de');
-    await starter.createListContainer();
+    await starter.createListContainer(); // firstBuild=false füllt .content neu
   })
 
   buttonEn.addEventListener('click', async () => {
     buttonEn.classList.remove('inactive');
     buttonDe.classList.add('inactive');
     localStorage.setItem('lang', 'en');
-    await starter.createListContainer();
+    await starter.createListContainer(); // firstBuild=false füllt .content neu
   });
 
-
+  //info Üben Buttons
   buttonUser.addEventListener('click', () => {
     console.log('btn-user clicked');
   })
@@ -65,10 +68,7 @@ const loadStartPage = async () => {
   buttonAllUsers.addEventListener('click', () => {
     console.log('btn-all-users clicked');
   })
-
-
 }
-
 
 
 if(!username) {
@@ -92,9 +92,17 @@ if(!username) {
         });
       const user = await response.json();
       console.log(user);
+
+      let date = new Date().toLocaleDateString();
+      let time = new Date().toTimeString();
+
+      date = date.split('.').reverse().join('-');
+      time = time.split(' ')[0];
+      const dateTime = `${date} ${time}`;
       localStorage.setItem('username', user.name);
       localStorage.setItem('userId', user.id);
       localStorage.setItem('lang', 'en');
+      localStorage.setItem('date', dateTime);
       await loadStartPage();
     } catch (error) {
       console.log(error);

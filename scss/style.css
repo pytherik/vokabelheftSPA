@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 .edit,
-.delete {
+.delete,
+.add {
   width: 1.4rem;
   height: 1.4rem;
   font-size: 1rem;
@@ -12,12 +13,26 @@
 
 .edit:hover,
 .delete:hover,
+.add:hover,
 .word:hover {
   filter: brightness(80%);
 }
 
 .delete {
   color: red;
+}
+
+.add {
+  background-color: #88ac78;
+  color: #fff;
+}
+
+.remove {
+  color: #88ac78;
+  width: 1.4rem;
+  height: 1.4rem;
+  font-size: 1.5rem;
+  margin-left: 0.4rem;
 }
 
 .button-container {
@@ -119,7 +134,7 @@ body {
   align-items: center;
   justify-content: space-around;
   width: 75vw;
-  height: 50vh;
+  height: 45vh;
 }
 
 .table {
@@ -137,7 +152,7 @@ body {
   width: 100%;
   height: 30vh;
   background: #666;
-  padding: 0.2rem 0.8rem 0.5rem 0.2rem;
+  padding: 0.8rem 0.8rem 0.5rem 0.2rem;
   overflow-x: hidden;
   overflow-y: scroll;
   box-sizing: content-box;

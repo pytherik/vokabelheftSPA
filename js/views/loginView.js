@@ -7,17 +7,13 @@ export default class Login {
     const formContainer = document.createElement('div');
     formContainer.className = 'form-container';
 
-    const inputNameLabel = `<label for="name">Name</label>`;
-    const inputName = `<input type="text" name="name" id="name" autocomplete="off">`;
-    const inputPasswordLabel = `<label for="password">Passwort</label>`;
-    const inputPassword = `<input type="password" name="password" id="password">`;
-    const submit = `<button type="submit" id="formSubmit">bestätigen und los</button>`;
+    let form = `<label for="name">Name</label>`;
+    form += `<input type="text" name="name" id="name" autocomplete="off">`;
+    form += `<label for="password">Passwort</label>`;
+    form += `<input type="password" name="password" id="password">`;
+    form += `<button type="submit" id="formSubmit">bestätigen und los</button>`;
 
-    formContainer.insertAdjacentHTML('beforeend', inputNameLabel)
-    formContainer.insertAdjacentHTML('beforeend', inputName)
-    formContainer.insertAdjacentHTML('beforeend', inputPasswordLabel)
-    formContainer.insertAdjacentHTML('beforeend', inputPassword)
-    formContainer.insertAdjacentHTML('beforeend', submit);
+    formContainer.insertAdjacentHTML('beforeend', form);
 
     container.insertAdjacentElement('beforeend', formContainer);
   }

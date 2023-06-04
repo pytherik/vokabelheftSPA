@@ -1,5 +1,7 @@
 .edit,
-.delete {
+.delete,
+.add
+{
   width: 1.4rem;
   height: 1.4rem;
   font-size: 1rem;
@@ -11,12 +13,26 @@
 
 .edit:hover,
 .delete:hover,
+.add:hover,
 .word:hover {
   filter: brightness(80%);
 }
 
 .delete {
   color: red;
+}
+
+.add {
+  background-color: #88ac78;
+  color: #fff;
+}
+
+.remove {
+  color: #88ac78;
+  width: 1.4rem;
+  height: 1.4rem;
+  font-size: 1.5rem;
+  margin-left: .4rem;
 }
 
 .button-container {
