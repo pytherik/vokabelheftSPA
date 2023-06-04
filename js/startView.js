@@ -7,26 +7,32 @@ export class StartView {
     this.userId = localStorage.getItem('userId');
     this.username = localStorage.getItem('username');
   }
-
-  async createListContainer(allUsers=false) {
-    let headerContent = this.username;
-    if(allUsers) {
-       headerContent = 'allen Lernenden';
-    } else {
-    }
-    let wordId = 0;
-    const userContent = await this.getUsercontent(allUsers);
-    console.log(userContent);
+  buildTableElement = (headerContent) => {
     const table = document.createElement('div');
     table.className = 'table';
     const tableHeader = `<span class="table__header">Von ${headerContent}</span>`;
+    table.insertAdjacentHTML('beforeend',tableHeader);
+    return table
+  }
+
+  async createListContainer(allUsers=false) {
+
+    let headerContent = this.username;
+    let lastestEntriesId = 'user-table;'
+    if(allUsers) {
+       headerContent = 'allen Lernenden';
+       lastestEntriesId = 'all-users-table';
+    }
+
+    const userContent = await this.getUsercontent(allUsers);
+    console.log(userContent);
+    const table = this.buildTableElement(headerContent)
     const latestEntries = document.createElement('div');
     latestEntries.className = 'latest-entries';
-    latestEntries.id = 'user-table';
+    latestEntries.id = lastestEntriesId;
     userContent.forEach((content, idx) => {
       let addedAt = content.created_at;
       addedAt = addedAt.split('-').reverse().join('.');
-      const word = content.word;
       latestEntries.insertAdjacentHTML('beforeend',
         `<div class="row">
            <span class="word" data-id="${content.word_id}">${idx+1}. ${content.word}</span>
@@ -35,11 +41,11 @@ export class StartView {
            <button class="delete">&#10006;</button></div>
          </div>`)
     });
-    table.insertAdjacentHTML('beforeend',tableHeader);
+
     table.insertAdjacentElement('beforeend',latestEntries);
     container.insertAdjacentElement('beforeend', table);
-
   }
+
 
   getUsercontent = async (allUsers) => {
     let fetchId = this.userId;
@@ -55,9 +61,6 @@ export class StartView {
         body: formData,
         method: 'POST'
       });
-      // const userContent = await response.json();
-      // console.log(userContent);
-      // return userContent;
       return await response.json();
     } catch (error) {
       console.log(error);

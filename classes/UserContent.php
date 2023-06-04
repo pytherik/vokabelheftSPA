@@ -45,9 +45,11 @@ class UserContent implements JsonSerializable
   {
     try {
       $dbh = DBConnect::connect();
-      $sql = USER_POOL_ENGLISH;
+      $sql = ($id === 0) ? ALL_USERS_POOL_GERMAN: USER_POOL_ENGLISH;
       $stmt = $dbh->prepare($sql);
-      $stmt->bindParam('userId', $id);
+      if ($id !== 0) {
+        $stmt->bindParam('userId', $id);
+      }
       $stmt->execute();
       $content = [];
 //      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

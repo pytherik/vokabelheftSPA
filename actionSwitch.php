@@ -19,14 +19,12 @@ switch ($action) {
     }
     break;
   case 'getUserContent':
-    if (isset($_POST['userId'])) {
-      $id = $_POST['userId'];
-      $content = (new UserContent())->getAllAsObjects($id);
+    $id = $_POST['userId'];
+    $content = (new UserContent())->getAllAsObjects($id);
 //      echo "<pre>";
 //      print_r($content);
 //      echo "</pre>";
-      echo json_encode($content);
-    }
+    echo json_encode($content);
     break;
   default:
     echo 'default case has happened!';

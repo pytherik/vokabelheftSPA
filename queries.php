@@ -29,3 +29,10 @@ FROM german g2
          JOIN user u2 ON u2.id = eg2.created_by
 WHERE up2.user_id = :userId
 ORDER BY created_at DESC";
+
+const ALL_USERS_POOL_GERMAN = "
+SELECT distinct(g.id) AS word_id, g.word, wordclass, created_by, u.name as author_name, g.created_at
+FROM german g
+         JOIN english_german eg ON g.id = eg.german_id
+         JOIN user u ON u.id = eg.created_by
+ORDER BY g.created_at DESC";
