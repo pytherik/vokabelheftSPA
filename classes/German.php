@@ -5,6 +5,7 @@ class German implements JsonSerializable
   private int $id;
   private string $word;
   private string $description;
+  private array $translations;
 
   /**
    * @param int|null $id
@@ -17,7 +18,26 @@ class German implements JsonSerializable
       $this->id = $id;
       $this->word = $word;
       $this->description = $description;
+      $this->translations = (new English())->getTranslationsById($id);
     }
+  }
+
+  public function getTranslationsById($id): array
+  {
+    $translations = [];
+    try {
+      $dbh = DBConnect::connect();
+      $sql = GET_GERMAN_TRANSLATIONS;
+      $stmt = $dbh->prepare($sql);
+      $stmt->bindParam('id', $id);
+      $stmt->execute();
+      while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+        $translations[] = $row[0];
+      }
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+    }
+    return $translations;
   }
 
   public function getObjectById($id): German
@@ -41,11 +61,7 @@ class German implements JsonSerializable
 
   public function jsonSerialize(): array
   {
-    return [
-      'id' => $this->id,
-      'word' => $this->word,
-      'description' => $this->description
-    ];
+    return get_object_vars($this);
   }
 
   /**

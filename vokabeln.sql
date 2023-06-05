@@ -68,6 +68,8 @@ VALUES (NULL, '2022-03-01', 'walk', NULL),
        (NULL, '2022-03-18', 'eat', NULL),
        (NULL, '2022-03-18', 'meal', NULL),
        (NULL, '2022-03-21', 'sleep', NULL),
+       (NULL, '2022-03-21', 'sleep', NULL),
+       (NULL, '2022-03-21', 'drink', NULL),
        (NULL, '2022-03-21', 'drink', NULL);
 
 INSERT INTO german
@@ -91,9 +93,9 @@ INSERT INTO english_german VALUES
                                (NULL, '2022-03-18', 2, 4, 4, 1),
                                (NULL, '2022-03-18', 2, 5, 5, 2),
                                (NULL, '2022-03-21', 2, 6, 6, 1),
-                               (NULL, '2022-03-21', 1, 6, 7, 2),
-                               (NULL, '2022-03-21', 3, 7, 8, 1),
-                               (NULL, '2022-03-21', 3, 7, 9, 2);
+                               (NULL, '2022-03-21', 1, 7, 7, 2),
+                               (NULL, '2022-03-21', 3, 8, 8, 1),
+                               (NULL, '2022-03-21', 3, 9, 9, 2);
 
 
 INSERT INTO user_pool

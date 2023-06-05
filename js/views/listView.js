@@ -77,21 +77,31 @@ export class ListView {
       addedAt = addedAt.split('-').reverse().join('.');
       row =
         `<div class="row">
-           <div><span class="word" data-${dataId}="${content.word_id}">${idx + 1}. ${content.word} (${content.wordclass.slice(0, 1)})</span></div>
-           <div><span class="date"> ${addedAt}</span><span class="author"> (${content.author_name})</span>`;
+           <div>
+              <span class="word" data-${dataId}="${content.word_id}" data-wordclass="${content.wordclass}">
+                ${idx + 1}. ${content.word} (${content.wordclass.slice(0, 1)})
+              </span>
+            </div>
+           <div>
+              <span class="date"> ${addedAt}</span>
+              <span class="author"> (${content.author_name})</span>`;
       if (allUsers) {
         const result = this.checkUserContent(myContent, content.word_id);
         if(result === true){
-          row += `<span class="remove">&#10004</span></div></div>`;
+          row += `<span class="remove">&#10004</span>
+                </div>
+              </div>`;
         } else {
-          row += `<button class="add" data-add-word-id="${content.word_id}">+</button></div></div`;
+          row += `<button class="add" data-add-word-id="${content.word_id}">+</button>
+                </div>
+              </div`;
         }
       } else {
         row +=
           `<button class="edit">&#10000;</button>
-           <button class="delete">&#10006;</button></div>
-         </div>`
-
+           <button class="delete">&#10006;</button>
+         </div>
+       </div>`
       }
 
       latestEntries.insertAdjacentHTML('beforeend', row);

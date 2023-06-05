@@ -13,6 +13,10 @@ session_start();
   <title>Vokabelheft</title>
 </head>
 <body>
+<div class="modal-container">
+  <div class="inner-modal">
+  </div>
+</div>
 <div class="container">
 </div>
 </body>

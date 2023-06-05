@@ -27,6 +27,17 @@ switch ($action) {
 //      echo "</pre>";
     echo json_encode($content);
     break;
+  case 'getTranslation':
+    $id = $_POST['id'];
+    $lang = $_POST['lang'];
+    $wordclass = $_POST['wordclass'];
+    if($lang === 'en') {
+      $translation = (new English())->getObjectById($id, $wordclass);
+    } else {
+      $translation = (new German())->getObjectById($id, $wordclass);
+    }
+    echo json_encode($translation);
+    break;
   default:
     echo 'default case has happened!';
 }

@@ -1,7 +1,8 @@
 import {headerElements} from "./elements/headerElements.js";
 import Login from './views/loginView.js';
-import {ListView} from "./views/listView.js";
-import {langElements} from "./elements/langElements.js";
+import {ListView} from './views/listView.js';
+import {langElements} from './elements/langElements.js';
+import {urlActionSwitch} from './config.js';
 
 const container = document.querySelector('.container');
 const title =  document.querySelector('title');
@@ -43,26 +44,28 @@ const loadStartPage = async () => {
   //info firstBuild=true: erster Aufruf erstellt .content - div
   await starter.createListContainer(true);
 
-  const buttonUser = document.getElementById('btn-user');
-  const buttonAllUsers = document.getElementById('btn-all-users');
   const buttonDe = document.getElementById('lang-de');
   const buttonEn = document.getElementById('lang-en');
+  if (localStorage.getItem('lang') === 'en') {
+    buttonDe.classList.add('inactive');
+  } else {
+    buttonEn.classList.add('inactive');
+  }
 
   //info language Flag-Buttons
   buttonDe.addEventListener('click', async () => {
-    buttonEn.classList.add('inactive');
-    buttonDe.classList.remove('inactive');
     localStorage.setItem('lang', 'de');
-    await starter.createListContainer(); // firstBuild=false füllt .content neu
+    await loadStartPage();
   })
 
   buttonEn.addEventListener('click', async () => {
-    buttonEn.classList.remove('inactive');
-    buttonDe.classList.add('inactive');
     localStorage.setItem('lang', 'en');
-    await starter.createListContainer(); // firstBuild=false füllt .content neu
+    await loadStartPage();
   });
 
+
+  const buttonUser = document.getElementById('btn-user');
+  const buttonAllUsers = document.getElementById('btn-all-users');
   //info Üben Buttons
   buttonUser.addEventListener('click', () => {
     console.log('btn-user clicked');
@@ -75,6 +78,7 @@ const loadStartPage = async () => {
   const addButtons = document.querySelectorAll('[data-add-word-id]');
   const wordButtons = document.querySelectorAll('[data-word-id]');
   const allWordsButtons = document.querySelectorAll('[data-all-words-id]');
+
   addButtons.forEach(addButton => {
     addButton.addEventListener('click', () => {
       console.log(addButton.dataset.addWordId);
@@ -82,18 +86,59 @@ const loadStartPage = async () => {
   })
 
   wordButtons.forEach(wordButton => {
-    wordButton.addEventListener('click', () => {
-      console.log(wordButton.dataset.wordId);
+    wordButton.addEventListener('click', async () => {
+      const id = wordButton.dataset.wordId;
+      const wordclass = wordButton.dataset.wordclass;
+      const translation = await  getTranslation(id, wordclass);
+      showTranslation(translation);
+      console.log(translation);
     })
   })
+
+  const showTranslation = (translation) => {
+      const modal = document.querySelector('.modal-container');
+      const innerModal = document.querySelector('.inner-modal');
+      modal.style.display = 'block';
+
+      let modalContent = `<button id="quit">quit</button>`
+      modalContent += `<div class="translation">${translation.translations}</div>`
+
+      innerModal.insertAdjacentHTML('beforeend', modalContent);
+
+      const quit = document.getElementById('quit');
+      quit.addEventListener('click', () => {
+        innerModal.innerHTML = '';
+        modal.style.display = 'none';
+      })
+  }
 
   allWordsButtons.forEach(allWordsButton => {
-    allWordsButton.addEventListener('click', () => {
-      console.log(allWordsButton.dataset.allWordsId);
+    allWordsButton.addEventListener('click', async () => {
+      const id = allWordsButton.dataset.allWordsId;
+      const wordlass = allWordsButton.dataset.wordclass;
+      console.log(wordlass);
+      const translation = await getTranslation(id, wordlass);
+      showTranslation(translation);
+
     })
   })
 
-
+  const getTranslation = async (id, wordclass) => {
+    try {
+      const formData = new FormData();
+      formData.append('action', 'getTranslation');
+      formData.append('id', id);
+      formData.append('wordclass', wordclass)
+      formData.append('lang', localStorage.getItem('lang'));
+      const result = await fetch(urlActionSwitch, {
+        body: formData,
+        method: 'POST'
+      })
+      return await result.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 

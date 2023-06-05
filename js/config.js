@@ -1,0 +1,1 @@
+export const urlActionSwitch = 'http://localhost:63342/vokabelheftSPA/actionSwitch.php';

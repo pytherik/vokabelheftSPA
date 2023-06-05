@@ -171,9 +171,32 @@ body {
   font-size: 0.8rem;
 }
 
-@media (max-width: 1920px) {
+.modal-container {
+  background: rgba(0, 0, 0, 0.1333333333);
+  position: fixed;
+  display: none;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.inner-modal {
+  background-color: rgba(136, 172, 120, 0.5333333333);
+  width: 20vw;
+  height: 10vh;
+  border-radius: 6%;
+  margin: 20% auto 0;
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  animation: modalopen 1s;
+}
+
+@media (max-width: 2000px) {
   .table {
-    height: 52vh;
+    height: 60vh;
   }
 }
 @media (max-width: 1400px) {

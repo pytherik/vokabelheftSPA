@@ -43,3 +43,17 @@ FROM german g
          JOIN english_german eg ON g.id = eg.german_id
          JOIN user u ON u.id = eg.created_by
 ORDER BY g.created_at DESC";
+
+
+
+const GET_ENGLISH_TRANSLATIONS = "
+SELECT e.word FROM english e
+    JOIN english_german eg ON e.id = eg.english_id
+    JOIN german g ON eg.german_id = g.id
+WHERE g.id = :id";
+
+const GET_GERMAN_TRANSLATIONS = "
+SELECT g.word FROM german g
+    JOIN english_german eg ON g.id = eg.german_id
+    JOIN english e ON eg.english_id = e.id
+WHERE e.id = :id";
