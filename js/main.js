@@ -1,5 +1,6 @@
+import {urlActionSwitch} from "./config.js";
 import {headerElements} from "./elements/headerElements.js";
-import Login from './views/loginView.js';
+import {Login} from './views/loginView.js';
 import {ListView} from './views/listView.js';
 import {langElements} from './elements/langElements.js';
 import {getTranslation, showTranslation} from "./functions/translateFunctions.js";
@@ -127,11 +128,12 @@ if(!username) {
       formData.append('name', nameInput.value);
       formData.append('password', passInput.value);
       formData.append('action', 'userLogin');
-      const response = await fetch('http://localhost:63342/vokabelheftSPA/actionSwitch.php',
+      const response = await fetch(urlActionSwitch,
         {
           body: formData,
           method: 'POST'
         });
+
       const user = await response.json();
       console.log(user);
 

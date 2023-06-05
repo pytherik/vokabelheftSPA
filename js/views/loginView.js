@@ -1,7 +1,7 @@
 const title = document.querySelector('title');
 const container = document.querySelector('.container');
 
-export default class Login {
+export class Login {
   createUserInputs () {
     title.textContent = 'User-Login';
     const formContainer = document.createElement('div');
