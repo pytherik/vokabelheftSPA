@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 @import 'mixins';
 @import 'buttons';
+@import 'modal';
 $bg-color-primary: #444;
 $bg-color-secondary: #666;
 $font-color-main: #ddd;
@@ -105,58 +106,4 @@ body {
   }
   }
 
-.modal-container {
-  background: #00000022;
-  position: fixed;
-  display: none;
-  z-index: 10;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.inner-modal {
-  background-color: #88ac7888;
-  width: 20vw;
-  height: 10vh;
-  border-radius: 6%;
-  margin: 20% auto 0;
-  padding: 1%;
-  display: flex;
-  flex-direction: column;
-  animation: modalopen 1s;
-}
-
-
-@media (max-width: 2000px) {
-  .table {
-    height: 60vh;
-  }
-}
-
-@media (max-width: 1400px) {
-  .date {
-    display: none;
-  }
-}
-
-@media (max-width: 1100px) {
-  .content {
-    @include flexCenter(column);
-    justify-content: center;
-    width: 95vw;
-  }
-
-  .table {
-    width: 100%;
-    margin: 3% 0;
-  }
-  .button-container {
-    width: 95vw;
-    @include flexCenter(column)
-  }
-  .btn-green-big {
-    width: 100%;
-  }
-}
+@import 'media';

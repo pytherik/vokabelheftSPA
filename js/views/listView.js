@@ -1,3 +1,4 @@
+import {urlActionSwitch} from '../config.js';
 const container = document.querySelector('.container');
 
 export class ListView {
@@ -16,7 +17,6 @@ export class ListView {
     return table
   }
   buildButtonElements = () => {
-    const container = document.querySelector('.container');
 
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'button-container';
@@ -78,7 +78,10 @@ export class ListView {
       row =
         `<div class="row">
            <div>
-              <span class="word" data-${dataId}="${content.word_id}" data-wordclass="${content.wordclass}">
+              <span class="word"  
+               data-${dataId}="${content.word_id}" 
+               data-wordclass="${content.wordclass}"
+               data-author-name="${content.author_name}">
                 ${idx + 1}. ${content.word} (${content.wordclass.slice(0, 1)})
               </span>
             </div>
@@ -126,12 +129,12 @@ export class ListView {
       fetchId = 0;
     }
     try {
-      const url = '//localhost:63342/vokabelheftSPA/actionSwitch.php';
+      // const url = '//localhost:63342/vokabelheftSPA/actionSwitch.php';
       const formData = new FormData();
       formData.append('action', 'getUserContent');
       formData.append('userId', fetchId);
       formData.append('lang', lang);
-      const response = await fetch(url, {
+      const response = await fetch(urlActionSwitch, {
         body: formData,
         method: 'POST'
       });

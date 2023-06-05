@@ -2,7 +2,7 @@ import {headerElements} from "./elements/headerElements.js";
 import Login from './views/loginView.js';
 import {ListView} from './views/listView.js';
 import {langElements} from './elements/langElements.js';
-import {urlActionSwitch} from './config.js';
+import {getTranslation, showTranslation} from "./functions/translateFunctions.js";
 
 const container = document.querySelector('.container');
 const title =  document.querySelector('title');
@@ -89,56 +89,27 @@ const loadStartPage = async () => {
     wordButton.addEventListener('click', async () => {
       const id = wordButton.dataset.wordId;
       const wordclass = wordButton.dataset.wordclass;
+      const authorName = wordButton.dataset.authorName;
+      console.log(authorName);
       const translation = await  getTranslation(id, wordclass);
-      showTranslation(translation);
+      showTranslation(translation, wordclass, authorName);
       console.log(translation);
     })
   })
 
-  const showTranslation = (translation) => {
-      const modal = document.querySelector('.modal-container');
-      const innerModal = document.querySelector('.inner-modal');
-      modal.style.display = 'block';
-
-      let modalContent = `<button id="quit">quit</button>`
-      modalContent += `<div class="translation">${translation.translations}</div>`
-
-      innerModal.insertAdjacentHTML('beforeend', modalContent);
-
-      const quit = document.getElementById('quit');
-      quit.addEventListener('click', () => {
-        innerModal.innerHTML = '';
-        modal.style.display = 'none';
-      })
-  }
 
   allWordsButtons.forEach(allWordsButton => {
     allWordsButton.addEventListener('click', async () => {
       const id = allWordsButton.dataset.allWordsId;
-      const wordlass = allWordsButton.dataset.wordclass;
-      console.log(wordlass);
-      const translation = await getTranslation(id, wordlass);
-      showTranslation(translation);
+      const wordclass = allWordsButton.dataset.wordclass;
+      const authorName = allWordsButton.dataset.authorName;
+      console.log(authorName);
+      console.log(wordclass);
+      const translation = await getTranslation(id, wordclass);
+      showTranslation(translation, wordclass, authorName);
 
     })
   })
-
-  const getTranslation = async (id, wordclass) => {
-    try {
-      const formData = new FormData();
-      formData.append('action', 'getTranslation');
-      formData.append('id', id);
-      formData.append('wordclass', wordclass)
-      formData.append('lang', localStorage.getItem('lang'));
-      const result = await fetch(urlActionSwitch, {
-        body: formData,
-        method: 'POST'
-      })
-      return await result.json();
-    } catch (error) {
-      console.log(error);
-    }
-  }
 }
 
 

@@ -1,0 +1,36 @@
+
+@media (max-width: 2000px) {
+  .table {
+    height: 60vh;
+  }
+  .inner-modal {
+
+    margin: 10% 16%  0;
+  }
+}
+
+@media (max-width: 1400px) {
+  .date {
+    display: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .content {
+    @include flexCenter(column);
+    justify-content: center;
+    width: 95vw;
+  }
+
+  .table {
+    width: 100%;
+    margin: 3% 0;
+  }
+  .button-container {
+    width: 95vw;
+    @include flexCenter(column)
+  }
+  .btn-green-big {
+    width: 100%;
+  }
+}
