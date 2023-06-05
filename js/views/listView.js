@@ -84,7 +84,7 @@ export class ListView {
         if(result === true){
           row += `<span class="remove">&#10004</span></div></div>`;
         } else {
-          row += `<button class="add">+</button></div></div`;
+          row += `<button class="add" data-add-word-id="${content.word_id}">+</button></div></div`;
         }
       } else {
         row +=

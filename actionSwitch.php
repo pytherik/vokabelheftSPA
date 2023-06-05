@@ -7,8 +7,8 @@ spl_autoload_register(function ($class) {
 
 //$action = 'getUserContent';
 //$_POST['userId'] = 1;
+//$_POST['lang'] = 'de';
 $action = $_POST['action'];
-
 switch ($action) {
   case 'userLogin':
     if (isset($_POST['name']) && isset($_POST['password'])) {

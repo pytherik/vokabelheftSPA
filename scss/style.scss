@@ -84,7 +84,7 @@ body {
   width: 100%;
   height: 30vh;
   background: #666;
-  padding: .8rem .8rem .5rem .2rem;
+  padding: .8rem .9rem .5rem .2rem;
   //border-radius: 10px;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -105,6 +105,11 @@ body {
   }
   }
 
+@media (max-width: 1920px) {
+  .table {
+    height: 52vh;
+  }
+}
 
 @media (max-width: 1400px) {
   .date {

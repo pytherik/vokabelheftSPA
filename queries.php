@@ -15,6 +15,13 @@ WHERE up2.user_id = :userId
 ORDER BY created_at DESC;
 ";
 
+const ALL_USERS_POOL_ENGLISH = "
+SELECT distinct(e.id) AS word_id, e.word, wordclass, created_by, u.name as author_name, e.created_at
+FROM english e
+         JOIN english_german eg ON e.id = eg.english_id
+         JOIN user u ON u.id = eg.created_by
+ORDER BY e.created_at DESC";
+
 const USER_POOL_GERMAN = "
 SELECT DISTINCT(g.id) AS word_id, g.word, wordclass, created_by, u.name as author_name, g.created_at
 FROM german g
@@ -36,10 +43,3 @@ FROM german g
          JOIN english_german eg ON g.id = eg.german_id
          JOIN user u ON u.id = eg.created_by
 ORDER BY g.created_at DESC";
-
-const ALL_USERS_POOL_ENGLISH = "
-SELECT distinct(e.id) AS word_id, e.word, wordclass, created_by, u.name as author_name, e.created_at
-FROM english e
-         JOIN english_german eg ON e.id = eg.english_id
-         JOIN user u ON u.id = eg.created_by
-ORDER BY e.created_at DESC";

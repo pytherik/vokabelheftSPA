@@ -5,11 +5,14 @@ import {langElements} from "./elements/langElements.js";
 
 const container = document.querySelector('.container');
 const title =  document.querySelector('title');
+
 function clearStorage() {
   let session = sessionStorage.getItem('register');
   if (session == null) {
     localStorage.removeItem('username');
     localStorage.removeItem('userId');
+    localStorage.removeItem('lang');
+    localStorage.removeItem('date');
   }
   sessionStorage.setItem('register', 1);
 }
@@ -68,6 +71,29 @@ const loadStartPage = async () => {
   buttonAllUsers.addEventListener('click', () => {
     console.log('btn-all-users clicked');
   })
+
+  const addButtons = document.querySelectorAll('[data-add-word-id]');
+  const wordButtons = document.querySelectorAll('[data-word-id]');
+  const allWordsButtons = document.querySelectorAll('[data-all-words-id]');
+  addButtons.forEach(addButton => {
+    addButton.addEventListener('click', () => {
+      console.log(addButton.dataset.addWordId);
+    })
+  })
+
+  wordButtons.forEach(wordButton => {
+    wordButton.addEventListener('click', () => {
+      console.log(wordButton.dataset.wordId);
+    })
+  })
+
+  allWordsButtons.forEach(allWordsButton => {
+    allWordsButton.addEventListener('click', () => {
+      console.log(allWordsButton.dataset.allWordsId);
+    })
+  })
+
+
 }
 
 
