@@ -15,6 +15,8 @@ switch ($action) {
       $name = $_POST['name'];
       $password = $_POST['password'];
       $user = (new User())->createOrGetUser($name, $password);
+      session_start();
+      $_SESSION['userId'] = $user->getId();
       echo json_encode($user);
     }
     break;
@@ -37,6 +39,15 @@ switch ($action) {
       $translation = (new German())->getObjectById($id, $wordclass);
     }
     echo json_encode($translation);
+    break;
+  case 'addWordToUserPool':
+    $id = $_POST['userId'];
+    $date = $_POST['date'];
+    $wordId = $_POST['wordId'];
+    $lang = $_POST['lang'];
+    $description = $_POST['description'];
+    $newWord = (new UserPool())->addNewWord($id, $date, $wordId, $lang, $description);
+    echo json_encode($newWord);
     break;
   default:
     echo 'default case has happened!';

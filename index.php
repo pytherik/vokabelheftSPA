@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,6 +10,7 @@ session_start();
   <title>Vokabelheft</title>
 </head>
 <body>
+<button class="hiddenLoader">load page</button>
 <div class="modal-container">
   <div class="inner-modal">
   </div>

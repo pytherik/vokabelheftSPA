@@ -209,6 +209,10 @@ body {
   font-size: 0.8rem;
 }
 
+.hiddenLoader {
+  display: none;
+}
+
 @media (max-width: 2000px) {
   .table {
     height: 60vh;
