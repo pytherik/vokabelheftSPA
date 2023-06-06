@@ -3,18 +3,18 @@
 //info all distinct english words from user pool of user
 // plus words created by user from global pool
 const USER_POOL_ENGLISH = "
-SELECT DISTINCT(e2.id), 
-               e2.word, 
+SELECT DISTINCT(e.id) as word_id, 
+               e.word, 
                wordclass, 
                created_by, 
-               u2.name, 
-               up2.created_at
-FROM english e2
-         JOIN english_german eg2 ON e2.id = eg2.english_id
-         JOIN user_pool up2 ON e2.id = up2.english_id
-         JOIN user u2 ON u2.id = eg2.created_by
-WHERE up2.user_id = :userId
-ORDER BY up2.created_at DESC;
+               u.name as author_name, 
+               up.created_at
+FROM english e
+         JOIN english_german eg ON e.id = eg.english_id
+         JOIN user_pool up ON e.id = up.english_id
+         JOIN user u ON u.id = eg.created_by
+WHERE up.user_id = :userId
+ORDER BY up.created_at DESC;
 ";
 
 //info all distinct english words from all users
@@ -30,33 +30,43 @@ FROM english e
          JOIN user u ON u.id = eg.created_by
 ORDER BY e.created_at DESC";
 
-//info all distinct german words from user pool of user
-// plus words created by user from global pool
+//info all german words from user pool of user
 const USER_POOL_GERMAN = "
-SELECT DISTINCT(g2.id), g2.word, wordclass, created_by, u2.name as author_name, up2.created_at
-FROM german g2
-         JOIN english_german eg2 ON g2.id = eg2.german_id
-         JOIN user_pool up2 ON g2.id = up2.german_id
-         JOIN user u2 ON u2.id = eg2.created_by
-WHERE up2.user_id = :userId
-ORDER BY up2.created_at DESC";
+SELECT DISTINCT(g.id) as word_id, 
+               g.word, 
+               wordclass, 
+               created_by, 
+               u.name as author_name, 
+               up.created_at
+FROM german g
+         JOIN english_german eg ON g.id = eg.german_id
+         JOIN user_pool up ON g.id = up.german_id
+         JOIN user u ON u.id = eg.created_by
+WHERE up.user_id = :userId
+ORDER BY up.created_at DESC";
 
 
 //info all distinct german words from all users
 const ALL_USERS_POOL_GERMAN = "
-SELECT distinct(g.id) AS word_id, g.word, wordclass, created_by, u.name as author_name, g.created_at
+SELECT distinct(g.id) AS word_id, 
+               g.word, 
+               wordclass, 
+               created_by, 
+               u.name as author_name, 
+               g.created_at
 FROM german g
          JOIN english_german eg ON g.id = eg.german_id
          JOIN user u ON u.id = eg.created_by
 ORDER BY g.created_at DESC";
 
-
+//info translations aggregation for class German
 const GET_ENGLISH_TRANSLATIONS = "
 SELECT e.word FROM english e
     JOIN english_german eg ON e.id = eg.english_id
     JOIN german g ON eg.german_id = g.id
 WHERE g.id = :id";
 
+//info translations aggregation for class English
 const GET_GERMAN_TRANSLATIONS = "
 SELECT g.word FROM german g
     JOIN english_german eg ON g.id = eg.german_id

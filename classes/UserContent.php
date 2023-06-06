@@ -56,7 +56,6 @@ class UserContent implements JsonSerializable
       }
       $stmt->execute();
       $content = [];
-//      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       while ($row = $stmt->fetchObject(__CLASS__)) {
         $content[] = $row;
       }

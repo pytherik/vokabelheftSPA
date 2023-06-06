@@ -18,8 +18,26 @@
   filter: brightness(80%);
 }
 
-.delete {
-  color: red;
+.remove,
+.add {
+  background-color: transparent;
+  border: none;
+}
+
+.edit {
+  background-color: #F2B6A0;
+  border: none;
+}
+
+.remove-img,
+.add-img,
+.edit-img {
+  width: 1.5rem;
+}
+
+.remove-img:hover,
+.add-img:hover {
+  filter: brightness(80%);
 }
 
 .add {
@@ -27,7 +45,7 @@
   color: #fff;
 }
 
-.remove {
+.included {
   color: #88ac78;
   width: 1.4rem;
   height: 1.4rem;
@@ -42,16 +60,17 @@
 }
 
 .btn-green-big {
-  width: 30.5vw;
+  width: 30.3vw;
   height: 4rem;
-  background-color: #88ac78;
+  background-color: #7a976e;
   font-size: 1.5rem;
   color: #fff;
-  border-radius: 15px;
+  border: none;
+  border-radius: 5px;
 }
 
 .btn-green-big:hover {
-  filter: brightness(120%);
+  filter: brightness(80%);
 }
 
 .lang-icon {
@@ -67,7 +86,7 @@
 }
 
 .modal-container {
-  background: rgba(0, 0, 0, 0.1333333333);
+  background: rgba(0, 0, 0, 0.4666666667);
   position: fixed;
   display: none;
   z-index: 10;
@@ -78,11 +97,11 @@
 }
 
 .inner-modal {
-  background-color: rgba(136, 172, 120, 0.5333333333);
+  background-color: #41644A;
   width: 12rem;
   height: 10rem;
   border-radius: 0.2rem;
-  margin: 18rem auto 0;
+  margin: 30vh auto;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -218,7 +237,7 @@ body {
     height: 60vh;
   }
   .inner-modal {
-    margin: 10% 16% 0;
+    margin: 20vh auto;
   }
 }
 @media (max-width: 1400px) {

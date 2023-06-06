@@ -18,8 +18,27 @@
   filter: brightness(80%);
 }
 
-.delete {
-  color: red;
+.remove,
+.add {
+  background-color: transparent;
+  border: none;
+}
+
+.edit {
+  background-color: #F2B6A0;
+  border: none;
+}
+
+.remove-img,
+.add-img,
+.edit-img {
+  width: 1.5rem;
+}
+
+
+.remove-img:hover,
+.add-img:hover {
+  filter: brightness(80%);
 }
 
 .add {
@@ -27,7 +46,7 @@
   color: #fff;
 }
 
-.remove {
+.included {
   color: #88ac78;
   width: 1.4rem;
   height: 1.4rem;
@@ -42,16 +61,17 @@
 }
 
 .btn-green-big {
-  width: 30.5vw;
+  width: 30.3vw;
   height: 4rem;
-  background-color: #88ac78;
+  background-color: #7a976e;
   font-size: 1.5rem;
   color: #fff;
-  border-radius: 15px;
+  border: none;
+  border-radius: 5px;
 }
 
 .btn-green-big:hover {
-  filter: brightness(120%);
+  filter: brightness(80%);
 }
 
 .lang-icon {

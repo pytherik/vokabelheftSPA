@@ -62,6 +62,7 @@ export class ListView {
     let dataId = 'word-id';
     let myContent;
     if (allUsers) {
+      //info myContent wird benötigt um zu checken ob eine Vokabel schon im Heft ist
       myContent = await this.getUsercontent(false)
       lastestEntriesId = 'all-users-table';
       dataId = 'all-words-id'
@@ -92,18 +93,24 @@ export class ListView {
       if (allUsers) {
         const result = this.checkUserContent(myContent, content.word_id);
         if(result === true){
-          row += `<span class="remove">&#10004</span>
+          row += `<span class="included">&#10004</span>
                 </div>
               </div>`;
         } else {
-          row += `<button class="add" data-add-word-id="${content.word_id}">+</button>
+          row += `<button class="add" data-add-word-id="${content.word_id}" title="add to collection">
+                    <img class="add-img" src="../../assets/images/icons/add.png" alt="add">
+                  </button>
                 </div>
               </div`;
         }
       } else {
         row +=
-          `<button class="edit">&#10000;</button>
-           <button class="delete">&#10006;</button>
+          `<button class="edit" data-edit-word-id="${content.word_id}" title="edit word">
+             <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit">
+          </button>
+           <button class="remove" data-remove-word-id="${content.word_id}" title="remove from collection">
+             <img class="remove-img" src="../../assets/images/icons/remove.png" alt="remove">
+           </button>
          </div>
        </div>`
       }
@@ -130,7 +137,6 @@ export class ListView {
       fetchId = 0;
     }
     try {
-      // const url = '//localhost:63342/vokabelheftSPA/actionSwitch.php';
       const formData = new FormData();
       formData.append('action', 'getUserContent');
       formData.append('userId', fetchId);

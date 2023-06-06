@@ -1,5 +1,5 @@
 .modal-container {
-  background: #00000022;
+  background: #00000077;
   position: fixed;
   display: none;
   z-index: 10;
@@ -10,11 +10,11 @@
 }
 
 .inner-modal {
-  background-color: #88ac7888;
+  background-color: #41644A;
   width: 12rem;
   height: 10rem;
   border-radius: .2rem;
-  margin: 18rem auto 0;
+  margin: 30vh auto;
   padding: .5rem;
   display: flex;
   flex-direction: column;

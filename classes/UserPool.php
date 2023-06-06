@@ -59,7 +59,6 @@ class UserPool implements JsonSerializable
       } else {
         $newWord = new UserPool($id, $userId, $added_at, 0, $wordId, $description);
       }
-      file_put_contents('ab.txt', $id . $added_at . $wordId . $description);
       return $newWord;
     } catch (PDOException $e) {
       echo $e->getMessage();
