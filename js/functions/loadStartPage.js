@@ -77,7 +77,6 @@ export const loadStartPage = async () => {
       const authorName = allWordsButton.dataset.authorName;
       const translation = await getTranslation(id, wordclass);
       showTranslation(translation, wordclass, authorName);
-
     })
   })
 }

@@ -1,6 +1,6 @@
 <?php
 include 'config.php';
-include 'queries.php';
+include 'queries_bak.php';
 spl_autoload_register(function ($class) {
   include sprintf('classes/%s.php', $class);
 });

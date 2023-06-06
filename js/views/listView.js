@@ -72,6 +72,7 @@ export class ListView {
     latestEntries.className = 'latest-entries';
     latestEntries.id = lastestEntriesId;
     let row = '';
+    console.log(userContent);
     userContent.forEach((content, idx) => {
       let addedAt = content.created_at;
       addedAt = addedAt.split('-').reverse().join('.');
