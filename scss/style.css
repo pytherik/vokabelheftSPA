@@ -100,13 +100,28 @@
 
 .inner-modal {
   background-color: #41644A;
-  width: 12rem;
-  height: 10rem;
+  width: 25%;
+  height: 20rem;
   border-radius: 0.2rem;
   margin: 30vh auto;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
+}
+
+.modal-input {
+  background: transparent;
+  font-family: inherit;
+  border: none;
+  border-bottom: 1px solid #fff;
+}
+
+textarea {
+  width: 95%;
+  border: none;
+  outline: none;
+  background: #444;
+  color: #ddd;
 }
 
 #quit {
