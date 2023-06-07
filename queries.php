@@ -52,7 +52,7 @@ ORDER BY up.created_at DESC";
 //info all distinct german words from all users
 const ALL_USERS_POOL_GERMAN = "
 SELECT  distinct(g.id) AS word_id,
-                eg.id,
+                (SELECT DISTINCT eg.id FROM english_german eg WHERE g.id=eg.id) AS id,
                 g.word, 
                 wordclass, 
                 created_by, 
