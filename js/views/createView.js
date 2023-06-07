@@ -3,8 +3,7 @@ import {loadStartPage} from "../functions/loadStartPage.js";
 
 export class CreateView {
 
-  async addWordToUserPool(wordId, description) {
-    const loader = document.querySelector('.hiddenLoader');
+  async addWordToUserPool(wordId, description='') {
     console.log(wordId, description);
     const lang = localStorage.getItem('lang');
     try {

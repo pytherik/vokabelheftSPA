@@ -10,7 +10,6 @@
   <title>Vokabelheft</title>
 </head>
 <body>
-<button class="hiddenLoader">load page</button>
 <div class="modal-container">
   <div class="inner-modal">
   </div>

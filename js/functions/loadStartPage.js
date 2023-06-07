@@ -37,9 +37,10 @@ export const loadStartPage = async () => {
   });
 
 
+  //info Üben Buttons
   const buttonUser = document.getElementById('btn-user');
   const buttonAllUsers = document.getElementById('btn-all-users');
-  //info Üben Buttons
+
   buttonUser.addEventListener('click', () => {
     console.log('btn-user clicked');
   })
@@ -48,18 +49,31 @@ export const loadStartPage = async () => {
     console.log('btn-all-users clicked');
   })
 
+
   const addButtons = document.querySelectorAll('[data-add-word-id]');
+  const removeButtons = document.querySelectorAll('[data-remove-word-id]');
+  const editButtons = document.querySelectorAll('[data-edit-word-id]');
   const wordButtons = document.querySelectorAll('[data-word-id]');
   const allWordsButtons = document.querySelectorAll('[data-all-words-id]');
 
+  //info Plus-Buttons zum hinzufügen einer Vokabel
   addButtons.forEach(addButton => {
     addButton.addEventListener('click', () => {
       const wordId = addButton.dataset.addWordId;
       const creator = new CreateView();
-      creator.addDescription(wordId, localStorage.getItem('lang'));
+      creator.addWordToUserPool(wordId);
     })
   })
 
+  //info Minus-Button zum rausschmeissen einer Vokabel
+  removeButtons.forEach(removeButton => {
+    removeButton.addEventListener('click', () => {
+      console.log(removeButton.dataset.removeWordId);
+    })
+  })
+
+  //info Übersetzung anzeigen lassen (Modal)
+  //info           Liste UserPool
   wordButtons.forEach(wordButton => {
     wordButton.addEventListener('click', async () => {
       const id = wordButton.dataset.wordId;
@@ -70,6 +84,7 @@ export const loadStartPage = async () => {
     })
   })
 
+  //info          Liste Alle Vokabeln
   allWordsButtons.forEach(allWordsButton => {
     allWordsButton.addEventListener('click', async () => {
       const id = allWordsButton.dataset.allWordsId;

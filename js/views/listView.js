@@ -16,19 +16,21 @@ export class ListView {
     table.insertAdjacentHTML('beforeend', tableHeader);
     return table
   }
-  buildButtonElements = () => {
 
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'button-container';
-    const learnUserContent = `<button class="btn-green-big" id="btn-user">meine Vokabeln üben</button>`;
-    const learnAllUsersContent = `<button class="btn-green-big" id="btn-all-users">alle Vokabeln üben</button>`;
+  buildButtonElement = (btnText, idName) => {
 
-    buttonContainer.insertAdjacentHTML('beforeend', learnUserContent);
-    buttonContainer.insertAdjacentHTML('beforeend', learnAllUsersContent);
+    const buttonEl = document.createElement('div');
+    buttonEl.className = 'button-container';
+    const button = document.createElement('button');
+    button.className = 'btn-green-big';
+    button.id = idName;
+    button.innerText = btnText;
 
-    return buttonContainer;
+    buttonEl.insertAdjacentElement('beforeend', button);
+    return buttonEl;
   }
 
+  //info Aufbauen der Inhalte für UserPool und Gesamt Inhalt
   async createListContainer(firstBuild=false) {
     let content;
     if (firstBuild) {
@@ -43,18 +45,20 @@ export class ListView {
     const table1 = this.buildTableElement(this.username, 'table1');
     const table2 = this.buildTableElement(' allen Lernenden', 'table2');
 
-    //info get all for user
+    //info Tabelle aufbauen UserPool
     let latestEntries = await this.getLatestEntries()
     table1.insertAdjacentElement('beforeend', latestEntries);
+    table1.insertAdjacentElement('beforeend', this.buildButtonElement('meine Vokabeln üben', 'btn-user'));
     content.insertAdjacentElement('beforeend', table1);
 
-    // info get all for all users
+    // info Tabelle aufbauen Alle User
     latestEntries = await this.getLatestEntries(true)
     table2.insertAdjacentElement('beforeend', latestEntries);
+    table2.insertAdjacentElement('beforeend', this.buildButtonElement('alle Vokabeln üben', 'btn-all-users'));
     content.insertAdjacentElement('beforeend', table2);
 
     container.insertAdjacentElement('beforeend', content);
-    container.insertAdjacentElement('beforeend', this.buildButtonElements());
+    // container.insertAdjacentElement('beforeend', this.buildButtonElements());
   }
 
   async getLatestEntries(allUsers = false) {
@@ -91,6 +95,7 @@ export class ListView {
               <span class="date"> ${addedAt}</span>
               <span class="author"> (${content.author_name})</span>`;
       if (allUsers) {
+        //info Überprüfung ob das Wort schon im Heft ist, Auswahl der Buttons
         const result = this.checkUserContent(myContent, content.word_id);
         if(result === true){
           row += `<span class="included">&#10004</span>
@@ -114,7 +119,6 @@ export class ListView {
          </div>
        </div>`
       }
-
       latestEntries.insertAdjacentHTML('beforeend', row);
     });
     return latestEntries;

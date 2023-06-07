@@ -15,8 +15,7 @@ CREATE TABLE english
     id              INT AUTO_INCREMENT PRIMARY KEY,
     created_at      DATE,
     word            VARCHAR(100),
-    description     VARCHAR(256),
-    user_activation BOOL
+    description     VARCHAR(256)
 );
 
 CREATE TABLE german
@@ -24,8 +23,7 @@ CREATE TABLE german
     id              INT AUTO_INCREMENT PRIMARY KEY,
     created_at      DATE,
     word            VARCHAR(100),
-    description     VARCHAR(256),
-    user_activation BOOL
+    description     VARCHAR(256)
 );
 
 CREATE TABLE english_german
@@ -42,7 +40,7 @@ CREATE TABLE user_pool
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     user_id     INT,
-    added_at    DATE,
+    created_at    DATE,
     english_id  INT,
     german_id   INT,
     description VARCHAR(256)
@@ -64,47 +62,63 @@ VALUES (NULL, 'Erik', 'geheim', '2022-03-01'),
        (NULL, 'Johnny', 'special', '2022-03-01');
 
 INSERT INTO english
-VALUES (NULL, '2022-03-01', 'walk', NULL, TRUE),
-       (NULL, '2022-03-01', 'go', NULL, TRUE),
-       (NULL, '2022-03-18', 'run', NULL, TRUE),
-       (NULL, '2022-03-18', 'eat', NULL, TRUE),
-       (NULL, '2022-03-18', 'meal', NULL, TRUE),
-       (NULL, '2022-03-21', 'sleep', NULL, TRUE),
-       (NULL, '2022-03-21', 'sleep', NULL, TRUE),
-       (NULL, '2022-03-21', 'drink', NULL, TRUE),
-       (NULL, '2022-03-21', 'drink', NULL, TRUE);
+VALUES (NULL, '2022-03-01', 'walk', NULL),
+       (NULL, '2022-03-01', 'go', NULL),
+       (NULL, '2022-03-18', 'run', NULL),
+       (NULL, '2022-03-18', 'eat', NULL),
+       (NULL, '2022-03-18', 'meal', NULL),
+       (NULL, '2022-03-21', 'sleep', NULL),
+       (NULL, '2022-03-21', 'sleep', NULL),
+       (NULL, '2022-03-21', 'drink', NULL),
+       (NULL, '2022-03-21', 'drink', NULL);
 
 INSERT INTO german
-VALUES (NULL, '2022-03-21', 'laufen', NULL, TRUE),
-       (NULL, '2022-03-01', 'gehen', NULL, TRUE),
-       (NULL, '2022-03-18', 'rennen', NULL, TRUE),
-       (NULL, '2022-03-18', 'essen', NULL, TRUE),
-       (NULL, '2022-03-18', 'das Essen', NULL, TRUE),
-       (NULL, '2022-03-21', 'schlafen', NULL, TRUE),
-       (NULL, '2022-03-21', 'der Schlaf', NULL, TRUE),
-       (NULL, '2022-03-21', 'trinken', NULL, TRUE),
-       (NULL, '2022-03-21', 'das Getränk', NULL, TRUE);
+VALUES (NULL, '2022-03-21', 'laufen', NULL),
+       (NULL, '2022-03-01', 'gehen', NULL),
+       (NULL, '2022-03-18', 'rennen', NULL),
+       (NULL, '2022-03-18', 'essen', NULL),
+       (NULL, '2022-03-18', 'das Essen', NULL),
+       (NULL, '2022-03-21', 'schlafen', NULL),
+       (NULL, '2022-03-21', 'der Schlaf', NULL),
+       (NULL, '2022-03-21', 'trinken', NULL),
+       (NULL, '2022-03-21', 'das Getränk', NULL);
 
 INSERT INTO english_german
 VALUES (NULL, '2022-03-01', 1, 1, 1, 1),
        (NULL, '2022-03-01', 1, 1, 2, 1),
        (NULL, '2022-03-01', 1, 2, 1, 1),
        (NULL, '2022-03-01', 1, 2, 2, 1),
-       (NULL, '2022-03-18', 1, 3, 1, 1),
-       (NULL, '2022-03-18', 1, 3, 3, 1),
+       (NULL, '2022-03-01', 1, 3, 1, 1),
+       (NULL, '2022-03-01', 1, 3, 3, 1),
        (NULL, '2022-03-18', 2, 4, 4, 1),
        (NULL, '2022-03-18', 2, 5, 5, 2),
-       (NULL, '2022-03-21', 2, 6, 6, 1),
-       (NULL, '2022-03-21', 1, 7, 7, 2),
+       (NULL, '2022-03-18', 2, 6, 6, 1),
+       (NULL, '2022-03-18', 1, 7, 7, 2),
        (NULL, '2022-03-21', 3, 8, 8, 1),
        (NULL, '2022-03-21', 3, 9, 9, 2);
 
 
 INSERT INTO user_pool
-VALUES (NULL, 2, '2022-03-03', 1, NULL, NULL),
+VALUES (NULL, 1, '2022-03-01', 1, NULL, NULL),
+       (NULL, 1, '2022-03-01', 2, NULL, NULL),
+       (NULL, 1, '2022-03-01', 3, NULL, NULL),
+       (NULL, 1, '2022-03-01', NULL, 1, NULL),
+       (NULL, 1, '2022-03-01', NULL, 2, NULL),
+       (NULL, 1, '2022-03-01', NULL, 3, NULL),
+       (NULL, 2, '2022-03-18', 1, NULL, NULL),
+       (NULL, 2, '2022-03-18', 4, NULL, NULL),
+       (NULL, 2, '2022-03-18', 5, NULL, NULL),
+       (NULL, 2, '2022-03-18', NULL, 4, NULL),
+       (NULL, 2, '2022-03-18', NULL, 5, NULL),
+       (NULL, 1, '2022-03-18', NULL, 7, NULL),
+       (NULL, 2, '2022-03-18', 7, NULL, NULL),
        (NULL, 3, '2022-03-04', NULL, 3, 'schnell zu Fuß'),
        (NULL, 1, '2022-03-18', 4, NULL, 'to feed oneself'),
        (NULL, 3, '2022-03-19', 1, NULL, 'move by feet'),
+       (NULL, 3, '2022-03-19', 8, NULL, NULL),
+       (NULL, 3, '2022-03-19', NULL, 8, NULL),
+       (NULL, 3, '2022-03-19', 9, NULL, NULL),
+       (NULL, 3, '2022-03-19', NULL, 9, NULL),
        (NULL, 2, '2022-03-22', NULL, 7, 'Ruhephase'),
        (NULL, 1, '2022-03-22', 7, NULL, 'quench thirst'),
        (NULL, 1, '2022-03-27', NULL, 9, NULL),

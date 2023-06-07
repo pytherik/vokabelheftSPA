@@ -54,12 +54,13 @@
 }
 
 .button-container {
-  width: 68vw;
+  width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
 .btn-green-big {
+  margin-top: 1.5rem;
   width: 30.3vw;
   height: 4rem;
   background-color: #7a976e;
@@ -256,6 +257,7 @@ body {
   }
   .table {
     width: 100%;
+    height: 50%;
     margin: 3% 0;
   }
   .button-container {
