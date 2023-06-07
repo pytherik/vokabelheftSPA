@@ -97,4 +97,18 @@ export const loadStartPage = async () => {
       showTranslation(translation, wordclass, authorName);
     })
   })
+
+  const newWord = document.querySelector('.btn-create');
+  newWord.addEventListener('click', () => {
+    console.log('newWord clicked');
+  })
+
+  const logoutButton = document.querySelector('.btn-logout');
+  logoutButton.addEventListener('click', () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    localStorage.removeItem('date');
+    localStorage.removeItem('lang');
+    location.reload();
+  })
 }

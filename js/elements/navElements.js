@@ -22,5 +22,4 @@ export const navElements = () => {
   navContainer.insertAdjacentHTML('beforeend', toggleLang);
   navContainer.insertAdjacentElement('beforeend', logoutButton);
   container.insertAdjacentElement('beforeend', navContainer);
-
 }
