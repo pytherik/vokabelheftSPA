@@ -2,54 +2,78 @@ import {urlActionSwitch} from "../config.js";
 import {loadStartPage} from "../functions/loadStartPage.js";
 
 export class CrudView {
+
+  buildInput = (num) => {
+    const translationEl = document.createElement('div');
+    translationEl.className = 'input-container';
+
+    const translation = `<div class="input-element"><input type="text" class="modal-translation" data-input-id="${num}">
+                   <button class="btn-modal btn-delete">-</button></div>`
+
+    translationEl.insertAdjacentHTML('beforeend', translation);
+    return translationEl;
+  }
+
   async createNewWord() {
-    console.log('urein createNewWord');
+    console.log('okay clicked');
+    const word = document.getElementById('word');
+    const translations = document.querySelectorAll('.modal-translation');
+    translations.forEach(tr => {
+      console.log(tr.value);
+    })
+    console.log(word.value);
+   }
+
+  buildCreateForm() {
     const modal = document.querySelector('.modal-container');
     const innerModal = document.querySelector('.inner-modal');
     modal.style.display = 'block';
 
     const quitButton  = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">`;
-    const formContainer = document.createElement('div');
-    formContainer.className = 'modal-form-container';
-
     let i = 0;
-    const inputContainer = document.createElement('div');
-    inputContainer.className = 'input-container'
-    const authorField = `<div class="modal-author">Author: ${localStorage.getItem('username')}</div>`
-    const wordField = `<label for="word">Neues Wort:</label>
-                        <input type="text" class="modal-input" id="word" data-input-id="${i}"><br>`
-    const tralsationsField = `<div>
-                                <label for="t1">1.</label>
-                                <input class="modal-input" id="t1">
-                                <button class="modal-button"> + </button>
-                                <button class="modal-button"> - </button>
-                              </div>
-                              <div hidden>
-                                <label for="t2">2.</label>
-                                <input class="modal-input" id="t2">
-                                <button class="modal-button"> + </button>
-                                <button class="modal-button"> - </button>
-                              </div>
-                              <div hidden><label for="t3">3.</label>
-                                <input class="modal-input" id="t3">
-                                <button class="modal-button"> + </button>
-                                <button class="modal-button"> - </button>
-                               </div>`;
+    const author = `<div class="modal-author">Author: ${localStorage.getItem('username')}</div>`
+    const inputs = document.createElement('div');
+    const word = `<div>New Word: <input type="text" class="modal-word" id="word"></div>`
+    const translation = `<div class="input-element"></div><input type="text" class="modal-translation" id="word" data-input-id="${i}">
+                   <button class="btn-modal btn-next">+</button></div>`
 
-    inputContainer.insertAdjacentHTML('beforeend',wordField);
+    inputs.insertAdjacentHTML('beforeend', translation)
 
-    inputContainer.insertAdjacentHTML('beforeend', tralsationsField);
+
+
     const textArea = document.createElement('textarea');
     textArea.className = 'description';
-    textArea.setAttribute('cols', '30');
     textArea.setAttribute('rows', '5');
 
-    formContainer.insertAdjacentElement('beforeend', inputContainer);
-    formContainer.insertAdjacentElement('beforeend', textArea);
+    const submit = document.createElement('button');
+    submit.className = 'btn-submit';
+    submit.innerText = 'okay';
 
     innerModal.insertAdjacentHTML('beforeend', quitButton);
-    innerModal.insertAdjacentHTML('beforeend', authorField);
-    innerModal.insertAdjacentElement('beforeend', formContainer);
+    innerModal.insertAdjacentHTML('beforeend', author);
+    innerModal.insertAdjacentHTML('beforeend', word);
+    innerModal.insertAdjacentElement('beforeend', inputs);
+    innerModal.insertAdjacentElement('beforeend', textArea);
+    innerModal.insertAdjacentElement('beforeend', submit);
+
+    const nextButton = document.querySelector('.btn-next');
+    nextButton.addEventListener('click', () => {
+      i++;
+      inputs.insertAdjacentElement('beforeend', this.buildInput(i))
+      const deletes = document.querySelectorAll('.btn-delete')
+      const allInputs = document.querySelectorAll('.input-element');
+
+      deletes.forEach((del, idx) => {
+        del.addEventListener('click', () => {
+          allInputs[idx].remove();
+          console.log(idx);
+        })
+      })
+    })
+
+    submit.addEventListener('click', () => {
+      this.createNewWord();
+    })
 
     const quit = document.getElementById('quit');
     quit.addEventListener('click', () => {

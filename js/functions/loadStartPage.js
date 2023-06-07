@@ -102,7 +102,7 @@ export const loadStartPage = async () => {
   newWord.addEventListener('click', () => {
     console.log('newWord clicked');
     const creator = new CrudView();
-    creator.createNewWord();
+    creator.buildCreateForm();
   })
 
   const logoutButton = document.querySelector('.btn-logout');
