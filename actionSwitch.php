@@ -34,9 +34,9 @@ switch ($action) {
     $lang = $_POST['lang'];
     $wordclass = $_POST['wordclass'];
     if($lang === 'en') {
-      $translation = (new English())->getObjectById($id, $wordclass);
+      $translation = (new English())->getObjectById($id);
     } else {
-      $translation = (new German())->getObjectById($id, $wordclass);
+      $translation = (new German())->getObjectById($id);
     }
     echo json_encode($translation);
     break;
@@ -48,6 +48,12 @@ switch ($action) {
     $description = $_POST['description'];
     $newWord = (new UserPool())->addNewWord($id, $date, $wordId, $lang, $description);
     echo json_encode($newWord);
+    break;
+  case 'removeWordFromUserPool':
+    $id = $_POST['userId'];
+    $wordId = $_POST['id'];
+    $response = (new UserPool())->removeWordById($wordId);
+    echo json_encode($response);
     break;
   default:
     echo 'default case has happened!';

@@ -113,7 +113,7 @@ export class ListView {
           `<button class="edit" data-edit-word-id="${content.word_id}" title="edit word">
              <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit">
           </button>
-           <button class="remove" data-remove-word-id="${content.word_id}" title="remove from collection">
+           <button class="remove" data-remove-word-id="${content.id}" title="remove from collection">
              <img class="remove-img" src="../../assets/images/icons/remove.png" alt="remove">
            </button>
          </div>

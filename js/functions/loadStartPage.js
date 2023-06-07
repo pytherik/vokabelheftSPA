@@ -1,7 +1,7 @@
 import {headerElements} from "../elements/headerElements.js";
-import {langElements} from "../elements/langElements.js";
+import {navElements} from "../elements/navElements.js";
 import {ListView} from "../views/listView.js";
-import {CreateView} from "../views/createView.js";
+import {CrudView} from "../views/crudView.js";
 import {getTranslation, showTranslation} from "./translateFunctions.js";
 const container = document.querySelector('.container');
 const title =  document.querySelector('title');
@@ -9,8 +9,8 @@ const title =  document.querySelector('title');
 export const loadStartPage = async () => {
   title.innerText = 'Start'
   container.innerHTML = '';
+  navElements();                        // language Flag-Buttons
   headerElements('zuletzt hinzugefügt'); // Überschriften
-  langElements();                        // language Flag-Buttons
 
   const starter = new ListView();
 
@@ -60,7 +60,7 @@ export const loadStartPage = async () => {
   addButtons.forEach(addButton => {
     addButton.addEventListener('click', () => {
       const wordId = addButton.dataset.addWordId;
-      const creator = new CreateView();
+      const creator = new CrudView();
       creator.addWordToUserPool(wordId);
     })
   })
@@ -68,7 +68,10 @@ export const loadStartPage = async () => {
   //info Minus-Button zum rausschmeissen einer Vokabel
   removeButtons.forEach(removeButton => {
     removeButton.addEventListener('click', () => {
-      console.log(removeButton.dataset.removeWordId);
+      //info wordId ist user_pool Tabellen-Id
+      const wordId = removeButton.dataset.removeWordId;
+      const remover = new CrudView();
+      remover.removeWordFromUserPool(wordId);
     })
   })
 

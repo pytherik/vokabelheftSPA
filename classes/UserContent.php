@@ -3,6 +3,7 @@
 class UserContent implements JsonSerializable
 {
   private int $word_id;
+  private int $id;
   private string $word;
   private string $wordclass;
   private int $created_by;
@@ -11,6 +12,7 @@ class UserContent implements JsonSerializable
 
   /**
    * @param int|null $word_id
+   * @param int|null $id
    * @param string|null $word
    * @param string|null $wordclass
    * @param int|null $created_by
@@ -18,6 +20,7 @@ class UserContent implements JsonSerializable
    * @param string|null $created_at
    */
   public function __construct(?int    $word_id = null,
+                              ?int    $id=null,
                               ?string $word = null,
                               ?string $wordclass = null,
                               ?int    $created_by = null,
@@ -25,6 +28,7 @@ class UserContent implements JsonSerializable
                               ?string $created_at = null)
   {
     if (isset($word_id) &&
+      isset($id) &&
       isset($word) &&
       isset($wordclass) &&
       isset($created_by) &&
@@ -32,6 +36,7 @@ class UserContent implements JsonSerializable
       isset($created_at))
     {
       $this->word_id = $word_id;
+      $this->id = $id;
       $this->word = $word;
       $this->wordclass = $wordclass;
       $this->created_by = $created_by;
@@ -69,53 +74,5 @@ class UserContent implements JsonSerializable
   public function jsonSerialize(): array
   {
     return get_object_vars($this);
-  }
-
-  /**
-   * @return int
-   */
-  public function getWordId(): int
-  {
-    return $this->word_id;
-  }
-
-  /**
-   * @return string
-   */
-  public function getWord(): string
-  {
-    return $this->word;
-  }
-
-  /**
-   * @return string
-   */
-  public function getWordclass(): string
-  {
-    return $this->wordclass;
-  }
-
-  /**
-   * @return int
-   */
-  public function getCreatedBy(): int
-  {
-    return $this->created_by;
-  }
-
-  /**
-   * @return string
-   */
-  public function getAuthorName(): string
-  {
-    return $this->author_name;
-  }
-
-  /**
-   * @return int
-   */
-  public function getCreatedAt(): int
-  {
-    return $this->created_at;
   }
 }

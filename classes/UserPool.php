@@ -66,6 +66,21 @@ class UserPool implements JsonSerializable
     }
   }
 
+  public function removeWordById($id): string
+  {
+    try {
+      $dbh = DBConnect::connect();
+      $sql = "DELETE FROM user_pool WHERE id=:id";
+      $stmt = $dbh->prepare($sql);
+      $stmt->bindParam('id', $id);
+      $stmt->execute();
+      return 'Eintrag erfolgreich entfernt!';
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+      die();
+    }
+  }
+
 
   /**
    * @return int

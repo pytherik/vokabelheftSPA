@@ -124,6 +124,16 @@
   margin-top: 0.5rem;
 }
 
+.nav-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  background: #666;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
