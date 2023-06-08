@@ -56,6 +56,20 @@ export const loadStartPage = async () => {
   const wordButtons = document.querySelectorAll('[data-word-id]');
   const allWordsButtons = document.querySelectorAll('[data-all-words-id]');
 
+  editButtons.forEach(editButton => {
+    editButton.addEventListener('click', async () => {
+      const wordId = editButton.dataset.editWordId;
+      const word = editButton.dataset.editWord;
+      const wordclass = editButton.dataset.editWordclass;
+      const result = await getTranslation(wordId, wordclass)
+      const translations = result.translations;
+      const description = result.description;
+      const author = editButton.dataset.editAuthor;
+      console.log(wordId, wordclass, word, translations, description);
+      const editor = new CrudView();
+      editor.buildCreateForm(author, wordId, word, wordclass, translations, description);
+    })
+  })
   //info Plus-Buttons zum hinzufügen einer Vokabel
   addButtons.forEach(addButton => {
     addButton.addEventListener('click', () => {
@@ -104,6 +118,7 @@ export const loadStartPage = async () => {
     const creator = new CrudView();
     creator.buildCreateForm();
   })
+
 
   const logoutButton = document.querySelector('.btn-logout');
   logoutButton.addEventListener('click', () => {

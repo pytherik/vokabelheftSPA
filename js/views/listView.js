@@ -110,7 +110,11 @@ export class ListView {
         }
       } else {
         row +=
-          `<button class="edit" data-edit-word-id="${content.word_id}" title="edit word">
+          `<button class="edit" data-edit-word-id="${content.word_id}"
+                                data-edit-word="${content.word}"
+                                data-edit-wordclass="${content.wordclass}"
+                                data-edit-author="${content.author_name}"
+                                title="edit word">
              <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit">
           </button>
            <button class="remove" data-remove-word-id="${content.id}" title="remove from collection">
