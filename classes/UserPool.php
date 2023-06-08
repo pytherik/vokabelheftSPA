@@ -38,11 +38,8 @@ class UserPool implements JsonSerializable
   {
     try {
       $dbh = DBConnect::connect();
-      if ($lang === 'en') {
-        $sql = "INSERT INTO user_pool VALUES (NULL, :user_id, :added_at, :english_id, NULL, :description)";
-      } else {
-        $sql = "INSERT INTO user_pool VALUES (NULL, :user_id, :added_at, NULL, :german_id, :description)";
-      }
+
+        $sql = ($lang === 'en') ? INSERT_ENGLISH_INTO_USER_POOL: INSERT_GERMAN_INTO_USER_POOL;
       $stmt = $dbh->prepare($sql);
       $stmt->bindParam('user_id', $userId);
       $stmt->bindParam('added_at', $added_at);

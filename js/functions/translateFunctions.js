@@ -1,5 +1,6 @@
 export const getTranslation = async (id, wordclass) => {
   try {
+    console.log(id, wordclass);
     const formData = new FormData();
     formData.append('action', 'getTranslation');
     formData.append('id', id);

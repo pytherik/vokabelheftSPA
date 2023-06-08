@@ -55,6 +55,18 @@ switch ($action) {
     $response = (new UserPool())->removeWordById($wordId);
     echo json_encode($response);
     break;
+  case 'createNewWord':
+    $authorId = $_POST['authorId'];
+    $createdAt = $_POST['createdAt'];
+    $lang = $_POST['lang'];
+    $word = $_POST['word'];
+    $wordclass = $_POST['wordclass'];
+    $translations = json_decode($_POST['translations']);
+    $description = $_POST['description'];
+    $response = (new EnglishGerman())->createNewWord($authorId, $createdAt,
+                      $lang, $word, $wordclass, $translations, $description);
+    echo json_encode($response);
+    break;
   default:
     echo 'default case has happened!';
 }

@@ -76,3 +76,40 @@ SELECT g.word FROM german g
     JOIN english_german eg ON g.id = eg.german_id
     JOIN english e ON eg.english_id = e.id
 WHERE e.id = :id";
+
+//info check if english/german word/translation already exists
+const ENGLISH_WORD_EXISTS = "
+SELECT english.id FROM english 
+    JOIN english_german eg ON english.id = eg.english_id
+WHERE word=:word AND wordclass=:wordclass";
+
+const GERMAN_WORD_EXISTS = "
+SELECT german.id FROM german 
+    JOIN english_german eg ON german.id = eg.german_id
+WHERE word=:word AND wordclass=:wordclass";
+
+//info insert new english/german word
+const INSERT_ENGLISH_WORD = "
+INSERT INTO english VALUES
+                        (NULL, :createdAt, :word)";
+
+const INSERT_GERMAN_WORD = "
+INSERT INTO german VALUES
+                        (NULL, :createdAt, :word)";
+
+//info insert english_german english/german entry
+
+const INSERT_ENGLISH_GERMAN = " 
+INSERT INTO english_german VALUES
+                               (NULL, :createdAt, :createdBy, :english_id, :german_id, :wordclass)
+";
+
+//info update user_pool, new english/german word
+const INSERT_ENGLISH_INTO_USER_POOL = "
+INSERT INTO user_pool VALUES (NULL, :user_id, :added_at, :english_id, NULL, :description)
+";
+
+const INSERT_GERMAN_INTO_USER_POOL = "
+INSERT INTO user_pool VALUES (NULL, :user_id, :added_at, NULL, :german_id, :description)
+";
+

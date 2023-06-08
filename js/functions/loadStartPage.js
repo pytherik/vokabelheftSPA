@@ -96,7 +96,8 @@ export const loadStartPage = async () => {
       const id = wordButton.dataset.wordId;
       const wordclass = wordButton.dataset.wordclass;
       const authorName = wordButton.dataset.authorName;
-      const translation = await  getTranslation(id, wordclass);
+      const translation = await getTranslation(id, wordclass);
+      console.log(translation);
       showTranslation(translation, wordclass, authorName);
     })
   })

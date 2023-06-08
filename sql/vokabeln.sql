@@ -12,18 +12,16 @@ CREATE TABLE user
 
 CREATE TABLE english
 (
-    id              INT AUTO_INCREMENT PRIMARY KEY,
-    created_at      DATE,
-    word            VARCHAR(100),
-    description     VARCHAR(256)
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    created_at DATE,
+    word       VARCHAR(100)
 );
 
 CREATE TABLE german
 (
     id              INT AUTO_INCREMENT PRIMARY KEY,
     created_at      DATE,
-    word            VARCHAR(100),
-    description     VARCHAR(256)
+    word            VARCHAR(100)
 );
 
 CREATE TABLE english_german
@@ -62,26 +60,26 @@ VALUES (NULL, 'Erik', 'geheim', '2022-03-01'),
        (NULL, 'Johnny', 'special', '2022-03-01');
 
 INSERT INTO english
-VALUES (NULL, '2022-03-01', 'walk', NULL),
-       (NULL, '2022-03-01', 'go', NULL),
-       (NULL, '2022-03-18', 'run', NULL),
-       (NULL, '2022-03-18', 'eat', NULL),
-       (NULL, '2022-03-18', 'meal', NULL),
-       (NULL, '2022-03-21', 'sleep', NULL),
-       (NULL, '2022-03-21', 'sleep', NULL),
-       (NULL, '2022-03-21', 'drink', NULL),
-       (NULL, '2022-03-21', 'drink', NULL);
+VALUES (NULL, '2022-03-01', 'walk'),
+       (NULL, '2022-03-01', 'go'),
+       (NULL, '2022-03-18', 'run'),
+       (NULL, '2022-03-18', 'eat'),
+       (NULL, '2022-03-18', 'meal'),
+       (NULL, '2022-03-21', 'sleep'),
+       (NULL, '2022-03-21', 'sleep'),
+       (NULL, '2022-03-21', 'drink'),
+       (NULL, '2022-03-21', 'drink');
 
 INSERT INTO german
-VALUES (NULL, '2022-03-21', 'laufen', NULL),
-       (NULL, '2022-03-01', 'gehen', NULL),
-       (NULL, '2022-03-18', 'rennen', NULL),
-       (NULL, '2022-03-18', 'essen', NULL),
-       (NULL, '2022-03-18', 'das Essen', NULL),
-       (NULL, '2022-03-21', 'schlafen', NULL),
-       (NULL, '2022-03-21', 'der Schlaf', NULL),
-       (NULL, '2022-03-21', 'trinken', NULL),
-       (NULL, '2022-03-21', 'das Getränk', NULL);
+VALUES (NULL, '2022-03-21', 'laufen'),
+       (NULL, '2022-03-01', 'gehen'),
+       (NULL, '2022-03-18', 'rennen'),
+       (NULL, '2022-03-18', 'essen'),
+       (NULL, '2022-03-18', 'das Essen'),
+       (NULL, '2022-03-21', 'schlafen'),
+       (NULL, '2022-03-21', 'der Schlaf'),
+       (NULL, '2022-03-21', 'trinken'),
+       (NULL, '2022-03-21', 'das Getränk');
 
 INSERT INTO english_german
 VALUES (NULL, '2022-03-01', 1, 1, 1, 1),

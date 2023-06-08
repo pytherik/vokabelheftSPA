@@ -7,7 +7,7 @@ export class CrudView {
     const translationEl = document.createElement('div');
     translationEl.className = 'input-container';
 
-    const translation = `<div class="input-element">
+    const translation = `<div class="input-element additional">
                            <input type="text" class="modal-translation" value="${value}">
                             <button class="btn-modal btn-delete">-</button>
                           </div>`;
@@ -16,17 +16,40 @@ export class CrudView {
     return translationEl;
   }
 
-  async editOrCreateWord(wordId=0) {
+  async createNewWord(wordId=0) {
 
     console.log('okay clicked');
-    const word = document.getElementById('word');
-    const description = document.querySelector('.description');
+    const word = document.getElementById('word').value;
+    const wordclass = document.querySelector(`input[name="class"]:checked`).value;
     const translations = document.querySelectorAll('.modal-translation');
+    const translationsArr = [];
     translations.forEach(tr => {
-      console.log(tr.value);
+      translationsArr.push(tr.value);
     })
-    console.log(word.value);
-    console.log(description.value);
+    const description = document.querySelector('.description').value;
+    try {
+      const formData = new FormData();
+      formData.append('action', 'createNewWord');
+      formData.append('authorId', localStorage.getItem('userId'));
+      formData.append('createdAt', localStorage.getItem('date'));
+      formData.append('lang', localStorage.getItem('lang'));
+      formData.append('word', word);
+      formData.append('wordclass', wordclass);
+      formData.append('translations', JSON.stringify(translationsArr));
+      formData.append('description', description);
+      const result = await fetch(urlActionSwitch, {
+        body: formData,
+        method: 'POST'
+      })
+      const data = await result.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(word);
+    console.log(wordclass);
+    console.log(translationsArr);
+    console.log(description);
    }
 
   buildCreateForm(author=localStorage.getItem('username'),wordId=0, word='', wordclass, translations=[''], description='') {
@@ -35,13 +58,16 @@ export class CrudView {
     modal.style.display = 'block';
 
     const quitButton  = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">`;
-    let i = 0;
     const authorContent = `<div class="modal-author">Author: ${author}</div>`
     const inputsContainer = document.createElement('div');
     const wordContent = `<div>New Word: 
                            <input type="text" class="modal-word" id="word" value="${word}">
                          </div>`;
-
+    const wordclassCheck = `<div>Wortart: <br>
+                         <input type="radio" value="noun" name="class"> noun
+                         <input type="radio" value="verb" name="class"> verb
+                         <input type="radio" value="adjective" name="class"> adjective
+                       </div>`
     const translation = `<div class="input-element">
                            <input type="text" class="modal-translation" value="${translations[0]}">
                            <button class="btn-modal btn-next">+</button>
@@ -67,6 +93,7 @@ export class CrudView {
     innerModal.insertAdjacentHTML('beforeend', quitButton);
     innerModal.insertAdjacentHTML('beforeend', authorContent);
     innerModal.insertAdjacentHTML('beforeend', wordContent);
+    innerModal.insertAdjacentHTML('beforeend', wordclassCheck);
     innerModal.insertAdjacentElement('beforeend', inputsContainer);
     innerModal.insertAdjacentElement('beforeend', textArea);
     innerModal.insertAdjacentElement('beforeend', submit);
@@ -74,11 +101,13 @@ export class CrudView {
     //info hinzufügen einer weiteren Übersetzung
     const nextButton = document.querySelector('.btn-next');
     nextButton.addEventListener('click', () => {
-      i++;
-      inputsContainer.insertAdjacentElement('beforeend', this.buildInput());
+      const numTranslations = document.querySelectorAll('.input-element').length;
+      if (numTranslations < 4) {
+        inputsContainer.insertAdjacentElement('beforeend', this.buildInput());
+      }
       //info Eventlistener zum Entfernen von Einträgen
       const deletes = document.querySelectorAll('.btn-delete');
-      const allInputs = document.querySelectorAll('.input-element');
+      const allInputs = document.querySelectorAll('.additional');
 
       deletes.forEach((del, idx) => {
         del.addEventListener('click', () => {
@@ -89,7 +118,7 @@ export class CrudView {
     })
 
     submit.addEventListener('click', () => {
-      this.editOrCreateWord(wordId);
+      this.createNewWord(wordId);
     })
 
     const quit = document.getElementById('quit');
