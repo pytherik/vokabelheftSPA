@@ -67,6 +67,13 @@ switch ($action) {
                       $lang, $word, $wordclass, $translations, $description);
     echo json_encode($response);
     break;
+  case 'getDescription':
+    $userId = $_POST['userId'];
+    $wordId = $_POST['wordId'];
+    $lang = $_POST['lang'];
+    $response = (new UserPool())->getDescriptionById($userId, $wordId, $lang);
+    echo json_encode($response);
+    break;
   default:
     echo 'default case has happened!';
 }

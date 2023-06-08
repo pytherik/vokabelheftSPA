@@ -3,14 +3,17 @@ import {navElements} from "../elements/navElements.js";
 import {ListView} from "../views/listView.js";
 import {CrudView} from "../views/crudView.js";
 import {getTranslation, showTranslation} from "./translateFunctions.js";
+import {getDescription} from "./getDescription.js";
+
 const container = document.querySelector('.container');
 const title =  document.querySelector('title');
 
 export const loadStartPage = async () => {
   title.innerText = 'Start'
   container.innerHTML = '';
+  const page = (localStorage.getItem('lang') === 'en') ? 'last added': 'zuletzt hinzugefügt';
   navElements();                        // language Flag-Buttons
-  headerElements('zuletzt hinzugefügt'); // Überschriften
+  headerElements(page); // Überschriften
 
   const starter = new ListView();
 
@@ -97,8 +100,10 @@ export const loadStartPage = async () => {
       const wordclass = wordButton.dataset.wordclass;
       const authorName = wordButton.dataset.authorName;
       const translation = await getTranslation(id, wordclass);
+      const description = await getDescription(id, localStorage.getItem('userId'), localStorage.getItem('lang'));
+      console.log(description);
       console.log(translation);
-      showTranslation(translation, wordclass, authorName);
+      showTranslation(translation, wordclass, authorName, description);
     })
   })
 
@@ -109,7 +114,7 @@ export const loadStartPage = async () => {
       const wordclass = allWordsButton.dataset.wordclass;
       const authorName = allWordsButton.dataset.authorName;
       const translation = await getTranslation(id, wordclass);
-      showTranslation(translation, wordclass, authorName);
+      showTranslation(translation, wordclass, authorName, '');
     })
   })
 

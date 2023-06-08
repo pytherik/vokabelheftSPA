@@ -109,12 +109,21 @@
   flex-direction: column;
 }
 
-.modal-word,
+.modal-word {
+  font-size: 1.4rem;
+}
+
 .modal-translation {
+  margin-top: 0.5rem;
   background: transparent;
   font-family: inherit;
+  font-size: 1.2rem;
   border: none;
-  border-bottom: 1px solid #fff;
+  text-decoration: underline;
+}
+
+.modal-author {
+  font-size: 0.8rem;
 }
 
 textarea {

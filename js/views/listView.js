@@ -12,7 +12,7 @@ export class ListView {
     const table = document.createElement('div');
     table.className = 'table';
     table.id = tableId
-    const tableHeader = `<span class="table__header">Von ${headerContent}</span>`;
+    const tableHeader = `<span class="table__header">${headerContent}</span>`;
     table.insertAdjacentHTML('beforeend', tableHeader);
     return table
   }
@@ -42,19 +42,22 @@ export class ListView {
       const buttonElement = document.querySelector('.button-container');
       buttonElement.parentNode.removeChild(buttonElement);
     }
-    const table1 = this.buildTableElement(this.username, 'table1');
-    const table2 = this.buildTableElement(' allen Lernenden', 'table2');
-
+    const headerContent1 = (localStorage.getItem('lang') === 'en') ? `by ${this.username}` : `Von ${this.username}`;
+    const table1 = this.buildTableElement(headerContent1,'table1');
+    const headerContent2 = (localStorage.getItem('lang') === 'en') ? `by all learners` : `Von allen Lernenden`;
+    const table2 = this.buildTableElement(headerContent2, 'table2');
+    const btnTxt1 = (localStorage.getItem('lang') === 'en') ? 'practice my vocabulary': 'meine Vokabeln üben';
+    const btnTxt2 = (localStorage.getItem('lang') === 'en') ? 'practice all vocabulary': 'alle Vokabeln üben';
     //info Tabelle aufbauen UserPool
     let latestEntries = await this.getLatestEntries()
     table1.insertAdjacentElement('beforeend', latestEntries);
-    table1.insertAdjacentElement('beforeend', this.buildButtonElement('meine Vokabeln üben', 'btn-user'));
+    table1.insertAdjacentElement('beforeend', this.buildButtonElement(btnTxt1, 'btn-user'));
     content.insertAdjacentElement('beforeend', table1);
 
     // info Tabelle aufbauen Alle User
     latestEntries = await this.getLatestEntries(true)
     table2.insertAdjacentElement('beforeend', latestEntries);
-    table2.insertAdjacentElement('beforeend', this.buildButtonElement('alle Vokabeln üben', 'btn-all-users'));
+    table2.insertAdjacentElement('beforeend', this.buildButtonElement(btnTxt2, 'btn-all-users'));
     content.insertAdjacentElement('beforeend', table2);
 
     container.insertAdjacentElement('beforeend', content);
@@ -77,6 +80,9 @@ export class ListView {
     latestEntries.className = 'latest-entries';
     latestEntries.id = lastestEntriesId;
     let row = '';
+    const titleAdd = (localStorage.getItem('lang') === 'en') ? 'add to book': 'zum Heft hizufügen';
+    const titleRemove = (localStorage.getItem('lang') === 'en') ? 'remove from book': 'aus Heft entfernen';
+    const titleEdit = (localStorage.getItem('lang') === 'en') ? 'edit': 'bearbeiten';
     console.log(userContent);
     userContent.forEach((content, idx) => {
       let addedAt = content.created_at;
@@ -102,7 +108,7 @@ export class ListView {
                 </div>
               </div>`;
         } else {
-          row += `<button class="add" data-add-word-id="${content.word_id}" title="add to collection">
+          row += `<button class="add" data-add-word-id="${content.word_id}" title="${titleAdd}">
                     <img class="add-img" src="../../assets/images/icons/add.png" alt="add">
                   </button>
                 </div>
@@ -115,9 +121,9 @@ export class ListView {
                                 data-edit-wordclass="${content.wordclass}"
                                 data-edit-author="${content.author_name}"
                                 title="edit word">
-             <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit">
+             <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit" title="${titleEdit}">
           </button>
-           <button class="remove" data-remove-word-id="${content.id}" title="remove from collection">
+           <button class="remove" data-remove-word-id="${content.id}" title="${titleRemove}">
              <img class="remove-img" src="../../assets/images/icons/remove.png" alt="remove">
            </button>
          </div>

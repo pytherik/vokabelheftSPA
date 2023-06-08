@@ -78,6 +78,28 @@ class UserPool implements JsonSerializable
     }
   }
 
+  public function getDescriptionById($userId, $wordId, $lang): string
+  {
+    try {
+      $response = '';
+      $dbh = DBConnect::connect();
+      if ($lang === 'en') {
+        $sql = "SELECT description FROM user_pool WHERE user_id = :userId AND english_id = :wordId";
+      } else {
+        $sql = "SELECT description FROM user_pool WHERE user_id = :userId AND german_id = :wordId";
+      }
+      $stmt = $dbh->prepare($sql);
+      $stmt->bindParam('userId', $userId);
+      $stmt->bindParam('wordId', $wordId);
+      $stmt->execute();
+      if ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        $response = $row['description'] ?? '';
+      }
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+    }
+    return $response;
+  }
 
   /**
    * @return int
