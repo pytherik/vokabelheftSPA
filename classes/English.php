@@ -12,7 +12,7 @@ class English implements JsonSerializable
    */
   public function __construct(?int $id=null, ?string $word=null)
   {
-    if (isset($id) && isset($word) && isset($description)){
+    if (isset($id) && isset($word)){
     $this->id = $id;
     $this->word = $word;
     $this->translations = (new German())->getTranslationsById($id);
