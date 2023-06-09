@@ -68,6 +68,7 @@ export class ListView {
     // container.insertAdjacentElement('beforeend', this.buildButtonElements());
   }
 
+  //info Listenansicht: allUsers=false - mein Heft, =true - von allen Usern
   async getLatestEntries(allUsers = false) {
     let lastestEntriesId = 'user-table;';
     let dataId = 'word-id';

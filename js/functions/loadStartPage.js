@@ -13,13 +13,12 @@ export const loadStartPage = async () => {
   title.innerText = 'Start'
   container.innerHTML = '';
   const page = (localStorage.getItem('lang') === 'en') ? 'last added': 'zuletzt hinzugefügt';
-  // const page = (localStorage.getItem('lang') === 'en') ? 'last added': 'zuletzt hinzugefügt';
-  navElements();                        // language Flag-Buttons
+  navElements();        // language Flag-Buttons, create new entry, logout
   headerElements(page); // Überschriften
 
   const starter = new ListView();
 
-  //info firstBuild=true: erster Aufruf erstellt .content - div
+  //info firstBuild=true: erster Aufruf erstellt .content
   await starter.createListContainer(true);
 
   const buttonDe = document.getElementById('lang-de');
@@ -89,9 +88,28 @@ export const loadStartPage = async () => {
       const wordclass = wordButton.dataset.wordclass;
       const authorName = wordButton.dataset.authorName;
       const translation = await getTranslation(wordId, wordclass);
-      const description = await getDescription(wordId, session.userId, localStorage.getItem('lang'));
+      let description = await getDescription(wordId, session.userId, localStorage.getItem('lang'));
+      if (description === '') {
+        description = (localStorage.getItem('lang') === 'en') ?
+          'click the edit button to add a description' :
+          'klick auf den Edit-Button um eine Beschreibung hinzuzufügen';
+      }
       console.log(description);
       console.log(translation);
+      showTranslation(translation, wordclass, authorName, description);
+    })
+  })
+
+  //info          Liste Alle Vokabeln
+  allWordsButtons.forEach(allWordsButton => {
+    allWordsButton.addEventListener('click', async () => {
+      const id = allWordsButton.dataset.allWordsId;
+      const wordclass = allWordsButton.dataset.wordclass;
+      const authorName = allWordsButton.dataset.authorName;
+      const translation = await getTranslation(id, wordclass);
+      const description = (localStorage.getItem('lang') === 'en') ?
+        'create or edit the description in your book!' :
+        'erstelle oder ändere die Beschreibung in deinem Heft!';
       showTranslation(translation, wordclass, authorName, description);
     })
   })
@@ -107,25 +125,12 @@ export const loadStartPage = async () => {
       console.log(description);
       console.log(translation);
       const editor = new CrudView();
-      // editor.editDescripion(wordId, wordclass, authorName, translation, description);
       editor.buildCreateForm(wordId, wordclass, authorName);
-    })
-  })
-
-  //info          Liste Alle Vokabeln
-  allWordsButtons.forEach(allWordsButton => {
-    allWordsButton.addEventListener('click', async () => {
-      const id = allWordsButton.dataset.allWordsId;
-      const wordclass = allWordsButton.dataset.wordclass;
-      const authorName = allWordsButton.dataset.authorName;
-      const translation = await getTranslation(id, wordclass);
-      showTranslation(translation, wordclass, authorName, '');
     })
   })
 
   const newWord = document.querySelector('.btn-create');
   newWord.addEventListener('click', () => {
-    console.log('newWord clicked');
     const creator = new CrudView();
     creator.buildCreateForm();
   })
@@ -133,10 +138,7 @@ export const loadStartPage = async () => {
 
   const logoutButton = document.querySelector('.btn-logout');
   logoutButton.addEventListener('click', () => {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('username');
-    localStorage.removeItem('date');
-    localStorage.removeItem('lang');
+    localStorage.clear();
     location.reload();
   })
 }

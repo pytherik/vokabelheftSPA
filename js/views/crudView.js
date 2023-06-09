@@ -183,8 +183,8 @@ export class CrudView {
                            <button class="btn-modal btn-next" ${hidden}>+</button>
                          </div>`;
 
-    const textArea = `<div class="modal-word">${descriptionTxt}</div>
-                      <div class="modal-description">
+    const textArea = `<div class="modal-description">${descriptionTxt}</div>
+                      <div class="modal-description-content">
                         <textarea class="modal-textarea" id="description" rows="3">${descriptionValue}</textarea>
                       </div>
                     </div>`;

@@ -125,6 +125,9 @@
   justify-content: flex-start;
   height: 25rem;
 }
+.inner-edit-modal .modal-description {
+  margin-top: 1rem;
+}
 
 .modal-word {
   font-size: 1.2rem;
@@ -173,7 +176,7 @@ textarea {
 }
 
 #quit {
-  width: 20px;
+  width: 1.7rem;
 }
 
 .translation {
