@@ -12,7 +12,7 @@
 .inner-modal {
   background-color: #41644A;
   width: 25%;
-  height: 20rem;
+  height: 25rem;
   border-radius: .2rem;
   margin: 30vh auto;
   padding: .5rem;
@@ -23,6 +23,8 @@
 .modal-word {
   font-size: 1.4rem;
 }
+
+.modal-native,
 .modal-input {
   margin-top: .5rem;
   background: transparent;
@@ -31,8 +33,22 @@
   color: $font-color-main;
   outline: none;
   border: none;
-  text-decoration: underline;
+  //text-decoration: underline;
   border-bottom: 1px solid #fff;
+}
+
+.no-border {
+  border: none;
+
+}
+.modal-label {
+  margin-top: 1rem;
+}
+
+.modal-textarea {
+  font-family: inherit;
+  font-size: 1.2rem;
+  color: $font-color-main;
 }
 
 .modal-author {

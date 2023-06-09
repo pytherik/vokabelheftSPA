@@ -1,94 +1,34 @@
 import {session, urlActionSwitch} from "../config.js";
 import {loadStartPage} from "../functions/loadStartPage.js";
+import {getTranslation} from "../functions/translateFunctions.js";
+import {getDescription} from "../functions/getDescription.js";
 
 export class CrudView {
 
-  buildInput = (value = '') => {
+  buildInput = (translationValue, disabled) => {
     const translationEl = document.createElement('div');
     translationEl.className = 'input-container';
 
     const translation = `<div class="input-element additional">
-                           <input type="text" class="modal-translation" value="${value}">
-                            <button class="btn-modal btn-delete">-</button>
+                           <input type="text" class="modal-input no-border" autocomplete="off" value="${translationValue}" ${disabled}>
+                            <button class="btn-modal btn-delete" hidden>-</button>
                           </div>`;
 
     translationEl.insertAdjacentHTML('beforeend', translation);
     return translationEl;
   }
 
-  async editDescripion(wordId, wordclass, authorName, translation, description){
-    const lang = localStorage.getItem('lang');
-    const vonBy = (lang === 'en') ? 'by': 'von';
-    const descriptionTxt = (lang === 'en') ? 'edit Description:' : 'Beschreibung ändern:';
-    const btnTxt = (lang === 'en') ? 'submit': 'übernehmen';
-    if (lang === 'de') {
-      if (wordclass === 'verb') wordclass = 'Verb';
-      if (wordclass === 'noun') wordclass = 'Substantiv';
-      if (wordclass === 'adjective') wordclass = 'Adjektiv';
-    }
-    const translationsTxt = (lang === 'en') ? 'Translations': 'Überstzungen';
-    const modal = document.querySelector('.modal-container');
-    const innerModal = document.querySelector('.inner-modal');
-    modal.style.display = 'block';
-    let modalContent = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">
-                        <div class="modal-author">${vonBy} ${authorName}</div>
-                        <div>
-                          <span class="modal-word">${translation.word}</span> 
-                          <span class="modal-wordclass"> <i>(${wordclass})</i>:</span>
-                        </div>
-                        <div class="modal-translation">${translationsTxt}:</div>
-                        <ul class="translation">`;
-    translation.translations.forEach(translation => {
-    modalContent +=  `<li class="modal-word">${translation}</li>`;
-    })
-    modalContent += `</ul>
-                     <div class="modal-description">${descriptionTxt}</div>
-                     <div class="modal-description">
-                       <textarea class="description" id="description">${description}</textarea>
-                     </div>
-                     <div class="modal-submit">
-                       <button id="submit">${btnTxt}</button>
-                     </div>`;
-
-    innerModal.insertAdjacentHTML('beforeend', modalContent);
-
-    const btnSubmit = document.getElementById('submit');
-    btnSubmit.addEventListener('click', async () => {
-      try {
-        const formData = new FormData();
-        const newDescription = document.getElementById('description').value;
-        formData.append('action', 'editDescription');
-        formData.append('description', newDescription);
-        formData.append('userId', session.userId);
-        formData.append('wordId', wordId);
-        formData.append('lang', lang);
-        const result = await fetch(urlActionSwitch, {
-          body: formData,
-          method: 'POST'
-        })
-        const data = await result.json();
-      } catch (error) {
-        console.log(error);
-      }
-    })
-    const quit = document.getElementById('quit');
-    quit.addEventListener('click', () => {
-      innerModal.innerHTML = '';
-      modal.style.display = 'none';
-    })
-  }
-
-  async createNewWord(wordId = 0) {
-
+  async createNewWord() {
     console.log('okay clicked');
+    console.log(localStorage.getItem('lang'));
     const word = document.getElementById('word').value;
     const wordclass = document.querySelector(`input[name="class"]:checked`).value;
-    const translations = document.querySelectorAll('.modal-translation');
+    const translations = document.querySelectorAll('.modal-input');
     const translationsArr = [];
     translations.forEach(tr => {
       translationsArr.push(tr.value);
     })
-    const description = document.querySelector('.description').value;
+    const description = document.querySelector('.modal-textarea').value;
     try {
       const formData = new FormData();
       formData.append('action', 'createNewWord');
@@ -115,39 +55,67 @@ export class CrudView {
   }
 
 
-  buildCreateForm(author = session.username, wordId = 0, word = '', wordclass, translations = [''], description = '') {
+  async buildCreateForm(wordId=0, wordclass='', authorName='') {
     const lang = localStorage.getItem('lang');
-    const wordTxt = (lang === 'en') ? 'New word' : 'Neues Wort';
+    console.log(lang);
+    let wordTxt = (lang === 'en') ? 'New english word' : 'Neues deutsches Wort';
     const authorTxt = (lang === 'en') ? 'Author': 'Autor';
     const wordclassTxt = (lang === 'en') ? 'Wordclass' : 'Wortart';
-    const descriptioTxt = (lang === 'en') ? 'Description': 'Beschreibung';
+    const descriptionTxt = (lang === 'en') ? 'Description': 'Beschreibung';
     const modal = document.querySelector('.modal-container');
     const innerModal = document.querySelector('.inner-modal');
+    let translations = ['']
+    let descriptionValue = '';
+    let disabled = '';
+    let hidden = '';
+    let wordValue = ''
+    let noBorder = '';
+    if(wordId > 0) {
+      wordTxt = (lang === 'en') ? 'Edit description for' : 'Beschreibung ändern';
+      if (lang === 'de') {
+        if(wordclass === 'noun') wordclass = 'Substantiv';
+        if(wordclass === 'verb') wordclass = 'Verb';
+        if(wordclass === 'adjective') wordclass = 'Adjektiv';
+      }
+      noBorder = ' no-border';
+      disabled = 'disabled';
+      hidden = 'hidden';
+      const translation = await getTranslation(wordId, wordclass);
+      descriptionValue = await getDescription(wordId, session.userId, localStorage.getItem('lang'));
+      translations = translation.translations;
+      wordValue = translation.word;
+    }
     modal.style.display = 'block';
 
     const quitButton = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">`;
-    const authorContent = `<div class="modal-author">${authorTxt}: ${author}</div>`
+    const authorContent = `<div class="modal-author">${authorTxt}: ${session.username}</div>`
     const inputsContainer = document.createElement('div');
-    const wordContent = `<div>${wordTxt}: 
-                           <input type="text" class="modal-word" id="word" value="${word}">
+    const wordContent = `<div class="modal-word">${wordTxt}: 
+                           <input type="text" class="modal-native${noBorder}" id="word" value="${wordValue}" 
+                           autocomplete="off" autofocus ${disabled}>
                          </div>`;
-    const wordclassCheck = `<div>${wordclassTxt}: </div>
-                            <div>
+    const wordclassCheck = `<div class="modal-label">${wordclassTxt}: ${wordclass}</div>
+                            <div ${hidden}>
                               <input type="radio" value="noun" name="class"> noun
                               <input type="radio" value="verb" name="class"> verb
                               <input type="radio" value="adjective" name="class"> adjective
                             </div>`
     const translation = `<div class="input-element">
-                           <input type="text" class="modal-input" value="${translations[0]}">
-                           <button class="btn-modal btn-next">+</button>
+                           <input type="text" class="modal-input${noBorder}" autocomplete="off" value="${translations[0]}" ${disabled}>
+                           <button class="btn-modal btn-next" ${hidden}>+</button>
                          </div>`;
 
-    const textArea = `<textarea class="description`;
+    const textArea = `<div class="modal-label">${descriptionTxt}</div>
+                      <div class="modal-description">
+                        <textarea class="modal-textarea" id="description" rows="3">${descriptionValue}</textarea>
+                      </div>`;
+
 
     inputsContainer.insertAdjacentHTML('beforeend', translation)
+
     if (translations.length > 1) {
       for (let j = 1; j < translations.length; j++) {
-        inputsContainer.insertAdjacentElement('beforeend', this.buildInput(translations[j]));
+        inputsContainer.insertAdjacentElement('beforeend', this.buildInput(translations[j]), disabled);
       }
     }
 
@@ -184,7 +152,7 @@ export class CrudView {
     })
 
     submit.addEventListener('click', () => {
-      this.createNewWord(wordId);
+      this.createNewWord();
     })
 
     const quit = document.getElementById('quit');

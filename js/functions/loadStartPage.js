@@ -12,7 +12,7 @@ const title =  document.querySelector('title');
 export const loadStartPage = async () => {
   title.innerText = 'Start'
   container.innerHTML = '';
-  const page = (session.lang === 'en') ? 'last added': 'zuletzt hinzugefügt';
+  const page = (localStorage.getItem('lang') === 'en') ? 'last added': 'zuletzt hinzugefügt';
   // const page = (localStorage.getItem('lang') === 'en') ? 'last added': 'zuletzt hinzugefügt';
   navElements();                        // language Flag-Buttons
   headerElements(page); // Überschriften
@@ -107,7 +107,8 @@ export const loadStartPage = async () => {
       console.log(description);
       console.log(translation);
       const editor = new CrudView();
-      editor.editDescripion(wordId, wordclass, authorName, translation, description);
+      // editor.editDescripion(wordId, wordclass, authorName, translation, description);
+      editor.buildCreateForm(wordId, wordclass, authorName);
     })
   })
 
