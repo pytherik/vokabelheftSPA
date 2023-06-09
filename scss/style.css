@@ -98,24 +98,45 @@
   left: 0;
 }
 
-.inner-modal {
+.inner-modal,
+.inner-show-modal,
+.inner-edit-modal {
   background-color: #41644A;
   width: 25%;
-  height: 25rem;
+  height: 30rem;
   border-radius: 0.2rem;
   margin: 30vh auto;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+
+.inner-show-modal {
+  height: 18rem;
+  justify-content: flex-start;
+}
+.inner-show-modal .modal-translation,
+.inner-show-modal .modal-description {
+  margin-top: 1rem;
+}
+
+.inner-edit-modal {
+  justify-content: flex-start;
+  height: 25rem;
 }
 
 .modal-word {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+}
+
+.modal-heading {
+  font-size: 1.2rem;
+  margin: 1rem 0 0.5rem;
 }
 
 .modal-native,
 .modal-input {
-  margin-top: 0.5rem;
   background: transparent;
   font-family: inherit;
   font-size: 1.2rem;
@@ -125,12 +146,12 @@
   border-bottom: 1px solid #fff;
 }
 
-.no-border {
-  border: none;
+.modal-native {
+  width: 80%;
 }
 
-.modal-label {
-  margin-top: 1rem;
+.no-border {
+  border: none;
 }
 
 .modal-textarea {
@@ -165,6 +186,11 @@ textarea {
 
 .modal-author {
   margin-top: 0.5rem;
+}
+
+.warning {
+  font-size: 0.8rem;
+  color: #EA906C;
 }
 
 .btn-modal {

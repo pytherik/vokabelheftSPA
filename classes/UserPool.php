@@ -101,6 +101,24 @@ class UserPool implements JsonSerializable
     return $response;
   }
 
+  public function updateDescription($userId, $wordId, $lang, $description): string
+  {
+    $response = '';
+    try {
+      $dbh = DBConnect::connect();
+      $sql = ($lang === 'en') ? UPDATE_ENGLISH_DESCRIPTION : UPDATE_GERMAN_DESCRIPTION;
+      $stmt = $dbh->prepare($sql);
+      $stmt->bindParam('description', $description);
+      $stmt->bindParam('userId', $userId);
+      $stmt->bindParam('wordId', $wordId);
+      $stmt->execute();
+      $response = ($lang === 'en') ? 'Successfully updated description!' : 'Beschreibung wurde geändert!';
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+    }
+    return $response;
+  }
+
   /**
    * @return int
    */

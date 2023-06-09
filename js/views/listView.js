@@ -123,7 +123,7 @@ export class ListView {
           `<button class="edit" data-edit-word-id="${content.word_id}"
                                 data-edit-word="${content.word}"
                                 data-edit-wordclass="${content.wordclass}"
-                                data-edit-authorName="${content.author_name}"
+                                data-edit-author-name="${content.author_name}"
                                 
                                 title="edit word">
              <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit" title="${titleEdit}">

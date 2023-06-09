@@ -113,3 +113,13 @@ const INSERT_GERMAN_INTO_USER_POOL = "
 INSERT INTO user_pool VALUES (NULL, :user_id, :added_at, NULL, :german_id, :description)
 ";
 
+//info update user_pool english/german description
+const UPDATE_ENGLISH_DESCRIPTION = "
+UPDATE user_pool 
+SET description = :description 
+WHERE user_id = :userId AND english_id = :wordId";
+
+const UPDATE_GERMAN_DESCRIPTION = "
+UPDATE user_pool 
+SET description = :description 
+WHERE user_id = :userId AND german_id = :wordId";

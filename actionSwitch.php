@@ -74,6 +74,14 @@ switch ($action) {
     $response = (new UserPool())->getDescriptionById($userId, $wordId, $lang);
     echo json_encode($response);
     break;
+  case 'updateDescription':
+    $userId = $_POST['userId'];
+    $wordId = $_POST['wordId'];
+    $lang = $_POST['lang'];
+    $description = $_POST['description'];
+    $response = (new UserPool())->updateDescription($userId, $wordId, $lang, $description);
+    echo json_encode($response);
+    break;
   default:
     echo 'default case has happened!';
 }
