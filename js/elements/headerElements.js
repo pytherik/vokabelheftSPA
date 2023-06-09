@@ -1,5 +1,5 @@
 export const headerElements = (page) => {
-  const mainHeader = (localStorage.getItem('lang') === 'en') ? 'Vocabulary book': 'Vokabelheft';
+  const mainHeader = (localStorage.getItem('lang') === 'en') ? 'My Vocabulary book': 'Mein Vokabelheft';
   const container = document.querySelector('.container');
   const header = `<h1 class="heading">${mainHeader}</h1>`
   const subHeader = `<h3 class="sub-heading">${page}</h3>`

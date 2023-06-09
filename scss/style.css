@@ -113,13 +113,16 @@
   font-size: 1.4rem;
 }
 
-.modal-translation {
+.modal-input {
   margin-top: 0.5rem;
   background: transparent;
   font-family: inherit;
   font-size: 1.2rem;
+  color: #ddd;
+  outline: none;
   border: none;
   text-decoration: underline;
+  border-bottom: 1px solid #fff;
 }
 
 .modal-author {

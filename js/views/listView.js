@@ -42,12 +42,16 @@ export class ListView {
       const buttonElement = document.querySelector('.button-container');
       buttonElement.parentNode.removeChild(buttonElement);
     }
+
     const headerContent1 = (localStorage.getItem('lang') === 'en') ? `by ${this.username}` : `Von ${this.username}`;
     const table1 = this.buildTableElement(headerContent1,'table1');
+
     const headerContent2 = (localStorage.getItem('lang') === 'en') ? `by all learners` : `Von allen Lernenden`;
     const table2 = this.buildTableElement(headerContent2, 'table2');
+
     const btnTxt1 = (localStorage.getItem('lang') === 'en') ? 'practice my vocabulary': 'meine Vokabeln üben';
     const btnTxt2 = (localStorage.getItem('lang') === 'en') ? 'practice all vocabulary': 'alle Vokabeln üben';
+
     //info Tabelle aufbauen UserPool
     let latestEntries = await this.getLatestEntries()
     table1.insertAdjacentElement('beforeend', latestEntries);
@@ -119,7 +123,8 @@ export class ListView {
           `<button class="edit" data-edit-word-id="${content.word_id}"
                                 data-edit-word="${content.word}"
                                 data-edit-wordclass="${content.wordclass}"
-                                data-edit-author="${content.author_name}"
+                                data-edit-authorName="${content.author_name}"
+                                
                                 title="edit word">
              <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit" title="${titleEdit}">
           </button>

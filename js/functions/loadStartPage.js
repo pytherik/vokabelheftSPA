@@ -4,6 +4,7 @@ import {ListView} from "../views/listView.js";
 import {CrudView} from "../views/crudView.js";
 import {getTranslation, showTranslation} from "./translateFunctions.js";
 import {getDescription} from "./getDescription.js";
+import {session} from "../config.js";
 
 const container = document.querySelector('.container');
 const title =  document.querySelector('title');
@@ -11,7 +12,8 @@ const title =  document.querySelector('title');
 export const loadStartPage = async () => {
   title.innerText = 'Start'
   container.innerHTML = '';
-  const page = (localStorage.getItem('lang') === 'en') ? 'last added': 'zuletzt hinzugefügt';
+  const page = (session.lang === 'en') ? 'last added': 'zuletzt hinzugefügt';
+  // const page = (localStorage.getItem('lang') === 'en') ? 'last added': 'zuletzt hinzugefügt';
   navElements();                        // language Flag-Buttons
   headerElements(page); // Überschriften
 
@@ -59,20 +61,7 @@ export const loadStartPage = async () => {
   const wordButtons = document.querySelectorAll('[data-word-id]');
   const allWordsButtons = document.querySelectorAll('[data-all-words-id]');
 
-  editButtons.forEach(editButton => {
-    editButton.addEventListener('click', async () => {
-      const wordId = editButton.dataset.editWordId;
-      const word = editButton.dataset.editWord;
-      const wordclass = editButton.dataset.editWordclass;
-      const result = await getTranslation(wordId, wordclass)
-      const translations = result.translations;
-      const description = result.description;
-      const author = editButton.dataset.editAuthor;
-      console.log(wordId, wordclass, word, translations, description);
-      const editor = new CrudView();
-      editor.buildCreateForm(author, wordId, word, wordclass, translations, description);
-    })
-  })
+
   //info Plus-Buttons zum hinzufügen einer Vokabel
   addButtons.forEach(addButton => {
     addButton.addEventListener('click', () => {
@@ -96,14 +85,29 @@ export const loadStartPage = async () => {
   //info           Liste UserPool
   wordButtons.forEach(wordButton => {
     wordButton.addEventListener('click', async () => {
-      const id = wordButton.dataset.wordId;
+      const wordId = wordButton.dataset.wordId;
       const wordclass = wordButton.dataset.wordclass;
       const authorName = wordButton.dataset.authorName;
-      const translation = await getTranslation(id, wordclass);
-      const description = await getDescription(id, localStorage.getItem('userId'), localStorage.getItem('lang'));
+      const translation = await getTranslation(wordId, wordclass);
+      const description = await getDescription(wordId, session.userId, localStorage.getItem('lang'));
       console.log(description);
       console.log(translation);
       showTranslation(translation, wordclass, authorName, description);
+    })
+  })
+
+  editButtons.forEach(editButton => {
+    editButton.addEventListener('click', async () => {
+      const wordId = editButton.dataset.editWordId;
+      const wordclass = editButton.dataset.editWordclass;
+      const authorName = editButton.dataset.editAuthorName;
+      console.log(wordId, wordclass, authorName);
+      const translation = await getTranslation(wordId, wordclass);
+      const description = await getDescription(wordId, session.userId, localStorage.getItem('lang'));
+      console.log(description);
+      console.log(translation);
+      const editor = new CrudView();
+      editor.editDescripion(wordId, wordclass, authorName, translation, description);
     })
   })
 
