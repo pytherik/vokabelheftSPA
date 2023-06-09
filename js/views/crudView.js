@@ -229,11 +229,17 @@ export class CrudView {
       })
     })
 
+    //info wenn keine wordId geliefert wurde wird ein neues Wort hinzugefügt,
+    // andernfalls updateDescription aufgerufen
     submit.addEventListener('click', () => {
       if (wordId === 0) {
         this.createNewWord();
+        clearModal();
+        loadStartPage();
       } else {
         this.updateDescription(wordId);
+        clearModal();
+        loadStartPage();
       }
     })
 
@@ -244,6 +250,8 @@ export class CrudView {
 
     const clearModal = () => {
       innerModal.innerHTML = '';
+      //info className zurücksetzten, damit querySelect funktioniert
+      // (wurde in inner-show-modal geändert, um Darstellung anzupassen)
       innerModal.className = 'inner-modal';
       modal.style.display = 'none';
     }

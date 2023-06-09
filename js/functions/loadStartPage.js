@@ -114,6 +114,7 @@ export const loadStartPage = async () => {
     })
   })
 
+  //info mit edit lässt sich die Beschreibung ändern, nichts anderes
   editButtons.forEach(editButton => {
     editButton.addEventListener('click', async () => {
       const wordId = editButton.dataset.editWordId;
