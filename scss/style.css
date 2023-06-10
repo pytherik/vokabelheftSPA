@@ -168,7 +168,7 @@
 }
 
 textarea {
-  width: 95%;
+  width: 100%;
   border: none;
   outline: none;
   background: #444;
@@ -203,9 +203,12 @@ textarea {
 }
 
 .btn-submit {
-  width: 50%;
+  width: 100%;
+  height: 1.8rem;
   font-size: 1rem;
   font-family: inherit;
+  background-color: rgba(135, 171, 219, 0.6666666667);
+  border: none;
 }
 
 .nav-container {

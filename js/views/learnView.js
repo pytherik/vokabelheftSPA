@@ -3,13 +3,15 @@ import {urlActionSwitch} from "../config.js";
 const container = document.querySelector('.container');
 
 export class LearnView {
-  constructor() {
+  constructor(mode) {
+    this.mode = mode;
     this.userId = localStorage.getItem('userId');
     this.username = localStorage.getItem('username');
     this.registeredAt = localStorage.getItem('registeredAt');
     this.date = localStorage.getItem('date');
   }
 
+  //info table-Elemente für Statistik Inhalte erstellen
   buildTableElement = (headerContent, tableId) => {
     const table = document.createElement('div');
     table.className = 'stats-table';
@@ -24,14 +26,18 @@ export class LearnView {
     let content;
     content = document.createElement('div');
     content.className = 'content';
+
+    //info heutiges Datum formatieren
     const todayAt = this.date.split(' ');
     const today = todayAt[0].split('-').reverse().join('.');
     const time = todayAt[1];
 
+    //info Eintrittsdatum formatieren
     const firstDayAt = this.registeredAt.split(' ');
     const firstDay = firstDayAt[0].split('-').reverse().join('.');
     const firstTime = firstDayAt[1];
 
+    //info Tabellenüberschriften hinzufügen
     const headerContent1 = (localStorage.getItem('lang') === 'en') ? `of ${today} at ${time}` : `Von ${today} um ${time}`;
     const table1 = this.buildTableElement(headerContent1, 'stats-today');
 
@@ -53,10 +59,9 @@ export class LearnView {
     content.insertAdjacentElement('beforeend', table1)
     content.insertAdjacentElement('beforeend', table2)
     container.insertAdjacentElement('beforeend', content);
-
-
   }
 
+  //info Statistikausgabe nach Datum liefern
   getLatestStats = async(date) => {
     const latestStats = document.createElement('div');
     latestStats.className = 'latest-stats';
@@ -64,14 +69,15 @@ export class LearnView {
     let statistics = await this.getStatistics(date);
     const rightTxt = (localStorage.getItem('lang') === 'en') ? 'Right' : 'Richtig';
     const wrongTxt = (localStorage.getItem('lang') === 'en') ? `Wrong ` : 'Falsch ';
-    const stats = `<div class="is-right"><span>${rightTxt}:</span><span> ${statistics[0]}</span></div>
-                   <div class="is-wrong"><span>${wrongTxt}:</span><span> ${statistics[1]-statistics[0]}</span></div>
-                   <div class="total-stat"><span>Total&nbsp;&nbsp;&nbsp;:</span><span> ${statistics[1]}</span></div>`
+    const stats = `<div class="is-right"><span>${rightTxt}</span><span> ${statistics[0]}</span></div>
+                   <div class="is-wrong"><span>${wrongTxt}</span><span> ${statistics[1]-statistics[0]}</span></div>
+                   <div class="total-stat"><span>Total</span><span> ${statistics[1]}</span></div>`
 
     latestStats.insertAdjacentHTML('beforeend', stats);
     return latestStats;
   }
 
+  //info DB Abfrage nach Datum
   getStatistics = async (date) => {
     try {
       const formData = new FormData();
@@ -86,6 +92,5 @@ export class LearnView {
     } catch (error) {
       console.log(error);
     }
-
   }
 }

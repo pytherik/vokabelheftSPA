@@ -6,6 +6,7 @@ import {getTranslation, showTranslation} from "./translateFunctions.js";
 import {getDescription} from "./getDescription.js";
 import {session} from "../config.js";
 import {loadLearnPage} from "./loadLearnPage.js";
+import {logout} from "./logout.js";
 
 const container = document.querySelector('.container');
 const title =  document.querySelector('title');
@@ -19,7 +20,7 @@ export const loadStartPage = async () => {
   headerElements(page); // Überschriften
   const starter = new ListView();
 
-  //info firstBuild=true: erster Aufruf erstellt .content
+  //info firstBuild=true: Aufruf erstellt Seite startPage
   await starter.createListContainer();
 
   const buttonDe = document.getElementById('lang-de');
@@ -30,27 +31,29 @@ export const loadStartPage = async () => {
     buttonEn.classList.add('inactive');
   }
 
-  //info language Flag-Buttons
+  //info Sprache auf deutsch ändern
   buttonDe.addEventListener('click', async () => {
     localStorage.setItem('lang', 'de');
     await loadStartPage();
   })
 
+  //info Sprache auf englisch ändern
   buttonEn.addEventListener('click', async () => {
     localStorage.setItem('lang', 'en');
     await loadStartPage();
   });
 
-
-  //info Üben Buttons
+  //info Buttons führen zur learnPage
   const buttonUser = document.getElementById('btn-user');
   const buttonAllUsers = document.getElementById('btn-all-users');
 
+  //info nur Vokabeln des aktuellen Benutzers abfragen
   buttonUser.addEventListener('click', () => {
     console.log('btn-user clicked');
     loadLearnPage(false);
   })
 
+  //info Vokabeln von allen Benutzern abfragen
   buttonAllUsers.addEventListener('click', () => {
     console.log('btn-all-users clicked');
     loadLearnPage(true);
@@ -83,8 +86,7 @@ export const loadStartPage = async () => {
     })
   })
 
-  //info Übersetzung anzeigen lassen (Modal)
-  //info           Liste UserPool
+  //info  Übersetzung für Wort aus Liste UserPool
   wordButtons.forEach(wordButton => {
     wordButton.addEventListener('click', async () => {
       const wordId = wordButton.dataset.wordId;
@@ -103,7 +105,7 @@ export const loadStartPage = async () => {
     })
   })
 
-  //info          Liste Alle Vokabeln
+  //info Übersetung für Wort aus Liste Alle Vokabeln
   allWordsButtons.forEach(allWordsButton => {
     allWordsButton.addEventListener('click', async () => {
       const id = allWordsButton.dataset.allWordsId;
@@ -123,26 +125,23 @@ export const loadStartPage = async () => {
       const wordId = editButton.dataset.editWordId;
       const wordclass = editButton.dataset.editWordclass;
       const authorName = editButton.dataset.editAuthorName;
-      console.log(wordId, wordclass, authorName);
-      const translation = await getTranslation(wordId, wordclass);
-      const description = await getDescription(wordId, session.userId, localStorage.getItem('lang'));
-      console.log(description);
-      console.log(translation);
+      // console.log(wordId, wordclass, authorName);
+      // const translation = await getTranslation(wordId, wordclass);
+      // const description = await getDescription(wordId, localStorage.getItem('userId'), localStorage.getItem('lang'));
+      // console.log(description);
+      // console.log(translation);
       const editor = new CrudView();
       editor.buildCreateForm(wordId, wordclass, authorName);
     })
   })
 
+  //info Modal mit Erstellen-Formular wird erstellt
   const newWord = document.querySelector('.btn-create');
   newWord.addEventListener('click', () => {
     const creator = new CrudView();
     creator.buildCreateForm();
   })
 
-
   const logoutButton = document.querySelector('.btn-logout');
-  logoutButton.addEventListener('click', () => {
-    localStorage.clear();
-    location.reload();
-  })
+  logoutButton.addEventListener('click', () => logout());
 }

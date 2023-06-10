@@ -162,9 +162,9 @@ export class CrudView {
     }
     modal.style.display = 'block';
 
+
     const quitButton = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">`;
     const authorContent = `<div><div class="modal-author">${authorTxt}: ${author}</div>`
-    const inputsContainer = document.createElement('div');
     const wordContent = `<div class="modal-heading">${wordTxt}: </div>
                            <span id="word-warning" class="warning" hidden>${wordWarning}</span>
                            <input type="text" class="modal-native${noBorder}" id="word" value="${wordValue}" 
@@ -191,9 +191,11 @@ export class CrudView {
                       </div>
                     </div>`;
 
-
+    //info Unterschiedliche Input Felder - erster Input mit plus Button
+    const inputsContainer = document.createElement('div');
     inputsContainer.insertAdjacentHTML('beforeend', translation)
 
+    //info alle weiteren bekommen einen minus Button
     if (translations.length > 1) {
       for (let j = 1; j < translations.length; j++) {
         inputsContainer.insertAdjacentElement('beforeend', this.addTranslation(translations[j]));
@@ -240,23 +242,23 @@ export class CrudView {
         // loadStartPage();
       } else {
         this.updateDescription(wordId);
-        this.clearModal();
+        clearModal();
         loadStartPage();
       }
     })
 
     const quit = document.getElementById('quit');
     quit.addEventListener('click', () => {
-      this.clearModal();
+      clearModal();
     })
 
-    // const clearModal = () => {
-    //   innerModal.innerHTML = '';
-    //   //info className zurücksetzten, damit querySelect funktioniert
-    //   // (wurde in inner-show-modal geändert, um Darstellung anzupassen)
-    //   innerModal.className = 'inner-modal';
-    //   modal.style.display = 'none';
-    // }
+    const clearModal = () => {
+      innerModal.innerHTML = '';
+      //info className zurücksetzten, damit querySelect funktioniert
+      // (wurde in inner-show-modal geändert, um Darstellung anzupassen)
+      innerModal.className = 'inner-modal';
+      modal.style.display = 'none';
+    }
   }
 
   clearModal = () => {

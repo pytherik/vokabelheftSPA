@@ -8,7 +8,7 @@ export class ListView {
     this.userId = localStorage.getItem('userId');
     this.username = localStorage.getItem('username');
   }
-
+  //info table-Elemente für Wortlisten erstellen
   buildTableElement = (headerContent, tableId) => {
     const table = document.createElement('div');
     table.className = 'table';
@@ -18,8 +18,8 @@ export class ListView {
     return table
   }
 
+  //info Üben-Buttons erstellen
   buildButtonElement = (btnText, idName) => {
-
     const buttonEl = document.createElement('div');
     buttonEl.className = 'button-container';
     const button = document.createElement('button');
@@ -33,27 +33,19 @@ export class ListView {
 
   //info Aufbauen der Inhalte für UserPool und Gesamt Inhalt
   async createListContainer() {
+    //info content Container enthält die Wortlisten
     let content;
     content = document.createElement('div');
     content.className = 'content';
-    // async createListContainer(firstBuild=false) {
-    //    let content;
-    //    if (firstBuild) {
-    //      content = document.createElement('div');
-    //      content.className = 'content';
-    //    } else {
-    //      content = document.querySelector('.content');
-    //      content.innerHTML = '';
-    //      const buttonElement = document.querySelector('.button-container');
-    //      buttonElement.parentNode.removeChild(buttonElement);
-    //    }
 
+    //info Tabellenüberschriften nach Sprache erstellen
     const headerContent1 = (localStorage.getItem('lang') === 'en') ? `by ${this.username}` : `Von ${this.username}`;
     const table1 = this.buildTableElement(headerContent1, 'table1');
 
     const headerContent2 = (localStorage.getItem('lang') === 'en') ? `by all learners` : `Von allen Lernenden`;
     const table2 = this.buildTableElement(headerContent2, 'table2');
 
+    //info Buttontext nach Sprache erstellen
     const btnTxt1 = (localStorage.getItem('lang') === 'en') ? 'practice my vocabulary' : 'meine Vokabeln üben';
     const btnTxt2 = (localStorage.getItem('lang') === 'en') ? 'practice all vocabulary' : 'alle Vokabeln üben';
 
@@ -69,21 +61,26 @@ export class ListView {
     table2.insertAdjacentElement('beforeend', this.buildButtonElement(btnTxt2, 'btn-all-users'));
     content.insertAdjacentElement('beforeend', table2);
 
+    //info Einfügen in Container-Element macht content Sichtbar
     container.insertAdjacentElement('beforeend', content);
-    // container.insertAdjacentElement('beforeend', this.buildButtonElements());
   }
 
-  //info Listenansicht: allUsers=false - mein Heft, =true - von allen Usern
+  //info Listenansicht für eigenes Heft (false) oder für alle User (true)
   async getLatestEntries(allUsers = false) {
     let lastestEntriesId = 'user-table;';
     let dataId = 'word-id';
     let myContent;
     if (allUsers) {
-      //info myContent wird benötigt um zu checken ob eine Vokabel schon im Heft ist
+      //info zum setzten des plus Buttons oder des Häkchens wird myContent(eigenes Heft)
+      // benötigt, um zu Prüfen ob die Vokabel schon im Heft ist
       myContent = await this.getUsercontent(false)
+      //info setzten der Id's zur späteren Unterscheidung für die event listener
       lastestEntriesId = 'all-users-table';
       dataId = 'all-words-id'
     }
+
+    //info allUsers wird beim erstellen der Tabellen zweimal aufgerufen
+    // (true oder false in getLatestEntries gesetzt)
     const userContent = await this.getUsercontent(allUsers);
     console.log(userContent);
     const latestEntries = document.createElement('div');
@@ -97,19 +94,18 @@ export class ListView {
     userContent.forEach((content, idx) => {
       let addedAt = content.created_at;
       addedAt = addedAt.split('-').reverse().join('.');
-      row =
-        `<div class="row">
-           <div>
-              <span class="word"  
-               data-${dataId}="${content.word_id}" 
-               data-wordclass="${content.wordclass}"
-               data-author-name="${content.author_name}">
-                ${idx + 1}. ${content.word} (${content.wordclass.slice(0, 1)})
-              </span>
-            </div>
-           <div>
-              <span class="date"> ${addedAt}</span>
-              <span class="author"> (${content.author_name})</span>`;
+      row = `<div class="row">
+               <div>
+                  <span class="word" data-${dataId}="${content.word_id}" 
+                                     data-wordclass="${content.wordclass}"
+                                     data-author-name="${content.author_name}">
+                    ${idx + 1}. ${content.word} (${content.wordclass.slice(0, 1)})
+                  </span>
+                </div>
+              <div>
+                <span class="date"> ${addedAt}</span>
+                <span class="author"> (${content.author_name})</span>`;
+
       if (allUsers) {
         //info Überprüfung ob das Wort schon im Heft ist, Auswahl der Buttons
         const result = this.checkUserContent(myContent, content.word_id);
@@ -125,23 +121,22 @@ export class ListView {
               </div`;
         }
       } else {
-        row +=
-          `<button class="edit" data-edit-word-id="${content.word_id}"
-                                data-edit-word="${content.word}"
-                                data-edit-wordclass="${content.wordclass}"
-                                data-edit-author-name="${content.author_name}"
-                                
-                                title="edit word">
-             <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit" title="${titleEdit}">
-          </button>
-           <button class="remove" data-remove-word-id="${content.id}" title="${titleRemove}">
-             <img class="remove-img" src="../../assets/images/icons/remove.png" alt="remove">
-           </button>
-         </div>
-       </div>`
+        row += `<button class="edit" data-edit-word-id="${content.word_id}"
+                                     data-edit-word="${content.word}"
+                                     data-edit-wordclass="${content.wordclass}"
+                                     data-edit-author-name="${content.author_name}"
+                                     title="edit word">
+                  <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit" title="${titleEdit}">
+                </button>
+                <button class="remove" data-remove-word-id="${content.id}" title="${titleRemove}">
+                  <img class="remove-img" src="../../assets/images/icons/remove.png" alt="remove">
+                </button>
+              </div>
+            </div>`
       }
       latestEntries.insertAdjacentHTML('beforeend', row);
     });
+    //info bei einem leeren Heft bekommt der User eine Information
     if (row === '') {
       const message = (localStorage.getItem('lang') === 'en') ? 'Your Vocabulary Book is empty' : 'Dein Vokabelheft ist leer!';
       const text = (localStorage.getItem('lang') === 'en') ?
@@ -150,9 +145,11 @@ export class ListView {
       row = `<h2 class="message-empty">${message}</h2><div class="text-empty"><p>${text}</p></div>`;
       latestEntries.insertAdjacentHTML('beforeend', row);
     }
+
     return latestEntries;
   }
 
+  //info Überprüfung der Vokabeln auf Vorhandensein im Heft
   checkUserContent = (myContent, wordId) => {
     let result = false;
     myContent.forEach(content => {
@@ -163,6 +160,7 @@ export class ListView {
     return result;
   }
 
+  //info holen der Vokabeln aus der Datenbank
   getUsercontent = async (allUsers) => {
     const lang = localStorage.getItem('lang');
     let fetchId = this.userId;
