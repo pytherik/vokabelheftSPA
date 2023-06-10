@@ -37,7 +37,13 @@ if(!username) {
   const nameInput = document.getElementById('name');
   const passInput = document.getElementById('password');
   submit.addEventListener('click', async(e) => {
-    e.preventDefault();
+    if (nameInput.value.length < 3) {
+      document.getElementById('name-warning').innerText = 'midestens drei Buchstaben!';
+      e.preventDefault();
+    } else if( passInput.value.length < 6) {
+      document.getElementById('pass-warning').innerText = 'mindestens 6 Buchstaben!';
+      e.preventDefault();
+    } else {
     try {
       const formData = new FormData();
       formData.append('name', nameInput.value);
@@ -65,6 +71,7 @@ if(!username) {
       await loadStartPage();
     } catch (error) {
       console.log(error);
+    }
     }
   })
 } else {

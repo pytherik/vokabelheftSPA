@@ -7,11 +7,13 @@ export class Login {
     const formContainer = document.createElement('div');
     formContainer.className = 'form-container';
 
-    let form = `<label for="name">Name</label>`;
-    form += `<input type="text" name="name" id="name" autocomplete="off">`;
-    form += `<label for="password">Passwort</label>`;
-    form += `<input type="password" name="password" id="password">`;
-    form += `<button type="submit" id="formSubmit">bestätigen und los</button>`;
+    let form = `<label for="name">Name</label>
+                <span id="name-warning" class="warning"></span>
+                <input type="text" name="name" id="name" autocomplete="off">
+                <label for="password">Passwort</label>
+                <span id="pass-warning" class="warning"></span>
+                <input type="password" name="password" id="password">
+                <button type="submit" id="formSubmit">bestätigen und los</button>`;
 
     formContainer.insertAdjacentHTML('beforeend', form);
 
