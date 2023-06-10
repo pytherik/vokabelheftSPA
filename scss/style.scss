@@ -96,7 +96,15 @@ body {
     display: flex;
     justify-content: space-between;
   }
-
+  .message-empty {
+    text-align: center;
+  }
+  .text-empty {
+    padding: 3rem;
+    img {
+      width: 1rem;
+    }
+  }
   .word {
     font-size: 1.2rem;
     padding: .2rem 1rem;
@@ -107,7 +115,5 @@ body {
     font-size: .8rem;
   }
   }
-.hiddenLoader {
-  display: none;
-}
+
 @import 'media';

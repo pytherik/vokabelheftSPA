@@ -339,6 +339,15 @@ body {
   display: flex;
   justify-content: space-between;
 }
+.latest-entries .message-empty {
+  text-align: center;
+}
+.latest-entries .text-empty {
+  padding: 3rem;
+}
+.latest-entries .text-empty img {
+  width: 1rem;
+}
 .latest-entries .word {
   font-size: 1.2rem;
   padding: 0.2rem 1rem;
@@ -347,10 +356,6 @@ body {
 .latest-entries .author {
   line-height: 27px;
   font-size: 0.8rem;
-}
-
-.hiddenLoader {
-  display: none;
 }
 
 @media (max-width: 2000px) {

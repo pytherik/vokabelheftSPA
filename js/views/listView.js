@@ -1,4 +1,5 @@
-import {urlActionSwitch} from '../config.js';
+import {getUsercontent} from "../functions/userContent.js";
+
 const container = document.querySelector('.container');
 
 export class ListView {
@@ -75,11 +76,11 @@ export class ListView {
     let myContent;
     if (allUsers) {
       //info myContent wird benötigt um zu checken ob eine Vokabel schon im Heft ist
-      myContent = await this.getUsercontent(false)
+      myContent = await getUsercontent(false)
       lastestEntriesId = 'all-users-table';
       dataId = 'all-words-id'
     }
-    const userContent = await this.getUsercontent(allUsers);
+    const userContent = await getUsercontent(allUsers);
     console.log(userContent);
     const latestEntries = document.createElement('div');
     latestEntries.className = 'latest-entries';
@@ -137,6 +138,14 @@ export class ListView {
       }
       latestEntries.insertAdjacentHTML('beforeend', row);
     });
+      if (row === '') {
+        const message = (localStorage.getItem('lang') === 'en') ? 'Your Vocabulary Book is empty' : 'Dein Vokabelheft ist leer!';
+        const text = (localStorage.getItem('lang') === 'en') ?
+          `Create new vocabularies on your own or get some to your book by clicking the <img src="../assets/images/icons/add.png"> from all learners` :
+          `Erstelle eigene Vokabeln oder klicke das <img src="../assets/images/icons/add.png"> von allen Lernenden und hole sie in dein Heft!!`;
+        row = `<h2 class="message-empty">${message}</h2><div class="text-empty"><p>${text}</p></div>`;
+        latestEntries.insertAdjacentHTML('beforeend', row);
+      }
     return latestEntries;
   }
 
@@ -150,24 +159,24 @@ export class ListView {
     return result;
   }
 
-  getUsercontent = async (allUsers) => {
-    const lang = localStorage.getItem('lang');
-    let fetchId = this.userId;
-    if (allUsers) {
-      fetchId = 0;
-    }
-    try {
-      const formData = new FormData();
-      formData.append('action', 'getUserContent');
-      formData.append('userId', fetchId);
-      formData.append('lang', lang);
-      const response = await fetch(urlActionSwitch, {
-        body: formData,
-        method: 'POST'
-      });
-      return await response.json();
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // getUsercontent = async (allUsers) => {
+  //   const lang = localStorage.getItem('lang');
+  //   let fetchId = this.userId;
+  //   if (allUsers) {
+  //     fetchId = 0;
+  //   }
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append('action', 'getUserContent');
+  //     formData.append('userId', fetchId);
+  //     formData.append('lang', lang);
+  //     const response = await fetch(urlActionSwitch, {
+  //       body: formData,
+  //       method: 'POST'
+  //     });
+  //     return await response.json();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 }
