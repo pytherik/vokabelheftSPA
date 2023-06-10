@@ -32,7 +32,7 @@ export const loadLearnPage = async (mode) => {
   //info Seiteninhalt aufbauen
   const trainer = new LearnView(mode);
   await trainer.createStatisticsContainer();
-
+  await trainer.practice();
   //info Sprachbuttons holen
   const buttonDe = document.getElementById('lang-de');
   const buttonEn = document.getElementById('lang-en');

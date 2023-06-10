@@ -24,6 +24,7 @@ export const showTranslation = (translation, wordclass, authorName, description)
     if (wordclass === 'verb') wordclass = 'Verb';
     if (wordclass === 'noun') wordclass = 'Substantiv';
     if (wordclass === 'adjective') wordclass = 'Adjektiv';
+    if (wordclass === 'other') wordclass = 'Andere';
   }
   const translationsTxt = (localStorage.getItem('lang') === 'en') ? 'Translations': 'Überstzungen';
   const modal = document.querySelector('.modal-container');

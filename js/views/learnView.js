@@ -1,4 +1,5 @@
 import {urlActionSwitch} from "../config.js";
+import {loadLearnPage} from "../functions/loadLearnPage.js";
 
 const container = document.querySelector('.container');
 
@@ -45,12 +46,12 @@ export class LearnView {
     const table2 = this.buildTableElement(headerContent2, 'stats-total');
 
 
-    // info Statistik aufbauen für Session heute
+    //info Statistik aufbauen für Session heute
     let latestStats = await this.getLatestStats(this.date);
     table1.insertAdjacentElement('beforeend', latestStats);
     content.insertAdjacentElement('beforeend', table1);
 
-    // info Statistik aufbauen alle Sessions
+    //info Statistik aufbauen alle Sessions
     latestStats = await this.getLatestStats('0');
 
     table2.insertAdjacentElement('beforeend', latestStats);
@@ -77,7 +78,7 @@ export class LearnView {
     return latestStats;
   }
 
-  //info DB Abfrage nach Datum
+  //info verschiedene DB Abfrage je nach Datum
   getStatistics = async (date) => {
     try {
       const formData = new FormData();
@@ -92,5 +93,26 @@ export class LearnView {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  practice = async () => {
+   const questContainer = document.createElement('div');
+   questContainer.className = 'question';
+   const word = 'schaeilnsicola';
+   const questionTxt = (localStorage.getItem('lang') === 'en') ? 'What is the translation for the word' : 'Wie lautet die Übersetzung für';
+   const checkAnswer = (localStorage.getItem('lang') === 'en') ? 'verify answer' : 'Antwort prüfen';
+
+   const question = `<div class="question">${questionTxt} '${word}'?</div>
+                     <div class="answer"><input type="text" id="answer" autofocus autocomplete="off"></div>`;
+
+   const submit = `<button class="btn-answer btn-green-big">${checkAnswer}</button>`;
+   questContainer.insertAdjacentHTML('beforeend', question);
+   container.insertAdjacentElement('beforeend', questContainer);
+   container.insertAdjacentHTML('beforeend', submit);
+   const answerButton = document.querySelector('.btn-answer');
+   answerButton.addEventListener('click', () => {
+     console.log(this.mode);
+     loadLearnPage();
+   });
   }
 }

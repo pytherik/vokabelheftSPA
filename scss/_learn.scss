@@ -21,3 +21,24 @@
     justify-content: space-between;
   }
 }
+
+.btn-answer {
+  width: 30%;
+}
+
+.question {
+  font-size: 2.3rem;
+  margin-bottom: 1.4rem;
+}
+
+.answer {
+  text-align: center;
+}
+#answer {
+  font-size: 2.3rem;
+  color: #ddd;
+  outline: none;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}

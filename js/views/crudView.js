@@ -11,7 +11,7 @@ export class CrudView {
 
     const translation = `<div class="input-element additional">
                            <input type="text" class="modal-input" autocomplete="off">
-                            <button class="btn-modal btn-delete">-</button>
+                            <button class="btn-modal btn-delete">&#10006;</button>
                           </div>`;
 
     translationEl.insertAdjacentHTML('beforeend', translation);
@@ -151,6 +151,7 @@ export class CrudView {
         if (wordclass === 'noun') wordclass = 'Substantiv';
         if (wordclass === 'verb') wordclass = 'Verb';
         if (wordclass === 'adjective') wordclass = 'Adjektiv';
+        if (wordclass === 'other') wordclass = 'Andere';
       }
       noBorder = ' no-border';
       disabled = 'disabled';
@@ -161,7 +162,10 @@ export class CrudView {
       wordValue = translation.word;
     }
     modal.style.display = 'block';
-
+    const noun = (localStorage.getItem('lang') === 'en') ? 'noun' : 'Substantiv';
+    const verb = (localStorage.getItem('lang') === 'en') ? 'verb' : 'Verb';
+    const adjective = (localStorage.getItem('lang') === 'en') ? 'adjective' : 'Adjektiv';
+    const other = (localStorage.getItem('lang') === 'en') ? 'other' : 'Andere';
 
     const quitButton = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">`;
     const authorContent = `<div><div class="modal-author">${authorTxt}: ${author}</div>`
@@ -173,16 +177,17 @@ export class CrudView {
     const wordclassCheck = `<div class="modal-heading">${wordclassTxt}: ${wordclass}</div>
                               <span id="radio-warning" class="warning" hidden>${radioWarning}</span>
                               <div ${hidden}>
-                                <input type="radio" value="noun" name="class"> noun
-                                <input type="radio" value="verb" name="class"> verb
-                                <input type="radio" value="adjective" name="class"> adjective
+                                <input type="radio" value="noun" name="class"> ${noun}
+                                <input type="radio" value="verb" name="class"> ${verb}
+                                <input type="radio" value="adjective" name="class"> ${adjective}
+                                <input type="radio" value="other" name="class"> ${other}
                               </div>`
     const translation = `<div>
                            <div class="modal-heading">${translationTxt}: </div>
                            <span id="translation-warning" class="warning" hidden>${wordWarning}<br></span>
                            <input type="text" class="modal-input${noBorder}" value="${translations[0]}" 
                            autocomplete="off" ${disabled}>
-                           <button class="btn-modal btn-next" ${hidden}>+</button>
+                           <button class="btn-modal btn-next" ${hidden}>&#43;</button>
                          </div>`;
 
     const textArea = `<div class="modal-description">${descriptionTxt}</div>
@@ -214,11 +219,11 @@ export class CrudView {
     innerModal.insertAdjacentHTML('beforeend', textArea);
     innerModal.insertAdjacentElement('beforeend', submit);
 
-    //info hinzufügen einer weiteren Übersetzung
+    //info hinzufügen einer weiteren Übersetzung, 4 ist Maximum
     const nextButton = document.querySelector('.btn-next');
     nextButton.addEventListener('click', () => {
       const numTranslations = document.querySelectorAll('.input-element').length;
-      if (numTranslations < 4) {
+      if (numTranslations < 3) {
         inputsContainer.insertAdjacentElement('beforeend', this.buildInput());
       }
       //info Eventlistener zum Entfernen von Einträgen

@@ -103,7 +103,7 @@
 .inner-edit-modal {
   background-color: #41644A;
   width: 25%;
-  height: 30rem;
+  height: 32rem;
   border-radius: 0.2rem;
   margin: 30vh auto;
   padding: 0.5rem;
@@ -140,6 +140,7 @@
 
 .modal-native,
 .modal-input {
+  margin-bottom: 0.5rem;
   background: transparent;
   font-family: inherit;
   font-size: 1.2rem;
@@ -197,9 +198,23 @@ textarea {
 }
 
 .btn-modal {
-  width: 1rem;
-  height: 1rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  font-weight: bold;
+  border: none;
   border-radius: 50%;
+}
+
+.btn-next {
+  color: #000;
+  background-color: rgba(136, 172, 120, 0.7333333333);
+}
+
+.btn-delete {
+  color: #555;
+  width: 1.2rem;
+  height: 1.2rem;
+  background-color: rgba(234, 144, 108, 0.7333333333);
 }
 
 .btn-submit {
@@ -268,6 +283,28 @@ textarea {
 .latest-stats div {
   display: flex;
   justify-content: space-between;
+}
+
+.btn-answer {
+  width: 30%;
+}
+
+.question {
+  font-size: 2.3rem;
+  margin-bottom: 1.4rem;
+}
+
+.answer {
+  text-align: center;
+}
+
+#answer {
+  font-size: 2.3rem;
+  color: #ddd;
+  outline: none;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #ddd;
 }
 
 * {

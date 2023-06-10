@@ -31,7 +31,7 @@ CREATE TABLE english_german
     created_by INT,
     english_id INT,
     german_id  INT,
-    wordclass  ENUM ('verb', 'noun', 'adjective')
+    wordclass  ENUM ('verb', 'noun', 'adjective', 'other')
 );
 
 CREATE TABLE user_pool
