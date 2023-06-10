@@ -1,7 +1,6 @@
 import {headerElements} from "../elements/headerElements.js";
 import {navElements} from "../elements/navElements.js";
 import {LearnView} from "../views/learnView.js";
-import {session} from "../config.js";
 import {loadStartPage} from "./loadStartPage.js";
 import {logout} from "./logout.js";
 
@@ -9,6 +8,7 @@ const container = document.querySelector('.container');
 const title = document.querySelector('title');
 
 export const loadLearnPage = async (mode) => {
+  const username = localStorage.getItem('username');
   let page = '';
   title.innerText = 'Learn'
   container.innerHTML = '';
@@ -16,12 +16,12 @@ export const loadLearnPage = async (mode) => {
   //info mode für Lernmodus: eigene (false) oder alle (true) Vokabeln
   if (mode) {
      page = (localStorage.getItem('lang') === 'en') ?
-       `Hello ${session.username}! Practice all learners' vocabulary`:
-       `Hallo ${session.username}! Übe die Vokabeln aller Lernenden`;
+       `Hello ${username}! Practice all learners' vocabulary`:
+       `Hallo ${username}! Übe die Vokabeln aller Lernenden`;
   } else {
      page = (localStorage.getItem('lang') === 'en') ?
-       `Hello ${session.username}! Practice your vocabulary`:
-       `Hallo ${session.username}! Übe deine Vokabeln`;
+       `Hello ${username}! Practice your vocabulary`:
+       `Hallo ${username}! Übe deine Vokabeln`;
   }
 
   //info Navigation und Übeschriften erstellen

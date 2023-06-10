@@ -99,7 +99,7 @@ export class ListView {
                   <span class="word" data-${dataId}="${content.word_id}" 
                                      data-wordclass="${content.wordclass}"
                                      data-author-name="${content.author_name}">
-                    ${idx + 1}. ${content.word} (${content.wordclass.slice(0, 1)})
+                    <span class="right">${('0' + Number(idx+1)).slice(-2)}.<small><em>(${content.wordclass.slice(0, 1)})</small></em><span> ${content.word}
                   </span>
                 </div>
               <div>
