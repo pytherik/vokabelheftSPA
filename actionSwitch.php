@@ -5,9 +5,6 @@ spl_autoload_register(function ($class) {
   include sprintf('classes/%s.php', $class);
 });
 
-//$action = 'getUserContent';
-//$_POST['userId'] = 1;
-//$_POST['lang'] = 'de';
 $action = $_POST['action'];
 switch ($action) {
   case 'userLogin':
@@ -80,6 +77,12 @@ switch ($action) {
     $lang = $_POST['lang'];
     $description = $_POST['description'];
     $response = (new UserPool())->updateDescription($userId, $wordId, $lang, $description);
+    echo json_encode($response);
+    break;
+  case 'getStatistics':
+    $userId = $_POST['userId'];
+    $date = $_POST['date'];
+    $response = (new Statistics())->getStatistics($userId, $date);
     echo json_encode($response);
     break;
   default:

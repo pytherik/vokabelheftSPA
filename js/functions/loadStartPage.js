@@ -5,21 +5,22 @@ import {CrudView} from "../views/crudView.js";
 import {getTranslation, showTranslation} from "./translateFunctions.js";
 import {getDescription} from "./getDescription.js";
 import {session} from "../config.js";
+import {loadLearnPage} from "./loadLearnPage.js";
 
 const container = document.querySelector('.container');
 const title =  document.querySelector('title');
 
 export const loadStartPage = async () => {
+
   title.innerText = 'Start'
   container.innerHTML = '';
   const page = (localStorage.getItem('lang') === 'en') ? 'last added': 'zuletzt hinzugefügt';
   navElements();        // language Flag-Buttons, create new entry, logout
   headerElements(page); // Überschriften
-
   const starter = new ListView();
 
   //info firstBuild=true: erster Aufruf erstellt .content
-  await starter.createListContainer(true);
+  await starter.createListContainer();
 
   const buttonDe = document.getElementById('lang-de');
   const buttonEn = document.getElementById('lang-en');
@@ -47,10 +48,12 @@ export const loadStartPage = async () => {
 
   buttonUser.addEventListener('click', () => {
     console.log('btn-user clicked');
+    loadLearnPage(false);
   })
 
   buttonAllUsers.addEventListener('click', () => {
     console.log('btn-all-users clicked');
+    loadLearnPage(true);
   })
 
 

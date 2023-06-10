@@ -68,6 +68,7 @@ if(!username) {
       localStorage.setItem('userId', user.id);
       localStorage.setItem('lang', 'en');
       localStorage.setItem('date', dateTime);
+      localStorage.setItem('registeredAt', user.registered_at);
       await loadStartPage();
     } catch (error) {
       console.log(error);

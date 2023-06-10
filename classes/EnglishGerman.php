@@ -80,15 +80,30 @@ class EnglishGerman
           $stmt = $dbh->prepare($sql);
           $stmt->bindParam('createdAt', $createdAt);
           $stmt->bindParam('createdBy', $authorId);
+
+          $sql2 = ($lang === 'en') ? INSERT_GERMAN_INTO_USER_POOL : INSERT_ENGLISH_INTO_USER_POOL;
+          $stmt2 = $dbh->prepare($sql2);
+          $stmt2->bindParam('user_id', $authorId);
+          $stmt2->bindParam('added_at', $createdAt);
+
           if ($lang === 'en') {
             $stmt->bindParam('english_id', $wordId);
             $stmt->bindParam('german_id', $translationId);
+
+            $stmt2->bindParam('german_id', $translationId);
           } else {
             $stmt->bindParam('english_id', $translationId);
             $stmt->bindParam('german_id', $wordId);
+
+            $stmt2->bindParam('english_id', $translationId);
           }
           $stmt->bindParam('wordclass', $wordclass);
+
+          $empty = '';
+          $stmt2->bindParam('description', $empty);
+
           $stmt->execute();
+          $stmt2->execute();
         }
         $sql = ($lang === 'en') ? INSERT_ENGLISH_INTO_USER_POOL: INSERT_GERMAN_INTO_USER_POOL;
         $stmt = $dbh->prepare($sql);

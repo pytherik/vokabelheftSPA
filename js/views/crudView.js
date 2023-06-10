@@ -50,11 +50,11 @@ export class CrudView {
     }
   }
 
-  validateInput(word,translations) {
+  validateInput(word, translations) {
     const radios = document.getElementsByName('class');
     let radioCheck = false;
     radios.forEach(radio => {
-      if (radio.checked === true){
+      if (radio.checked === true) {
         radioCheck = true;
       }
     })
@@ -87,7 +87,7 @@ export class CrudView {
     console.log(localStorage.getItem('lang'));
     const word = document.getElementById('word').value;
     const translations = document.querySelectorAll('.modal-input');
-    if (!this.validateInput(word, translations)){
+    if (!this.validateInput(word, translations)) {
       return;
     }
     const translationsArr = [];
@@ -119,18 +119,20 @@ export class CrudView {
     console.log(wordclass);
     console.log(translationsArr);
     console.log(description);
+    this.clearModal();
+    loadStartPage();
   }
 
 
-  async buildCreateForm(wordId=0, wordclass='', authorName='') {
+  async buildCreateForm(wordId = 0, wordclass = '', authorName = '') {
     const lang = localStorage.getItem('lang');
     console.log(lang);
     let wordTxt = (lang === 'en') ? 'New english word' : 'Neues deutsches Wort';
-    const authorTxt = (lang === 'en') ? 'Author': 'Autor';
+    const authorTxt = (lang === 'en') ? 'Author' : 'Autor';
     const author = (authorName === '') ? session.username : authorName;
     const wordclassTxt = (lang === 'en') ? 'Wordclass' : 'Wortart';
     const translationTxt = (lang === 'en') ? 'Translations' : 'Bedeutungen';
-    const descriptionTxt = (lang === 'en') ? 'Description': 'Beschreibung';
+    const descriptionTxt = (lang === 'en') ? 'Description' : 'Beschreibung';
     const radioWarning = (lang === 'en') ? 'chose a wordclass' : 'wähle eine Wortart';
     const wordWarning = (lang === 'en') ? 'you must put sth. here!' : 'du musst etwas eintragen!';
     const modal = document.querySelector('.modal-container');
@@ -142,13 +144,13 @@ export class CrudView {
     let hidden = '';
     let wordValue = ''
     let noBorder = '';
-    if(wordId > 0) {
+    if (wordId > 0) {
       innerModal.className = 'inner-edit-modal';
       wordTxt = (lang === 'en') ? 'Edit description for' : 'Beschreibung ändern';
       if (lang === 'de') {
-        if(wordclass === 'noun') wordclass = 'Substantiv';
-        if(wordclass === 'verb') wordclass = 'Verb';
-        if(wordclass === 'adjective') wordclass = 'Adjektiv';
+        if (wordclass === 'noun') wordclass = 'Substantiv';
+        if (wordclass === 'verb') wordclass = 'Verb';
+        if (wordclass === 'adjective') wordclass = 'Adjektiv';
       }
       noBorder = ' no-border';
       disabled = 'disabled';
@@ -234,27 +236,37 @@ export class CrudView {
     submit.addEventListener('click', () => {
       if (wordId === 0) {
         this.createNewWord();
-        clearModal();
-        loadStartPage();
+        // this.clearModal();
+        // loadStartPage();
       } else {
         this.updateDescription(wordId);
-        clearModal();
+        this.clearModal();
         loadStartPage();
       }
     })
 
     const quit = document.getElementById('quit');
     quit.addEventListener('click', () => {
-      clearModal();
+      this.clearModal();
     })
 
-    const clearModal = () => {
-      innerModal.innerHTML = '';
-      //info className zurücksetzten, damit querySelect funktioniert
-      // (wurde in inner-show-modal geändert, um Darstellung anzupassen)
-      innerModal.className = 'inner-modal';
-      modal.style.display = 'none';
-    }
+    // const clearModal = () => {
+    //   innerModal.innerHTML = '';
+    //   //info className zurücksetzten, damit querySelect funktioniert
+    //   // (wurde in inner-show-modal geändert, um Darstellung anzupassen)
+    //   innerModal.className = 'inner-modal';
+    //   modal.style.display = 'none';
+    // }
+  }
+
+  clearModal = () => {
+    const modal = document.querySelector('.modal-container');
+    const innerModal = document.querySelector('.inner-modal');
+    innerModal.innerHTML = '';
+    //info className zurücksetzten, damit querySelect funktioniert
+    // (wurde in inner-show-modal geändert, um Darstellung anzupassen)
+    innerModal.className = 'inner-modal';
+    modal.style.display = 'none';
   }
 
   async addWordToUserPool(wordId, description = '') {

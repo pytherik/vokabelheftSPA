@@ -44,7 +44,7 @@ CREATE TABLE user_pool
     description VARCHAR(256)
 );
 
-CREATE TABLE tested
+CREATE TABLE statistics
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
     user_id    INT,
@@ -123,7 +123,7 @@ VALUES (NULL, 1, '2022-03-01', 1, NULL, NULL),
        (NULL, 2, '2022-04-08', NULL, 2, NULL),
        (NULL, 3, '2022-04-08', NULL, 5, 'Nahrung');
 
-INSERT INTO tested
+INSERT INTO statistics
 VALUES (NULL, 1, '2022-04-06 18:52:00', 4, NULL, TRUE),
        (NULL, 1, '2022-04-06 18:52:00', 3, NULL, FALSE),
        (NULL, 1, '2022-04-06 18:52:00', 2, NULL, TRUE),
@@ -151,7 +151,7 @@ ALTER TABLE user_pool
     ADD FOREIGN KEY (english_id) REFERENCES english (id),
     ADD FOREIGN KEY (german_id) REFERENCES german (id);
 
-ALTER TABLE tested
+ALTER TABLE statistics
     ADD FOREIGN KEY (user_id) REFERENCES user (id),
     ADD FOREIGN KEY (english_id) REFERENCES english (id),
     ADD FOREIGN KEY (german_id) REFERENCES german (id);

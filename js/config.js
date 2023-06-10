@@ -3,4 +3,6 @@ export const session = {
   'userId': localStorage.getItem('userId'),
   'username': localStorage.getItem('username'),
   'date': localStorage.getItem('date'),
-  'lang': localStorage.getItem('lang')};
+  // 'date': '2022-04-06 18:52:00',
+  'lang': localStorage.getItem('lang'),
+  'registeredAt': localStorage.getItem('registeredAt')};

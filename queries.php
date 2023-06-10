@@ -123,3 +123,23 @@ const UPDATE_GERMAN_DESCRIPTION = "
 UPDATE user_pool 
 SET description = :description 
 WHERE user_id = :userId AND german_id = :wordId";
+
+//info statistics of today
+const GET_SESSION_STATISTICS = "
+SELECT count(is_correct) AS is_right,
+       (SELECT count(is_correct) FROM statistics
+                                 WHERE user_id = :userId
+                                   AND tested_at = :date) AS total
+FROM statistics WHERE tested_at = :date
+                  AND is_correct = 1
+                  AND user_id = :userId;
+";
+
+//info statistics in total
+const GET_USER_STATISTICS = "
+SELECT count(is_correct) AS is_right,
+       (SELECT count(is_correct) FROM statistics
+                                 WHERE user_id = :userId) AS total
+FROM statistics WHERE is_correct = 1
+                  AND user_id = :userId;
+";
