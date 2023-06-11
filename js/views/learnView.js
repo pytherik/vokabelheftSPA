@@ -6,6 +6,7 @@ const container = document.querySelector('.container');
 
 export class LearnView {
   constructor(mode) {
+    //info Boolean mode entscheidet ob Heft- oder alle Vokabeln gelernt werden (true = alle)
     this.mode = mode;
     this.userId = localStorage.getItem('userId');
     this.username = localStorage.getItem('username');
@@ -100,8 +101,10 @@ export class LearnView {
     const lang = localStorage.getItem('lang');
     const questContainer = document.createElement('div');
     questContainer.className = 'question';
+    //info hole Zufallswort
     const wordData = await this.getRandomWord();
-    console.log(wordData);
+
+    //info Textinhalte nach Sprachmodus festlegen
     let wordclassTxt = `Wordclass: ${wordData.wordclass}`;
     const word = wordData.word;
     let answerWarning = ''
@@ -114,9 +117,11 @@ export class LearnView {
       if (wordclassTxt === 'Wordclass: adjective') wordclassTxt = 'Wortart: Adjektiv';
       if (wordclassTxt === 'Wordclass: other') wordclassTxt = 'Wortart: Andere';
     }
+
+    //info Aufbau der Abfrage-Sektion
     const question = `<div class="wordclass">${wordclassTxt}</div>
                       <div class="question">${questionTxt} '${word}'?</div>
-                      <div class="answer"><input type="text" id="answer" autofocus autocomplete="off"></div>`;
+                      <div class="answer"><input type="text" id="answer" autocomplete="off"></div>`;
 
     const submit = `<button class="btn-answer btn-green-big">${checkAnswer}</button>
                    <div class="answer-warning">
@@ -125,6 +130,11 @@ export class LearnView {
     questContainer.insertAdjacentHTML('beforeend', question);
     container.insertAdjacentElement('beforeend', questContainer);
     container.insertAdjacentHTML('beforeend', submit);
+
+    //info Autofocus auf das Input-Feld legen
+    document.getElementById('answer').focus();
+
+    //info Prüfen ob etwas eingegeben wurde, Warnmitteilung geben
     const answerButton = document.querySelector('.btn-answer');
     answerButton.addEventListener('click', () => {
       const answer = document.getElementById('answer').value;
@@ -140,6 +150,7 @@ export class LearnView {
     });
   }
 
+  //info Zufallswort aus DB holen
   getRandomWord = async () => {
     try {
       const mode = this.mode ? 'true' : 'false';
@@ -158,6 +169,7 @@ export class LearnView {
     }
   }
 
+  //info die Antwort prüfen und Success-Modale aufrufen
   verifyAnswer = async (wordData, answer) => {
     if (wordData.translations.includes(answer)) {
       const result = await this.updateStatistics(wordData, true);
@@ -170,6 +182,7 @@ export class LearnView {
     }
   }
 
+  //info Ergebnis in DB statistics Tabelle speichern
   updateStatistics = async (wordData, isCorrect) => {
     const isRight = isCorrect ? 'true' : 'false';
     try {
@@ -190,11 +203,13 @@ export class LearnView {
     }
   }
 
+  //info Success-Modal erstellen
   showSuccess = (wordData, answer, isCorrect) => {
     const lang = localStorage.getItem('lang');
     let heading = '';
     let comment = '';
     let hint = '';
+    //info Boolean isCorrect entscheidet über Inhalt, Inhalt nach Sprache erzeugen
     if (isCorrect) {
       heading = (lang === 'en') ? 'Congratulations!' : 'Glückwunsch!';
       comment = (lang === 'en') ?
@@ -220,13 +235,16 @@ export class LearnView {
 
     const nextBtnTxt = (lang === 'en') ? 'go on' : 'weiter';
     const backBtnTxt = (lang === 'en') ? 'stop it' : 'aufhören';
+
+    //info DOM Modal Elemente holen und Inhalte einfügen
     const modal = document.querySelector('.modal-container');
     modal.style.display = 'block';
     const innerModal = document.querySelector('.inner-modal');
     innerModal.className = 'inner-success-modal';
     let modalContent = `<div><h1 class="success-heading">${heading}</h1>
                         <h2 class="success-comment">${comment}</h2>
-                        <div class="success-hint">${hint}</div>`;
+                        <div class="success-hint">${hint}</div></div>`;
+    //info wenn Antwort richtig war nur weitere Übersetzungen anzeigen, sonst alle
     if (isCorrect && wordData.translations.length > 1 || !isCorrect) {
       modalContent += `<div><ul class="modal-list">`;
       const j = isCorrect ? 1 : 0;
@@ -240,8 +258,11 @@ export class LearnView {
                        <button class="btn-success" id="back-btn">${backBtnTxt}</button></div></div>`;
     innerModal.insertAdjacentHTML('beforeend', modalContent);
     modal.insertAdjacentElement('beforeend', innerModal);
+
     const nextBtn = document.getElementById('next-btn');
     const backBtn = document.getElementById('back-btn');
+    //info Fokus auf Weiterlernen legen, je nach click verschiedene Seiten (learn oder start aufrufen)
+    nextBtn.focus();
     nextBtn.addEventListener('click', () => {
       this.clearModal();
       loadLearnPage(this.mode);
@@ -252,6 +273,7 @@ export class LearnView {
     })
   }
 
+  //info Funktion löscht Modal und setzt die css Klasse auf Original zurück (.inner-modal)
   clearModal = () => {
     const modal = document.querySelector('.modal-container');
     const innerModal = document.querySelector('.inner-success-modal');

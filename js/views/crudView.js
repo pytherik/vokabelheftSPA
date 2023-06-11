@@ -5,6 +5,7 @@ import {getDescription} from "../functions/getDescription.js";
 
 export class CrudView {
 
+  //info Erstellen zusätzlicher Inputs für mehr Übersetzungen incl. Delete zum Entfernen
   buildInput = () => {
     const translationEl = document.createElement('div');
     translationEl.className = 'input-container';
@@ -18,6 +19,7 @@ export class CrudView {
     return translationEl;
   }
 
+  //info im Edit Modus werden die Übersetzungen nur angezeigt, sind nicht veränderbar
   addTranslation = (translationValue) => {
     const translationEl = document.createElement('div');
     translationEl.className = 'input-container';
@@ -30,6 +32,7 @@ export class CrudView {
     return translationEl;
   }
 
+  //info Ablegen der im Edit erstellten oder geänderten Description in DB
   async updateDescription(wordId) {
     const description = document.querySelector('.modal-textarea').value;
     try {
@@ -50,6 +53,7 @@ export class CrudView {
     }
   }
 
+  //info Überprüfen der Eingaben im Create Modus und Ausgabe von Warnungen
   validateInput(word, translations) {
     const radios = document.getElementsByName('class');
     let radioCheck = false;
@@ -82,6 +86,9 @@ export class CrudView {
     return true;
   }
 
+  //info Überprüfung einer im Gesamtbestand befindlichen Vokabel
+  // auf Vorhandensein im UserPool beim Versuch sie neu zu Erstellen,
+  // um sie diesem hinzuzufügen falls nicht
   async wordInUserPool(lang, userId, wordId) {
     try {
       const formData = new FormData();
@@ -99,11 +106,13 @@ export class CrudView {
     }
   }
 
+  //info Aufnehmen einer neuen Vokabel in DB
   async createNewWord() {
     const lang = localStorage.getItem('lang');
     const word = document.getElementById('word').value;
     let wordId = 0;
     let newWordMessage = '';
+    //info Holen aller Werte aus den Input-Feldern
     const translations = document.querySelectorAll('.modal-input');
     if (!this.validateInput(word, translations)) {
       return;
@@ -132,9 +141,12 @@ export class CrudView {
     } catch (error) {
       console.log(error);
     }
+    //info wenn der Rückgabewert der DB Abfrage > 0 ist, ist die Vokabel schon vorhanden,
     if(Number(wordId) > 0) {
+      //info dann wird überprüft, ob sie im Heft ist
       const wordInBook = await this.wordInUserPool(lang, session.userId, wordId);
       if(wordInBook === 'false') {
+        //info und entweder diesem hinzugefügt oder nicht
         await this.addWordToUserPool(wordId);
         newWordMessage = (lang === 'en') ?
           'The word already exists. It\'s been added to your book':
@@ -150,6 +162,7 @@ export class CrudView {
         'Das Wort ist jetzt im Heft und in der Sammlung';
     }
 
+    //info Die Messages sind für 2 Sekunden sichtbar, dann wird Anzeige gelöscht
     document.querySelector('.new-word-message').innerText = `${newWordMessage}`;
     setTimeout(() => {
       this.clearModal();
@@ -157,10 +170,9 @@ export class CrudView {
     }, 2000);
   }
 
-
+  //info Aufbauen des Create Formulars, setzen und Vorbereiten benötigter Variablen
   async buildCreateForm(wordId = 0, wordclass = '', authorName = '') {
     const lang = localStorage.getItem('lang');
-    console.log(lang);
     let wordTxt = (lang === 'en') ? 'New english word' : 'Neues deutsches Wort';
     const authorTxt = (lang === 'en') ? 'Author' : 'Autor';
     const author = (authorName === '') ? session.username : authorName;
@@ -178,6 +190,7 @@ export class CrudView {
     let hidden = '';
     let wordValue = ''
     let noBorder = '';
+    //info Edit-Modus tritt ein, wenn eine wortId vorhanden ist (0 bedeutet nicht vorhanden)
     if (wordId > 0) {
       innerModal.className = 'inner-edit-modal';
       wordTxt = (lang === 'en') ? 'Edit description for' : 'Beschreibung ändern';
@@ -187,6 +200,8 @@ export class CrudView {
         if (wordclass === 'adjective') wordclass = 'Adjektiv';
         if (wordclass === 'other') wordclass = 'Andere';
       }
+      //info alle Informationen bereitstellen um vorhandene Werte anzuzeigen und nur das
+      // editieren der Description zuzulassen
       noBorder = ' no-border';
       disabled = 'disabled';
       hidden = 'hidden';
@@ -312,8 +327,9 @@ export class CrudView {
     modal.style.display = 'none';
   }
 
+  //info Wort kommt ins Heft, nach Dücken des plus Buttons oder im Fall
+  // des Versuchs eine Vokabel zu erstellen die schon existiert
   async addWordToUserPool(wordId, description = '') {
-    console.log(wordId, description);
     const lang = localStorage.getItem('lang');
     try {
       const formData = new FormData();
@@ -328,15 +344,14 @@ export class CrudView {
         method: 'POST'
       })
       const data = await result.json();
-      console.log(data);
       loadStartPage();
     } catch (error) {
       console.log(error);
     }
   }
 
+  //info minus-Button wurde gedrückt, Vokabel wird aus Heft entfernt
   async removeWordFromUserPool(wordId) {
-    console.log(wordId)
     try {
       const formData = new FormData();
       formData.append('action', 'removeWordFromUserPool');
@@ -347,7 +362,6 @@ export class CrudView {
         method: 'POST'
       })
       const data = await result.json();
-      console.log(data);
       loadStartPage();
     } catch (error) {
       console.log(error);
