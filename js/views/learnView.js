@@ -150,7 +150,6 @@ export class LearnView {
   }
 
   verifyAnswer = async (wordData, answer) => {
-    console.log(wordData, 'from verifyAnswer');
     if (wordData.translations.includes(answer)) {
       const result = await this.updateStatistics(wordData, true);
       console.log(result);
@@ -191,39 +190,45 @@ export class LearnView {
       heading = (lang === 'en') ? 'Congratulations!' : 'Glückwunsch!';
       comment = (lang === 'en') ?
         `${answer} is correct!` : `${answer} ist korrekt!`
+      if (wordData.translations.length > 1) {
+        hint = (lang === 'en') ?
+          `There are further translations for the word ${wordData.word}` :
+          `Es gibt noch mehr Übersetzungen für das Wort ${wordData.word}`;
+      } else {
+        hint = (lang === 'en') ?
+          `No further translations for ${wordData.word}!` :
+          `Keine weiteren Übersetzungen für ${wordData.word}`;
+      }
     } else {
+      hint = (lang === 'en') ?
+        `Correct translation(s) for ${wordData.word}:` :
+        `Korrekte Übersetzung(en) für ${wordData.word}`;
+
       heading = (lang === 'en') ? 'WTF!' : 'Hmpf!';
       comment = (lang === 'en') ?
         `${answer} is wrong!` : `${answer} ist falsch!`
     }
 
-    if (wordData.translations.length > 1) {
-      hint = (lang === 'en') ?
-        `There are further translations for the word ${wordData.word}` :
-        `Es gibt noch mehr Übersetzungen für das Wort ${wordData.word}`;
-    } else {
-      hint = (lang === 'en') ?
-        `No further translations for ${wordData.word}!` :
-        `Keine weiteren Übersetzungen für ${wordData.word}`;
-    }
     const nextBtnTxt = (lang === 'en') ? 'go on' : 'weiter';
     const backBtnTxt = (lang === 'en') ? 'stop it' : 'aufhören';
     const modal = document.querySelector('.modal-container');
     modal.style.display = 'block';
     const innerModal = document.querySelector('.inner-modal');
-    let modalContent = `<h1 class="success-heading">${heading}</h1>
+    innerModal.className = 'inner-success-modal';
+    let modalContent = `<div><h1 class="success-heading">${heading}</h1>
                         <h2 class="success-comment">${comment}</h2>
                         <div class="success-hint">${hint}</div>`;
-    if (wordData.translations.length > 1) {
-      modalContent += `<ul class="modal-list">`;
-      for (let i = 1; i < wordData.translations.length; i++) {
+    if (isCorrect && wordData.translations.length > 1 || !isCorrect) {
+      modalContent += `<div><ul class="modal-list">`;
+      const j = isCorrect ? 1 : 0;
+      for (let i = j; i < wordData.translations.length; i++) {
         modalContent += `<li class="list-item">${wordData.translations[i]}</li>`;
       }
-      modalContent += `</ul>`;
+      modalContent += `</ul></div></div>`;
     }
     modalContent += `<div class="modal-buttons">
-                       <button id="next-btn">${nextBtnTxt}</button>
-                       <button id="back-btn">${backBtnTxt}</button>`;
+                       <button class="btn-success" id="next-btn">${nextBtnTxt}</button>
+                       <button class="btn-success" id="back-btn">${backBtnTxt}</button></div></div>`;
     innerModal.insertAdjacentHTML('beforeend', modalContent);
     modal.insertAdjacentElement('beforeend', innerModal);
     const nextBtn = document.getElementById('next-btn');
@@ -240,7 +245,7 @@ export class LearnView {
 
   clearModal = () => {
     const modal = document.querySelector('.modal-container');
-    const innerModal = document.querySelector('.inner-modal');
+    const innerModal = document.querySelector('.inner-success-modal');
     innerModal.innerHTML = '';
     //info className zurücksetzten, damit querySelect funktioniert
     // (wurde in inner-show-modal geändert, um Darstellung anzupassen)

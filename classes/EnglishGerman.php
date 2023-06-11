@@ -43,16 +43,15 @@ class EnglishGerman
                                 $description): string
   {
     try {
-      $response = 'Das neue Wort wurde hinzugefügt';
+      $response = '0';
       $dbh = DBConnect::connect();
-
       $sql = ($lang === 'en') ? ENGLISH_WORD_EXISTS : GERMAN_WORD_EXISTS;
       $stmt = $dbh->prepare($sql);
       $stmt->bindParam('word', $word);
       $stmt->bindParam('wordclass', $wordclass);
       $stmt->execute();
       if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $response = 'Dieses Wort ist schon in der Sammlung!';
+        $response = $row['id'];
       } else {
         $sql = ($lang === 'en') ? INSERT_ENGLISH_WORD : INSERT_GERMAN_WORD;
         $stmt = $dbh->prepare($sql);

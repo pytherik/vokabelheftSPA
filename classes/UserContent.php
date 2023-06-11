@@ -45,7 +45,6 @@ class UserContent implements JsonSerializable
     }
   }
 
-
   public function getAllAsObjects(int $id, string $lang): array
   {
     try {

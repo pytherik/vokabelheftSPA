@@ -82,10 +82,28 @@ export class CrudView {
     return true;
   }
 
+  async wordInUserPool(lang, userId, wordId) {
+    try {
+      const formData = new FormData();
+      formData.append('action', 'getSinglePoolObject');
+      formData.append('lang', lang);
+      formData.append('userId', userId);
+      formData.append('wordId', wordId);
+      const response = await fetch(urlActionSwitch, {
+        body: formData,
+        method: 'POST'
+      })
+      return await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async createNewWord() {
-    console.log('okay clicked');
-    console.log(localStorage.getItem('lang'));
+    const lang = localStorage.getItem('lang');
     const word = document.getElementById('word').value;
+    let wordId = 0;
+    let newWordMessage = '';
     const translations = document.querySelectorAll('.modal-input');
     if (!this.validateInput(word, translations)) {
       return;
@@ -101,7 +119,7 @@ export class CrudView {
       formData.append('action', 'createNewWord');
       formData.append('authorId', session.userId);
       formData.append('createdAt', session.date);
-      formData.append('lang', localStorage.getItem('lang'));
+      formData.append('lang', lang);
       formData.append('word', word);
       formData.append('wordclass', wordclass);
       formData.append('translations', JSON.stringify(translationsArr));
@@ -110,17 +128,33 @@ export class CrudView {
         body: formData,
         method: 'POST'
       })
-      const data = await result.json();
-      console.log(data);
+      wordId = await result.json();
     } catch (error) {
       console.log(error);
     }
-    console.log(word);
-    console.log(wordclass);
-    console.log(translationsArr);
-    console.log(description);
-    this.clearModal();
-    loadStartPage();
+    if(Number(wordId) > 0) {
+      const wordInBook = await this.wordInUserPool(lang, session.userId, wordId);
+      if(wordInBook === 'false') {
+        await this.addWordToUserPool(wordId);
+        newWordMessage = (lang === 'en') ?
+          'The word already exists. It\'s been added to your book':
+          'Das Wort gibt es schon. Es wurde deinem Heft hinzugefügt';
+      } else {
+        newWordMessage = (lang === 'en') ?
+          'The word already exists and is already in your book':
+          'Das Wort gibt es schon und es ist schon im Heft';
+      }
+    } else {
+      newWordMessage = (lang === 'en') ?
+        'The word was added to book and collection' :
+        'Das Wort ist jetzt im Heft und in der Sammlung';
+    }
+
+    document.querySelector('.new-word-message').innerText = `${newWordMessage}`;
+    setTimeout(() => {
+      this.clearModal();
+      loadStartPage();
+    }, 2000);
   }
 
 
@@ -168,7 +202,9 @@ export class CrudView {
     const other = (localStorage.getItem('lang') === 'en') ? 'other' : 'Andere';
 
     const quitButton = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">`;
-    const authorContent = `<div><div class="modal-author">${authorTxt}: ${author}</div>`
+    const authorContent = `<div>
+                             <span class="new-word-message"></span>
+                             <div class="modal-author">${authorTxt}: ${author}</div>`
     const wordContent = `<div class="modal-heading">${wordTxt}: </div>
                            <span id="word-warning" class="warning" hidden>${wordWarning}</span>
                            <input type="text" class="modal-native${noBorder}" id="word" value="${wordValue}" 

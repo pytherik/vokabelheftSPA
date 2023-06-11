@@ -82,7 +82,6 @@ export class ListView {
     //info allUsers wird beim erstellen der Tabellen zweimal aufgerufen
     // (true oder false in getLatestEntries gesetzt)
     const userContent = await this.getUsercontent(allUsers);
-    console.log(userContent);
     const latestEntries = document.createElement('div');
     latestEntries.className = 'latest-entries';
     latestEntries.id = lastestEntriesId;
@@ -90,7 +89,6 @@ export class ListView {
     const titleAdd = (localStorage.getItem('lang') === 'en') ? 'add to book' : 'zum Heft hizufügen';
     const titleRemove = (localStorage.getItem('lang') === 'en') ? 'remove from book' : 'aus Heft entfernen';
     const titleEdit = (localStorage.getItem('lang') === 'en') ? 'edit' : 'bearbeiten';
-    console.log(userContent);
     userContent.forEach((content, idx) => {
       let addedAt = content.created_at;
       addedAt = addedAt.split('-').reverse().join('.');

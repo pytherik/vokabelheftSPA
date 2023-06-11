@@ -63,6 +63,13 @@ FROM german g
          JOIN user u ON u.id = eg.created_by
 ORDER BY g.created_at DESC";
 
+//info get single object from user_pool
+const GET_SINGLE_ENGLISH_POOL_OBJECT = "
+SELECT * FROM user_pool WHERE user_id = :userId AND english_id = :wordId";
+
+const GET_SINGLE_GERMAN_POOL_OBJECT = "
+SELECT * FROM user_pool WHERE user_id = :userId AND german_id = :wordId";
+
 //info translations aggregation for class German
 const GET_ENGLISH_TRANSLATIONS = "
 SELECT e.word FROM english e

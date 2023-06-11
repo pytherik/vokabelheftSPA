@@ -119,6 +119,26 @@ class UserPool implements JsonSerializable
     return $response;
   }
 
+  public function getSingleObject(int $userId, int $wordId, string $lang)
+  {
+    try {
+      $dbh = DBConnect::connect();
+      $sql = ($lang === 'en') ? GET_SINGLE_ENGLISH_POOL_OBJECT : GET_SINGLE_GERMAN_POOL_OBJECT;
+      $stmt = $dbh->prepare($sql);
+      $stmt->bindParam('userId', $userId);
+      $stmt->bindParam('wordId', $wordId);
+      $stmt->execute();
+      if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        return $row;
+      } else {
+        return 'false';
+      }
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+      die();
+    }
+  }
+
   /**
    * @return int
    */

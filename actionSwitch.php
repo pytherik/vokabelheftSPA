@@ -49,6 +49,13 @@ switch ($action) {
     $response = (new UserPool())->removeWordById($wordId);
     echo json_encode($response);
     break;
+  case 'getSinglePoolObject':
+    $userId = $_POST['userId'];
+    $wordId = $_POST['wordId'];
+    $lang = $_POST['lang'];
+    $response = (new UserPool())->getSingleObject($userId, $wordId, $lang);
+    echo json_encode($response);
+    break;
   case 'createNewWord':
     $authorId = $_POST['authorId'];
     $createdAt = $_POST['createdAt'];
