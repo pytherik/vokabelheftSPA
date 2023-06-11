@@ -336,6 +336,12 @@ textarea {
   margin-bottom: 1.4rem;
 }
 
+.wordclass {
+  font-size: 1.3rem;
+  text-align: center;
+  color: #88ac78;
+}
+
 .answer {
   text-align: center;
 }

@@ -97,17 +97,26 @@ export class LearnView {
   }
 
   practice = async () => {
+    const lang = localStorage.getItem('lang');
     const questContainer = document.createElement('div');
     questContainer.className = 'question';
     const wordData = await this.getRandomWord();
     console.log(wordData);
+    let wordclassTxt = `Wordclass: ${wordData.wordclass}`;
     const word = wordData.word;
     let answerWarning = ''
-    const questionTxt = (localStorage.getItem('lang') === 'en') ? 'What is the translation for the word' : 'Wie lautet die Übersetzung für';
-    const checkAnswer = (localStorage.getItem('lang') === 'en') ? 'verify answer' : 'Antwort prüfen';
+    const questionTxt = (lang === 'en') ? 'What is the translation for the word' : 'Wie lautet die Übersetzung für';
+    const checkAnswer = (lang === 'en') ? 'verify answer' : 'Antwort prüfen';
 
-    const question = `<div class="question">${questionTxt} '${word}'?</div>
-                     <div class="answer"><input type="text" id="answer" autofocus autocomplete="off"></div>`;
+    if (lang === 'de') {
+      if (wordclassTxt === 'Wordclass: noun') wordclassTxt = 'Wortart: Substantiv';
+      if (wordclassTxt === 'Wordclass: verb') wordclassTxt = 'Wortart: Verb';
+      if (wordclassTxt === 'Wordclass: adjective') wordclassTxt = 'Wortart: Adjektiv';
+      if (wordclassTxt === 'Wordclass: other') wordclassTxt = 'Wortart: Andere';
+    }
+    const question = `<div class="wordclass">${wordclassTxt}</div>
+                      <div class="question">${questionTxt} '${word}'?</div>
+                      <div class="answer"><input type="text" id="answer" autofocus autocomplete="off"></div>`;
 
     const submit = `<button class="btn-answer btn-green-big">${checkAnswer}</button>
                    <div class="answer-warning">
@@ -224,7 +233,7 @@ export class LearnView {
       for (let i = j; i < wordData.translations.length; i++) {
         modalContent += `<li class="list-item">${wordData.translations[i]}</li>`;
       }
-      modalContent += `</ul></div></div>`;
+      modalContent += `</ul></div>`;
     }
     modalContent += `<div class="modal-buttons">
                        <button class="btn-success" id="next-btn">${nextBtnTxt}</button>
