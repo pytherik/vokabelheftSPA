@@ -36,12 +36,16 @@ body {
 
 .form-container {
   @include flexCenter(column);
-  width: 16rem;
-  height: 20rem;
+  justify-content: space-around;
+  font-size: 1.4rem;
+  width: 18rem;
+  height: 25rem;
+  margin-top: 7rem;
   background: $bg-color-secondary;
-  border-radius: 10px;
+  border-radius: 5px;
 
   label {
+    margin-top: 3rem;
     text-align: left;
     border-bottom: 1rem;
   }
@@ -50,6 +54,8 @@ body {
     font-family: inherit;
     background: transparent;
     outline: none;
+    width: 80%;
+    font-size: 1.4rem;
     color: $font-color-main;
     border: none;
     border-bottom: 2px solid $font-color-main;
@@ -57,20 +63,26 @@ body {
   }
 
   button {
-    width: 9rem;
+    width: 90%;
     font-family: inherit;
     background: #88ac78;
     padding: .3rem;
     border: none;
     border-radius: 5px;
+    margin-bottom: 1rem;
   }
 }
 
-.content {
+.content,
+.stats-content {
   @include flexCenter();
   justify-content: space-around;
   width: 75vw;
   height: 45vh;
+}
+
+.stats-content {
+  height: 26vh;
 }
 
 .table {

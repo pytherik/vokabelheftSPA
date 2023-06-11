@@ -21,9 +21,6 @@ switch ($action) {
     $id = $_POST['userId'];
     $lang = $_POST['lang'];
     $content = (new UserContent())->getAllAsObjects($id, $lang);
-//      echo "<pre>";
-//      print_r($content);
-//      echo "</pre>";
     echo json_encode($content);
     break;
   case 'getTranslation':
@@ -83,6 +80,30 @@ switch ($action) {
     $userId = $_POST['userId'];
     $date = $_POST['date'];
     $response = (new Statistics())->getStatistics($userId, $date);
+    echo json_encode($response);
+    break;
+  case 'getRandomWord':
+    $userId = $_POST['userId'];
+    $lang = $_POST['lang'];
+    $mode = $_POST['mode'];
+    if ($mode === 'true') {
+      $response = ($lang === 'en') ?
+        (new English())->getRandomObject() :
+        (new German())->getRandomObject();
+    } else {
+      $response = ($lang === 'en') ?
+        (new English())->getRandomUserObject($userId) :
+        (new German())->getRandomUserObject($userId);
+    }
+    echo json_encode($response);
+    break;
+  case 'updateStatistics':
+    $userId = $_POST['userId'];
+    $wordId = $_POST['wordId'];
+    $lang = $_POST['lang'];
+    $date = $_POST['date'];
+    $isRight = ($_POST['isRight'] === 'true') ? 1 : 0;
+    $response = (new Statistics())->updateStatistics($userId, $date, $wordId, $lang, $isRight);
     echo json_encode($response);
     break;
   default:

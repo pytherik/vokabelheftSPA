@@ -17,7 +17,6 @@ export const getTranslation = async (id, wordclass) => {
 }
 
 export const showTranslation = (translation, wordclass, authorName, description) => {
-  console.log(translation)
   const vonBy = (localStorage.getItem('lang') === 'en') ? 'by': 'von';
   const descriptionTxt = (localStorage.getItem('lang') === 'en') ? 'Description:' : 'Beschreibung:';
   if (localStorage.getItem('lang') === 'de') {

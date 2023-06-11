@@ -5,6 +5,7 @@ class German implements JsonSerializable
   private int $id;
   private string $word;
   private array $translations;
+  private string $wordclass;
 
   /**
    * @param int|null $id
@@ -16,6 +17,7 @@ class German implements JsonSerializable
       $this->id = $id;
       $this->word = $word;
       $this->translations = (new English())->getTranslationsById($id);
+      $this->wordclass = '';
     }
   }
 
@@ -52,6 +54,49 @@ class German implements JsonSerializable
       die();
     }
   }
+
+  public function getRandomObject(): German
+  {
+    try {
+      $dbh = DBConnect::connect();
+      $sql = "SELECT * FROM german ORDER BY RAND() LIMIT 1";
+      $stmt = $dbh->prepare($sql);
+      $stmt->execute();
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $result = new German($row['id'], $row['word']);
+      $id = $row['id'];
+      $sql2 = "SELECT distinct(wordclass) FROM english_german WHERE german_id = :id";
+      $stmt2 = $dbh->prepare($sql2);
+      $stmt2->bindParam('id', $id);
+      $stmt2->execute();
+      $row = $stmt2->fetch(PDO::FETCH_ASSOC);
+      $result->wordclass = $row['wordclass'];
+      return $result;
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+      die();
+    }
+  }
+
+  public function getRandomUserObject($userId): German
+  {
+    try {
+      $dbh = DBConnect::connect();
+
+      $sql = GET_RANDOM_GERMAN_ID_AND_WORDCLASS_FROM_USERPOOL;
+      $stmt = $dbh->prepare($sql);
+      $stmt->bindParam('userId', $userId);
+      $stmt->execute();
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+      $result = $this->getObjectById($row['german_id']);
+      $result->wordclass = $row ['wordclass'];
+      return $result;
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+      die();
+    }
+  }
+
 
   public function jsonSerialize(): array
   {

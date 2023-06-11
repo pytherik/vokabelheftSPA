@@ -265,7 +265,7 @@ textarea {
 
 .stats-table {
   width: 40%;
-  height: 35%;
+  height: 60%;
   overflow: hidden;
 }
 
@@ -287,6 +287,10 @@ textarea {
 
 .btn-answer {
   width: 30%;
+}
+
+.answer-warning {
+  text-align: center;
 }
 
 .question {
@@ -340,12 +344,16 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 16rem;
-  height: 20rem;
+  justify-content: space-around;
+  font-size: 1.4rem;
+  width: 18rem;
+  height: 25rem;
+  margin-top: 7rem;
   background: #666;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .form-container label {
+  margin-top: 3rem;
   text-align: left;
   border-bottom: 1rem;
 }
@@ -353,21 +361,25 @@ body {
   font-family: inherit;
   background: transparent;
   outline: none;
+  width: 80%;
+  font-size: 1.4rem;
   color: #ddd;
   border: none;
   border-bottom: 2px solid #ddd;
   margin-bottom: 2rem;
 }
 .form-container button {
-  width: 9rem;
+  width: 90%;
   font-family: inherit;
   background: #88ac78;
   padding: 0.3rem;
   border: none;
   border-radius: 5px;
+  margin-bottom: 1rem;
 }
 
-.content {
+.content,
+.stats-content {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -375,6 +387,10 @@ body {
   justify-content: space-around;
   width: 75vw;
   height: 45vh;
+}
+
+.stats-content {
+  height: 26vh;
 }
 
 .table {

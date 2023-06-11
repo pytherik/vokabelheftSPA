@@ -13,7 +13,7 @@ export class Login {
                 <label for="password">Passwort</label>
                 <span id="pass-warning" class="warning"></span>
                 <input type="password" name="password" id="password">
-                <button type="submit" id="formSubmit">bestätigen und los</button>`;
+                <button type="submit" id="formSubmit" class="btn-green-big">bestätigen und los</button>`;
 
     formContainer.insertAdjacentHTML('beforeend', form);
 

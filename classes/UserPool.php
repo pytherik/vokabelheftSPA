@@ -39,7 +39,7 @@ class UserPool implements JsonSerializable
     try {
       $dbh = DBConnect::connect();
 
-        $sql = ($lang === 'en') ? INSERT_ENGLISH_INTO_USER_POOL: INSERT_GERMAN_INTO_USER_POOL;
+      $sql = ($lang === 'en') ? INSERT_ENGLISH_INTO_USER_POOL: INSERT_GERMAN_INTO_USER_POOL;
       $stmt = $dbh->prepare($sql);
       $stmt->bindParam('user_id', $userId);
       $stmt->bindParam('added_at', $added_at);

@@ -56,6 +56,25 @@ class Statistics implements JsonSerializable
       die();
     }
   }
+
+  public function updateStatistics($userId, $date, $wordId, $lang, $isRight): string
+  {
+    try {
+      $dbh = DBConnect::connect();
+      $sql = ($lang === 'en') ? UPDATE_STATISTICS_ENGLISH : UPDATE_STATISTICS_GERMAN;
+      $stmt = $dbh->prepare($sql);
+      $stmt->bindParam('userId', $userId);
+      $stmt->bindParam('date', $date);
+      $stmt->bindParam('wordId', $wordId);
+      $stmt->bindParam('isRight', $isRight);
+      $stmt->execute();
+      return "$userId, $date, $wordId, $lang, $isRight";
+//      return "Statistics updated successfully!";
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+      die();
+    }
+  }
   /**
    * @return int
    */

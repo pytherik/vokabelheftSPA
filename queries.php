@@ -143,3 +143,40 @@ SELECT count(is_correct) AS is_right,
 FROM statistics WHERE is_correct = 1
                   AND user_id = :userId;
 ";
+
+//info random queries for all users
+const RANDOM_ENGLISH_WORD = "SELECT * FROM english ORDER BY RAND() LIMIT 1";
+const RANDOM_GERMAN_WORD = "SELECT * FROM german ORDER BY RAND() LIMIT 1";
+
+//info dazugehörige Wortart ermitteln
+const GET_WORDCLASS_BY_WORD_ID = "SELECT distinct(wordclass) FROM english_german WHERE german_id = :id";
+
+//info random queries for user
+const GET_RANDOM_GERMAN_ID_AND_WORDCLASS_FROM_USERPOOL = "
+SELECT up.german_id, wordclass FROM user_pool up
+    JOIN english_german eg on up.german_id = eg.german_id
+WHERE user_id = :userId AND up.german_id IS NOT NULL ORDER BY RAND() LIMIT 1";
+
+const GET_RANDOM_ENGLISH_ID_AND_WORDCLASS_FROM_USERPOOL = "
+SELECT up.english_id, wordclass FROM user_pool up
+    JOIN english_german eg on up.english_id = eg.english_id
+WHERE user_id = :userId AND up.english_id IS NOT NULL ORDER BY RAND() LIMIT 1";
+
+//info update statistics
+const UPDATE_STATISTICS_ENGLISH = "
+INSERT INTO statistics VALUES 
+                           (NULL, 
+                            :userId,
+                            :date, 
+                            :wordId, 
+                            NULL, 
+                            :isRight)";
+
+const UPDATE_STATISTICS_GERMAN = "
+INSERT INTO statistics VALUES 
+                           (NULL, 
+                            :userId,
+                            :date, 
+                            NULL, 
+                            :wordId, 
+                            :isRight)";
