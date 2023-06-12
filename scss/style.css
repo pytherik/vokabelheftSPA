@@ -63,7 +63,7 @@
   margin-top: 1.5rem;
   width: 30.3vw;
   height: 4rem;
-  background-color: #7a976e;
+  background-color: rgba(136, 172, 120, 0.6666666667);
   font-size: 1.5rem;
   color: #fff;
   border: none;
@@ -76,8 +76,8 @@
 }
 
 .btn-green-big.disabled {
-  color: #888;
-  background-color: rgba(122, 151, 110, 0.3333333333);
+  color: #aaa;
+  background-color: rgba(122, 151, 110, 0.6666666667);
 }
 
 .btn-green-big.disabled:hover {
@@ -112,14 +112,14 @@
 .inner-edit-modal,
 .inner-success-modal {
   background-color: #41644A;
-  width: 18rem;
+  width: 23rem;
   height: 32rem;
   border-radius: 0.2rem;
   margin: 30vh auto;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .inner-show-modal {
@@ -223,7 +223,7 @@ textarea {
   width: 100%;
   border: none;
   outline: none;
-  background: #444;
+  background: #172863;
   color: #ddd;
 }
 
@@ -325,7 +325,7 @@ textarea {
   margin-top: 1rem;
   width: 100%;
   height: 30vh;
-  background: #666;
+  background: rgba(102, 102, 102, 0.4);
   padding: 0.8rem 0.9rem 0.5rem 0.2rem;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -407,7 +407,7 @@ textarea {
 }
 
 body {
-  background: #444;
+  background: #172863;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   color: #ddd;
 }
@@ -446,7 +446,7 @@ button {
   width: 18rem;
   height: 25rem;
   margin-top: 7rem;
-  background: #666;
+  background: rgba(102, 102, 102, 0.4);
   border-radius: 5px;
 }
 .form-container label {
@@ -469,7 +469,7 @@ button {
   cursor: pointer;
   width: 90%;
   font-family: inherit;
-  background: #88ac78;
+  background: rgba(136, 172, 120, 0.6666666667);
   padding: 0.3rem;
   border: none;
   border-radius: 5px;
@@ -505,7 +505,7 @@ button {
   margin-top: 1rem;
   width: 100%;
   height: 30vh;
-  background: #666;
+  background: rgba(102, 102, 102, 0.4);
   padding: 0.8rem 0.9rem 0.5rem 0.2rem;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -546,7 +546,7 @@ button {
 #search {
   font-size: 1.2rem;
   width: 10rem;
-  background-color: #666;
+  background-color: rgba(102, 102, 102, 0.4);
   border: none;
   color: #ddd;
   outline: none;
