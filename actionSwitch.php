@@ -1,6 +1,8 @@
 <?php
 include 'config.php';
 include 'queries.php';
+//info Einbinden aller Klassen und der Konfigurations und Query Dateien,
+// die in den Klassen benötigt werden
 spl_autoload_register(function ($class) {
   include sprintf('classes/%s.php', $class);
 });
@@ -18,16 +20,23 @@ switch ($action) {
     }
     break;
   case 'getUserContent':
+    session_start();
     $id = $_POST['userId'];
     $lang = $_POST['lang'];
-    $content = (new UserContent())->getAllAsObjects($id, $lang);
-    echo json_encode($content);
+    $fetchId = $_POST['fetchId'];
+    if ($id == $_SESSION['userId']) {
+      $content = (new UserContent())->getAllAsObjects($fetchId, $lang);
+      echo json_encode($content);
+    } else {
+      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
+    }
     break;
   case 'getTranslation':
+    session_start();
     $id = $_POST['id'];
     $lang = $_POST['lang'];
     $wordclass = $_POST['wordclass'];
-    if($lang === 'en') {
+    if ($lang === 'en') {
       $translation = (new English())->getObjectById($id);
     } else {
       $translation = (new German())->getObjectById($id);
@@ -35,59 +44,94 @@ switch ($action) {
     echo json_encode($translation);
     break;
   case 'addWordToUserPool':
+    session_start();
     $id = $_POST['userId'];
-    $date = $_POST['date'];
-    $wordId = $_POST['wordId'];
-    $lang = $_POST['lang'];
-    $description = $_POST['description'];
-    $newWord = (new UserPool())->addNewWord($id, $date, $wordId, $lang, $description);
-    echo json_encode($newWord);
+    if ($id == $_SESSION['userId']) {
+      $date = $_POST['date'];
+      $wordId = $_POST['wordId'];
+      $lang = $_POST['lang'];
+      $description = $_POST['description'];
+      $newWord = (new UserPool())->addNewWord($id, $date, $wordId, $lang, $description);
+      echo json_encode($newWord);
+    } else {
+      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
+    }
     break;
   case 'removeWordFromUserPool':
+    session_start();
     $id = $_POST['userId'];
-    $wordId = $_POST['id'];
-    $response = (new UserPool())->removeWordById($wordId);
-    echo json_encode($response);
+    if ($id == $_SESSION['userId']) {
+      $wordId = $_POST['id'];
+      $response = (new UserPool())->removeWordById($wordId);
+      echo json_encode($response);
+    } else {
+      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
+    }
     break;
   case 'getSinglePoolObject':
+    session_start();
     $userId = $_POST['userId'];
-    $wordId = $_POST['wordId'];
-    $lang = $_POST['lang'];
-    $response = (new UserPool())->getSingleObject($userId, $wordId, $lang);
-    echo json_encode($response);
+    if ($userId == $_SESSION['userId']) {
+      $wordId = $_POST['wordId'];
+      $lang = $_POST['lang'];
+      $response = (new UserPool())->getSingleObject($userId, $wordId, $lang);
+      echo json_encode($response);
+    } else {
+      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
+    }
     break;
   case 'createNewWord':
+    session_start();
     $authorId = $_POST['authorId'];
-    $createdAt = $_POST['createdAt'];
-    $lang = $_POST['lang'];
-    $word = $_POST['word'];
-    $wordclass = $_POST['wordclass'];
-    $translations = json_decode($_POST['translations']);
-    $description = $_POST['description'];
-    $response = (new EnglishGerman())->createNewWord($authorId, $createdAt,
-                      $lang, $word, $wordclass, $translations, $description);
-    echo json_encode($response);
+    if ($authorId == $_SESSION['userId']) {
+      $createdAt = $_POST['createdAt'];
+      $lang = $_POST['lang'];
+      $word = $_POST['word'];
+      $wordclass = $_POST['wordclass'];
+      $translations = json_decode($_POST['translations']);
+      $description = $_POST['description'];
+      $response = (new EnglishGerman())->createNewWord($authorId, $createdAt,
+        $lang, $word, $wordclass, $translations, $description);
+      echo json_encode($response);
+    } else {
+      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
+    }
     break;
   case 'getDescription':
+    session_start();
     $userId = $_POST['userId'];
-    $wordId = $_POST['wordId'];
-    $lang = $_POST['lang'];
-    $response = (new UserPool())->getDescriptionById($userId, $wordId, $lang);
-    echo json_encode($response);
+    if ($userId == $_SESSION['userId']) {
+      $wordId = $_POST['wordId'];
+      $lang = $_POST['lang'];
+      $response = (new UserPool())->getDescriptionById($userId, $wordId, $lang);
+      echo json_encode($response);
+    } else {
+      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
+    }
     break;
   case 'updateDescription':
+    session_start();
     $userId = $_POST['userId'];
-    $wordId = $_POST['wordId'];
-    $lang = $_POST['lang'];
-    $description = $_POST['description'];
-    $response = (new UserPool())->updateDescription($userId, $wordId, $lang, $description);
-    echo json_encode($response);
+    if ($userId == $_SESSION['userId']) {
+      $wordId = $_POST['wordId'];
+      $lang = $_POST['lang'];
+      $description = $_POST['description'];
+      $response = (new UserPool())->updateDescription($userId, $wordId, $lang, $description);
+      echo json_encode($response);
+    } else {
+      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
+    }
     break;
   case 'getStatistics':
+    session_start();
     $userId = $_POST['userId'];
-    $date = $_POST['date'];
-    $response = (new Statistics())->getStatistics($userId, $date);
-    echo json_encode($response);
+    if ($userId == $_SESSION['userId']) {
+      $date = $_POST['date'];
+      $response = (new Statistics())->getStatistics($userId, $date);
+      echo json_encode($response);
+    } else {
+      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
+    }
     break;
   case 'getRandomWord':
     $userId = $_POST['userId'];
@@ -105,13 +149,18 @@ switch ($action) {
     echo json_encode($response);
     break;
   case 'updateStatistics':
+    session_start();
     $userId = $_POST['userId'];
-    $wordId = $_POST['wordId'];
-    $lang = $_POST['lang'];
-    $date = $_POST['date'];
-    $isRight = ($_POST['isRight'] === 'true') ? 1 : 0;
-    $response = (new Statistics())->updateStatistics($userId, $date, $wordId, $lang, $isRight);
-    echo json_encode($response);
+    if ($userId == $_SESSION['userId']) {
+      $wordId = $_POST['wordId'];
+      $lang = $_POST['lang'];
+      $date = $_POST['date'];
+      $isRight = ($_POST['isRight'] === 'true') ? 1 : 0;
+      $response = (new Statistics())->updateStatistics($userId, $date, $wordId, $lang, $isRight);
+      echo json_encode($response);
+    } else {
+      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
+    }
     break;
   default:
     echo 'default case has happened!';

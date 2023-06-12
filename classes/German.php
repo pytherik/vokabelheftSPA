@@ -1,6 +1,9 @@
 <?php
 
 class German implements JsonSerializable
+//info German Objekte enthalten zusätzlich zu den DB Tabellen einträgen
+// noch das aus English gelieferte array $translations und die nicht zwingend
+// benötigte $wordclass
 {
   private int $id;
   private string $word;
@@ -21,7 +24,12 @@ class German implements JsonSerializable
     }
   }
 
+  /**
+   * @param $id
+   * @return array
+   */
   public function getTranslationsById($id): array
+    //info liefert für Objekte der Klasse English die Übersetzung(en)
   {
     $translations = [];
     try {
@@ -39,6 +47,10 @@ class German implements JsonSerializable
     return $translations;
   }
 
+  /**
+   * @param $id
+   * @return German
+   */
   public function getObjectById($id): German
   {
     try {
@@ -55,7 +67,11 @@ class German implements JsonSerializable
     }
   }
 
+  /**
+   * @return German
+   */
   public function getRandomObject(): German
+  //info holt ein zufälliges deutsches Wort aus dem Gesamtbestand
   {
     try {
       $dbh = DBConnect::connect();
@@ -65,6 +81,7 @@ class German implements JsonSerializable
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
       $result = new German($row['id'], $row['word']);
       $id = $row['id'];
+      //info zusätzliche Abfrage in english_german, um die Wortart zum Objekt hinzuzufügen
       $sql2 = "SELECT distinct(wordclass) FROM english_german WHERE german_id = :id";
       $stmt2 = $dbh->prepare($sql2);
       $stmt2->bindParam('id', $id);
@@ -78,7 +95,12 @@ class German implements JsonSerializable
     }
   }
 
-  public function getRandomUserObject($userId): German
+  /**
+   * @param string $userId
+   * @return German
+   */
+  public function getRandomUserObject(string $userId): German
+    //info holt ein zufälliges deutsches Wort aus dem Bestand des Benutzers im user_pool
   {
     try {
       $dbh = DBConnect::connect();
@@ -97,7 +119,9 @@ class German implements JsonSerializable
     }
   }
 
-
+  /**
+   * @return array
+   */
   public function jsonSerialize(): array
   {
     return get_object_vars($this);
@@ -118,5 +142,4 @@ class German implements JsonSerializable
   {
     return $this->word;
   }
-
 }

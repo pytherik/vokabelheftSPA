@@ -1,6 +1,9 @@
 <?php
 
 class English implements JsonSerializable
+//info English Objekte enthalten zusätzlich zu den DB Tabellen einträgen
+// noch das aus German gelieferte array $translations und die nicht zwingend
+// benötigte $wordclass
 {
   private int $id;
   private string $word;
@@ -21,7 +24,12 @@ class English implements JsonSerializable
     }
   }
 
-  public function getTranslationsById($id): array
+  /**
+   * @param int $id
+   * @return array
+   */
+  public function getTranslationsById(int $id): array
+  //info liefert für Objekte der Klasse German die Übersetzung(en)
   {
     $translations = [];
     try {
@@ -39,6 +47,10 @@ class English implements JsonSerializable
     return $translations;
   }
 
+  /**
+   * @param $id
+   * @return English
+   */
   public function getObjectById($id): English
   {
     try {
@@ -55,7 +67,11 @@ class English implements JsonSerializable
     }
   }
 
+  /**
+   * @return English
+   */
   public function getRandomObject(): English
+  //info holt ein zufälliges englisches Wort aus dem Gesamtbestand
   {
     try {
       $dbh = DBConnect::connect();
@@ -65,6 +81,7 @@ class English implements JsonSerializable
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
       $result = new English($row['id'], $row['word']);
       $id = $row['id'];
+      //info zusätzliche Abfrage in english_german, um die Wortart zum Objekt hinzuzufügen
       $sql2 = "SELECT distinct(wordclass) FROM english_german WHERE english_id = :id";
       $stmt2 = $dbh->prepare($sql2);
       $stmt2->bindParam('id', $id);
@@ -78,7 +95,12 @@ class English implements JsonSerializable
     }
   }
 
+  /**
+   * @param $userId
+   * @return English
+   */
   public function getRandomUserObject($userId): English
+  //info holt ein zufälliges englisches Wort aus dem Bestand des Benutzers im user_pool
   {
     try {
       $dbh = DBConnect::connect();
@@ -97,6 +119,9 @@ class English implements JsonSerializable
     }
   }
 
+  /**
+   * @return array
+   */
   public function jsonSerialize(): array
   {
     return get_object_vars($this);

@@ -219,17 +219,17 @@ export class LearnView {
         `${answer} is correct!` : `${answer} ist korrekt!`
       if (wordData.translations.length > 1) {
         hint = (lang === 'en') ?
-          `There are further translations for the word ${wordData.word}` :
-          `Es gibt noch mehr Übersetzungen für das Wort ${wordData.word}`;
+          `There are further translations for the word` :
+          `Es gibt noch mehr Übersetzungen für das Wort`;
       } else {
         hint = (lang === 'en') ?
-          `No further translations for ${wordData.word}!` :
-          `Keine weiteren Übersetzungen für ${wordData.word}`;
+          `No further translations for!` :
+          `Keine weiteren Übersetzungen für`;
       }
     } else {
       hint = (lang === 'en') ?
-        `Correct translation(s) for ${wordData.word}:` :
-        `Korrekte Übersetzung(en) für ${wordData.word}`;
+        `Correct translation(s) for:` :
+        `Korrekte Übersetzung(en) für`;
 
       heading = (lang === 'en') ? 'WTF!' : 'Hmpf!';
       comment = (lang === 'en') ?
@@ -246,7 +246,8 @@ export class LearnView {
     innerModal.className = 'inner-success-modal';
     let modalContent = `<div><h1 class="success-heading">${heading}</h1>
                         <h2 class="success-comment">${comment}</h2>
-                        <div class="success-hint">${hint}</div></div>`;
+                        <div class="success-hint">${hint}</div>
+                        <div class="success-word">${wordData.word}</div></div>`;
     //info wenn Antwort richtig war nur weitere Übersetzungen anzeigen, sonst alle
     if (isCorrect && wordData.translations.length > 1 || !isCorrect) {
       modalContent += `<div><ul class="modal-list">`;

@@ -95,10 +95,13 @@ export class ListView {
       addedAt = addedAt.split('-').reverse().join('.');
       row = `<div class="row">
                <div>
-                  <span class="word" data-${dataId}="${content.word_id}" 
-                                     data-wordclass="${content.wordclass}"
-                                     data-author-name="${content.author_name}">
-                    <span class="right">${('0' + Number(idx+1)).slice(-2)}.<small><em>(${content.wordclass.slice(0, 1)})</small></em><span> ${content.word}
+                 <span class="word" data-${dataId}="${content.word_id}" 
+                                    data-wordclass="${content.wordclass}"
+                                    data-author-name="${content.author_name}">
+                    <span class="right">${('0' + Number(idx+1)).slice(-2)}.
+                    <small><em>(${content.wordclass.slice(0, 1)})</em></small>
+                    </span>
+                    <span> ${content.word}</span>
                   </span>
                 </div>
               <div>
@@ -170,7 +173,8 @@ export class ListView {
     try {
       const formData = new FormData();
       formData.append('action', 'getUserContent');
-      formData.append('userId', fetchId);
+      formData.append('userId', this.userId);
+      formData.append('fetchId', fetchId);
       formData.append('lang', lang);
       const response = await fetch(urlActionSwitch, {
         body: formData,

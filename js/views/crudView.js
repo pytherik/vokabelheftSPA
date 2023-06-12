@@ -75,7 +75,7 @@ export class CrudView {
       return false;
     }
 
-    if (lang === 'de') {
+    if (lang === 'de' && wordclassValue === 'noun') {
       if ((word.split(' ').length > 1 && !['der','die','das'].includes(word.split(' ')[0]) ||
         (word.split(' ').length === 1))){
         document.getElementById('word-article-warning').removeAttribute('hidden');
@@ -86,7 +86,7 @@ export class CrudView {
     let translationsCheck = true;
     let articleCheck = true;
     translations.forEach(tr => {
-      if (lang === 'en') {
+      if (lang === 'en' && wordclassValue === 'noun') {
         console.log(tr)
         if ((tr.value.split(' ').length > 1 && !['der','die','das'].includes(tr.value.split(' ')[0]) ||
           (tr.value.split(' ').length === 1))){
