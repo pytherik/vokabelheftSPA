@@ -33,9 +33,10 @@ if(!username) {
   headerElements('Anmeldung');
   const login = new Login();
   login.createUserInputs();
-  const submit = document.getElementById('formSubmit');
   const nameInput = document.getElementById('name');
+  nameInput.focus();
   const passInput = document.getElementById('password');
+  const submit = document.getElementById('formSubmit');
   submit.addEventListener('click', async(e) => {
     if (nameInput.value.length < 3) {
       document.getElementById('name-warning').innerText = 'midestens drei Buchstaben!';

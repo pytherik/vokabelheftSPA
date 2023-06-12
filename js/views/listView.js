@@ -39,10 +39,10 @@ export class ListView {
     content.className = 'content';
 
     //info Tabellenüberschriften nach Sprache erstellen
-    const headerContent1 = (localStorage.getItem('lang') === 'en') ? `by ${this.username}` : `Von ${this.username}`;
+    const headerContent1 = (localStorage.getItem('lang') === 'en') ? `${this.username}` : `${this.username}`;
     const table1 = this.buildTableElement(headerContent1, 'table1');
 
-    const headerContent2 = (localStorage.getItem('lang') === 'en') ? `by all learners` : `Von allen Lernenden`;
+    const headerContent2 = (localStorage.getItem('lang') === 'en') ? `all learners` : `allen Lernenden`;
     const table2 = this.buildTableElement(headerContent2, 'table2');
 
     //info Buttontext nach Sprache erstellen

@@ -15,7 +15,7 @@ export const loadStartPage = async () => {
 
   title.innerText = 'Start'
   container.innerHTML = '';
-  const page = (localStorage.getItem('lang') === 'en') ? 'last added': 'zuletzt hinzugefügt';
+  const page = (localStorage.getItem('lang') === 'en') ? 'last added by ...': 'zuletzt hinzugefügt von ...';
   navElements();        // language Flag-Buttons, create new entry, logout
   headerElements(page); // Überschriften
   const starter = new ListView();
