@@ -251,9 +251,10 @@ export class LearnView {
     //info wenn Antwort richtig war nur weitere Übersetzungen anzeigen, sonst alle
     if (isCorrect && wordData.translations.length > 1 || !isCorrect) {
       modalContent += `<div><ul class="modal-list">`;
-      const j = isCorrect ? 1 : 0;
-      for (let i = j; i < wordData.translations.length; i++) {
-        modalContent += `<li class="list-item">${wordData.translations[i]}</li>`;
+      for (let i = 0; i < wordData.translations.length; i++) {
+        if (wordData.translation !== answer){
+          modalContent += `<li class="list-item">${wordData.translations[i]}</li>`;
+        }
       }
       modalContent += `</ul></div>`;
     }

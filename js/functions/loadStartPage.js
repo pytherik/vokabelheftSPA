@@ -138,6 +138,19 @@ export const loadStartPage = async () => {
     creator.buildCreateForm();
   })
 
+  const searchInput = document.getElementById('search');
+  const words = document.querySelectorAll('[data-all-words-id-row]');
+  searchInput.addEventListener('input', (e) => {
+    const value = e.target.value;
+    words.forEach(word => {
+      const contentWord = word.dataset.allWordsIdRow;
+      const isVisible = contentWord.includes(value)
+      word.classList.toggle('hide', !isVisible);
+      // console.log(contentWord);
+    })
+  })
+
+
   const logoutButton = document.querySelector('.btn-logout');
   logoutButton.addEventListener('click', () => logout());
 }

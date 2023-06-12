@@ -14,7 +14,27 @@ $font-color-main: #ddd;
   margin: 0;
   padding: 0;
 }
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color:    #ccc;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    #ccc;
+  opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    #ccc;
+  opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color:    #ccc;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+  color:    #ccc;
+}
 
+::placeholder { /* Most modern browsers support this now. */
+  color:    #ccc;
+}
 body {
   background: $bg-color-primary;
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
@@ -28,6 +48,14 @@ body {
 
 .sub-heading {
   font-size: 2.3rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+.lang-icon {
+  cursor: pointer;
 }
 
 .container {
@@ -63,6 +91,7 @@ body {
   }
 
   button {
+    cursor: pointer;
     width: 90%;
     font-family: inherit;
     background: #88ac78;
@@ -136,6 +165,22 @@ body {
   }
 }
 
+.row.hide {
+  display: none;
+}
+.tableSearchInput {
+  display: flex;
+  justify-content: space-between;
+}
+#search {
+  font-size: 1.2rem;
+  width: 10rem;
+  background-color: #666;
+  border: none;
+  color: #ddd;
+  outline: none;
+  padding-left: .4rem;
+}
 .new-word-message {
   font-size: .9rem;
   color: #EA906C;

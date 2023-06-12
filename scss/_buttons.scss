@@ -77,6 +77,14 @@
   filter: brightness(80%);
 }
 
+.btn-green-big.disabled {
+  color: #888;
+  background-color: #7a976e55;
+}
+
+.btn-green-big.disabled:hover {
+  filter: brightness(100%);
+}
 .lang-icon {
   width: 3rem;
   height: 3rem;

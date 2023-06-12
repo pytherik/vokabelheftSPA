@@ -75,6 +75,15 @@
   filter: brightness(80%);
 }
 
+.btn-green-big.disabled {
+  color: #888;
+  background-color: rgba(122, 151, 110, 0.3333333333);
+}
+
+.btn-green-big.disabled:hover {
+  filter: brightness(100%);
+}
+
 .lang-icon {
   width: 3rem;
   height: 3rem;
@@ -371,6 +380,32 @@ textarea {
   padding: 0;
 }
 
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: #ccc;
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: #ccc;
+  opacity: 1;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #ccc;
+  opacity: 1;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #ccc;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #ccc;
+}
+
+::placeholder { /* Most modern browsers support this now. */
+  color: #ccc;
+}
+
 body {
   background: #444;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
@@ -384,6 +419,14 @@ body {
 
 .sub-heading {
   font-size: 2.3rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+.lang-icon {
+  cursor: pointer;
 }
 
 .container {
@@ -423,6 +466,7 @@ body {
   margin-bottom: 2rem;
 }
 .form-container button {
+  cursor: pointer;
   width: 90%;
   font-family: inherit;
   background: #88ac78;
@@ -488,6 +532,25 @@ body {
 .latest-entries .author {
   line-height: 27px;
   font-size: 0.8rem;
+}
+
+.row.hide {
+  display: none;
+}
+
+.tableSearchInput {
+  display: flex;
+  justify-content: space-between;
+}
+
+#search {
+  font-size: 1.2rem;
+  width: 10rem;
+  background-color: #666;
+  border: none;
+  color: #ddd;
+  outline: none;
+  padding-left: 0.4rem;
 }
 
 .new-word-message {

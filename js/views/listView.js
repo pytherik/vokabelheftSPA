@@ -13,8 +13,18 @@ export class ListView {
     const table = document.createElement('div');
     table.className = 'table';
     table.id = tableId
+    const tableHeaderContent = document.createElement('div');
+    tableHeaderContent.className = 'tableSearchInput';
+    const search = (localStorage.getItem('lang') === 'en') ? 'search' : 'suchen';
     const tableHeader = `<span class="table__header">${headerContent}</span>`;
-    table.insertAdjacentHTML('beforeend', tableHeader);
+    const searchBar = `<input type="search" id="search" placeholder="${search}" autocomplete="off">`
+    if (tableId === 'table2'){
+      tableHeaderContent.insertAdjacentHTML('beforeend', tableHeader)
+      tableHeaderContent.insertAdjacentHTML('beforeend', searchBar);
+      table.insertAdjacentElement('beforeend', tableHeaderContent);
+    } else {
+      table.insertAdjacentHTML('beforeend', tableHeader);
+    }
     return table
   }
 
@@ -33,21 +43,22 @@ export class ListView {
 
   //info Aufbauen der Inhalte für UserPool und Gesamt Inhalt
   async createListContainer() {
+    const lang = localStorage.getItem('lang')
     //info content Container enthält die Wortlisten
     let content;
     content = document.createElement('div');
     content.className = 'content';
 
     //info Tabellenüberschriften nach Sprache erstellen
-    const headerContent1 = (localStorage.getItem('lang') === 'en') ? `${this.username}` : `${this.username}`;
+    const headerContent1 = (lang === 'en') ? `${this.username}` : `${this.username}`;
     const table1 = this.buildTableElement(headerContent1, 'table1');
 
-    const headerContent2 = (localStorage.getItem('lang') === 'en') ? `all learners` : `allen Lernenden`;
+    const headerContent2 = (lang === 'en') ? `all learners` : `allen Lernenden`;
     const table2 = this.buildTableElement(headerContent2, 'table2');
 
     //info Buttontext nach Sprache erstellen
-    const btnTxt1 = (localStorage.getItem('lang') === 'en') ? 'practice my vocabulary' : 'meine Vokabeln üben';
-    const btnTxt2 = (localStorage.getItem('lang') === 'en') ? 'practice all vocabulary' : 'alle Vokabeln üben';
+    const btnTxt1 = (lang === 'en') ? 'practice my vocabulary' : 'meine Vokabeln üben';
+    const btnTxt2 = (lang === 'en') ? 'practice all vocabulary' : 'alle Vokabeln üben';
 
     //info Tabelle aufbauen UserPool
     let latestEntries = await this.getLatestEntries()
@@ -63,6 +74,13 @@ export class ListView {
 
     //info Einfügen in Container-Element macht content Sichtbar
     container.insertAdjacentElement('beforeend', content);
+    const userContent = await this.getUsercontent(false);
+    if (userContent.length < 3) {
+      const btnUser = document.getElementById('btn-user');
+      btnUser.setAttribute('disabled', 'true');
+      btnUser.classList.add('disabled');
+      btnUser.innerText = (lang === 'en') ? 'too few words to practice' : 'zu wenig Wörter zu üben';
+    }
   }
 
   //info Listenansicht für eigenes Heft (false) oder für alle User (true)
@@ -93,7 +111,7 @@ export class ListView {
     userContent.forEach((content, idx) => {
       let addedAt = content.created_at;
       addedAt = addedAt.split('-').reverse().join('.');
-      row = `<div class="row">
+      row = `<div class="row" data-${dataId}-row="${content.word}">
                <div>
                  <span class="word" data-${dataId}="${content.word_id}" 
                                     data-wordclass="${content.wordclass}"
