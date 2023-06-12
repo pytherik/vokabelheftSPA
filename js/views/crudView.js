@@ -54,11 +54,13 @@ export class CrudView {
   }
 
   //info Überprüfen der Eingaben im Create Modus und Ausgabe von Warnungen
-  validateInput(word, translations) {
+  validateInput(word, translations, lang) {
+    let wordclassValue = '';
     const radios = document.getElementsByName('class');
     let radioCheck = false;
     radios.forEach(radio => {
       if (radio.checked === true) {
+        wordclassValue = radio.value;
         radioCheck = true;
       }
     })
@@ -73,12 +75,34 @@ export class CrudView {
       return false;
     }
 
+    if (lang === 'de') {
+      if ((word.split(' ').length > 1 && !['der','die','das'].includes(word.split(' ')[0]) ||
+        (word.split(' ').length === 1))){
+        document.getElementById('word-article-warning').removeAttribute('hidden');
+        return false;
+      }
+    }
+
     let translationsCheck = true;
+    let articleCheck = true;
     translations.forEach(tr => {
+      if (lang === 'en') {
+        console.log(tr)
+        if ((tr.value.split(' ').length > 1 && !['der','die','das'].includes(tr.value.split(' ')[0]) ||
+          (tr.value.split(' ').length === 1))){
+          articleCheck = false;
+        }
+      }
       if (tr.value.length < 1) {
         translationsCheck = false;
       }
     })
+
+    if (articleCheck === false) {
+      document.getElementById('translation-article-warning').removeAttribute('hidden');
+      return false;
+    }
+
     if (translationsCheck === false) {
       document.getElementById('translation-warning').removeAttribute('hidden');
       return false;
@@ -114,7 +138,7 @@ export class CrudView {
     let newWordMessage = '';
     //info Holen aller Werte aus den Input-Feldern
     const translations = document.querySelectorAll('.modal-input');
-    if (!this.validateInput(word, translations)) {
+    if (!this.validateInput(word, translations, lang)) {
       return;
     }
     const translationsArr = [];
@@ -126,7 +150,7 @@ export class CrudView {
     try {
       const formData = new FormData();
       formData.append('action', 'createNewWord');
-      formData.append('authorId', session.userId);
+      formData.append('authorId', `${session.userId}`);
       formData.append('createdAt', session.date);
       formData.append('lang', lang);
       formData.append('word', word);
@@ -142,18 +166,18 @@ export class CrudView {
       console.log(error);
     }
     //info wenn der Rückgabewert der DB Abfrage > 0 ist, ist die Vokabel schon vorhanden,
-    if(Number(wordId) > 0) {
+    if (Number(wordId) > 0) {
       //info dann wird überprüft, ob sie im Heft ist
       const wordInBook = await this.wordInUserPool(lang, session.userId, wordId);
-      if(wordInBook === 'false') {
+      if (wordInBook === 'false') {
         //info und entweder diesem hinzugefügt oder nicht
         await this.addWordToUserPool(wordId);
         newWordMessage = (lang === 'en') ?
-          'The word already exists. It\'s been added to your book':
+          'The word already exists. It\'s been added to your book' :
           'Das Wort gibt es schon. Es wurde deinem Heft hinzugefügt';
       } else {
         newWordMessage = (lang === 'en') ?
-          'The word already exists and is already in your book':
+          'The word already exists and is already in your book' :
           'Das Wort gibt es schon und es ist schon im Heft';
       }
     } else {
@@ -181,6 +205,7 @@ export class CrudView {
     const descriptionTxt = (lang === 'en') ? 'Description' : 'Beschreibung';
     const radioWarning = (lang === 'en') ? 'chose a wordclass' : 'wähle eine Wortart';
     const wordWarning = (lang === 'en') ? 'you must put sth. here!' : 'du musst etwas eintragen!';
+    const articleWarning = (lang ==='en') ? 'provide an article for nouns' : 'Substantiv: gültiger Artikel fehlt';
     const modal = document.querySelector('.modal-container');
     const innerModal = document.querySelector('.inner-modal');
     innerModal.className = 'inner-modal';
@@ -222,6 +247,7 @@ export class CrudView {
                              <div class="modal-author">${authorTxt}: ${author}</div>`
     const wordContent = `<div class="modal-heading">${wordTxt}: </div>
                            <span id="word-warning" class="warning" hidden>${wordWarning}</span>
+                           <span id="word-article-warning" class="warning" hidden>${articleWarning}</span>
                            <input type="text" class="modal-native${noBorder}" id="word" value="${wordValue}" 
                            autocomplete="off" autofocus ${disabled}>
                          </div>`;
@@ -236,6 +262,7 @@ export class CrudView {
     const translation = `<div>
                            <div class="modal-heading">${translationTxt}: </div>
                            <span id="translation-warning" class="warning" hidden>${wordWarning}<br></span>
+                           <span id="translation-article-warning" class="warning" hidden>${articleWarning}<br></span>
                            <input type="text" class="modal-input${noBorder}" value="${translations[0]}" 
                            autocomplete="off" ${disabled}>
                            <button class="btn-modal btn-next" ${hidden}>&#43;</button>
@@ -294,8 +321,6 @@ export class CrudView {
     submit.addEventListener('click', () => {
       if (wordId === 0) {
         this.createNewWord();
-        // this.clearModal();
-        // loadStartPage();
       } else {
         this.updateDescription(wordId);
         clearModal();

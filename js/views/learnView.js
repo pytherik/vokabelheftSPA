@@ -108,6 +108,8 @@ export class LearnView {
     let wordclassTxt = `Wordclass: ${wordData.wordclass}`;
     const word = wordData.word;
     let answerWarning = ''
+    const to = (lang === 'en' && wordData.wordclass === 'verb') ? 'to ' : '';
+
     const questionTxt = (lang === 'en') ? 'What is the translation for the word' : 'Wie lautet die Übersetzung für';
     const checkAnswer = (lang === 'en') ? 'verify answer' : 'Antwort prüfen';
 
@@ -120,7 +122,8 @@ export class LearnView {
 
     //info Aufbau der Abfrage-Sektion
     const question = `<div class="wordclass">${wordclassTxt}</div>
-                      <div class="question">${questionTxt} '${word}'?</div>
+                      <div class="question">${questionTxt}</div>
+                      <div class="quest-word">${to}${word}</div>
                       <div class="answer"><input type="text" id="answer" autocomplete="off"></div>`;
 
     const submit = `<button class="btn-answer btn-green-big">${checkAnswer}</button>

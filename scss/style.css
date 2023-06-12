@@ -332,8 +332,14 @@ textarea {
 }
 
 .question {
-  font-size: 2.3rem;
+  font-size: 2.1rem;
   margin-bottom: 1.4rem;
+}
+
+.quest-word {
+  font-size: 2.4rem;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .wordclass {

@@ -125,13 +125,9 @@ export const loadStartPage = async () => {
       const wordId = editButton.dataset.editWordId;
       const wordclass = editButton.dataset.editWordclass;
       const authorName = editButton.dataset.editAuthorName;
-      // console.log(wordId, wordclass, authorName);
-      // const translation = await getTranslation(wordId, wordclass);
-      // const description = await getDescription(wordId, localStorage.getItem('userId'), localStorage.getItem('lang'));
-      // console.log(description);
-      // console.log(translation);
+      // const authorId = editButton.dataset.editAuthorId
       const editor = new CrudView();
-      editor.buildCreateForm(wordId, wordclass, authorName);
+      await editor.buildCreateForm(Number(wordId), wordclass, authorName);
     })
   })
 

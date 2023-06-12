@@ -89,6 +89,7 @@ export class ListView {
     const titleAdd = (localStorage.getItem('lang') === 'en') ? 'add to book' : 'zum Heft hizufügen';
     const titleRemove = (localStorage.getItem('lang') === 'en') ? 'remove from book' : 'aus Heft entfernen';
     const titleEdit = (localStorage.getItem('lang') === 'en') ? 'edit' : 'bearbeiten';
+    console.log(userContent[0])
     userContent.forEach((content, idx) => {
       let addedAt = content.created_at;
       addedAt = addedAt.split('-').reverse().join('.');
@@ -123,6 +124,7 @@ export class ListView {
                                      data-edit-word="${content.word}"
                                      data-edit-wordclass="${content.wordclass}"
                                      data-edit-author-name="${content.author_name}"
+                                     data-edit-author-id="${content.created_by}"
                                      title="edit word">
                   <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit" title="${titleEdit}">
                 </button>
