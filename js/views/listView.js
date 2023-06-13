@@ -135,7 +135,7 @@ export class ListView {
               </div>`;
         } else {
           row += `<button class="add" data-add-word-id="${content.word_id}" title="${titleAdd}">
-                    <img class="add-img" src="../../assets/images/icons/add.png" alt="add">
+                    <img class="add-img" src="./assets/images/icons/add.png" alt="add">
                   </button>
                 </div>
               </div`;
@@ -147,10 +147,10 @@ export class ListView {
                                      data-edit-author-name="${content.author_name}"
                                      data-edit-author-id="${content.created_by}"
                                      title="edit word">
-                  <img class="edit-img" src="../../assets/images/icons/edit2.png" alt="edit" title="${titleEdit}">
+                  <img class="edit-img" src="./assets/images/icons/edit2.png" alt="edit" title="${titleEdit}">
                 </button>
                 <button class="remove" data-remove-word-id="${content.id}" title="${titleRemove}">
-                  <img class="remove-img" src="../../assets/images/icons/remove.png" alt="remove">
+                  <img class="remove-img" src="./assets/images/icons/remove.png" alt="remove">
                 </button>
               </div>
             </div>`
@@ -161,8 +161,8 @@ export class ListView {
     if (row === '') {
       const message = (localStorage.getItem('lang') === 'en') ? 'Your Vocabulary Book is empty' : 'Dein Vokabelheft ist leer!';
       const text = (localStorage.getItem('lang') === 'en') ?
-        `Create new vocabularies on your own or get some to your book by clicking the <img src="../assets/images/icons/add.png"> from all learners` :
-        `Erstelle eigene Vokabeln oder klicke das <img src="../assets/images/icons/add.png"> von allen Lernenden und hole sie in dein Heft!!`;
+        `Create new vocabularies on your own or get some to your book by clicking the <img src="./assets/images/icons/add.png"> from all learners` :
+        `Erstelle eigene Vokabeln oder klicke das <img src="./assets/images/icons/add.png" alt="add to book"> von allen Lernenden und hole sie in dein Heft!!`;
       row = `<h2 class="message-empty">${message}</h2><div class="text-empty"><p>${text}</p></div>`;
       latestEntries.insertAdjacentHTML('beforeend', row);
     }

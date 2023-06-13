@@ -34,10 +34,17 @@ class Statistics implements JsonSerializable
     }
   }
 
+  /**
+   * @param $userId
+   * @param $date
+   * @return array|int[]
+   */
   public function getStatistics($userId, $date): array
+  //info Holen der Erfolgswerte des Lernenden
   {
     try {
       $dbh = DBConnect::connect();
+      //info Werte der aktuellen Session oder des Gesamtbestands
       $sql = ($date === '0') ? GET_USER_STATISTICS : GET_SESSION_STATISTICS;
       $stmt = $dbh->prepare($sql);
       $stmt->bindParam('userId', $userId);
@@ -57,7 +64,19 @@ class Statistics implements JsonSerializable
     }
   }
 
-  public function updateStatistics($userId, $date, $wordId, $lang, $isRight): string
+  /**
+   * @param $userId
+   * @param $date
+   * @param $wordId
+   * @param $lang
+   * @param $isRight
+   * @return void
+   */
+  public function updateStatistics($userId, $date, $wordId, $lang, $isRight): void
+    //info Jede beantwortete Frage wird mit allen nötigen Daten für die Auswertung abgespeichert:
+    // userId, date ist für jede Lernsession unterschiedlich, für alle Session Ereignisse gleich,
+    // lang entscheidet in welche Sprach-Spalte die wordId zugeordnet wird,
+    // isRight ist boolean 1: richtig, 0: falsch)
   {
     try {
       $dbh = DBConnect::connect();
@@ -68,8 +87,6 @@ class Statistics implements JsonSerializable
       $stmt->bindParam('wordId', $wordId);
       $stmt->bindParam('isRight', $isRight);
       $stmt->execute();
-      return "$userId, $date, $wordId, $lang, $isRight";
-//      return "Statistics updated successfully!";
     } catch (PDOException $e) {
       echo $e->getMessage();
       die();
@@ -123,8 +140,11 @@ class Statistics implements JsonSerializable
     return $this->isCorrect;
   }
 
-  public function jsonSerialize(): mixed
+  /**
+   * @return array
+   */
+  public function jsonSerialize(): array
   {
-    return get_object_vars();
+    return get_object_vars($this);
   }
 }

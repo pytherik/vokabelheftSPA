@@ -23,7 +23,12 @@ class User implements JsonSerializable
     }
   }
 
-  public function createOrGetUser($name, $password)
+  /**
+   * @param $name
+   * @param $password
+   * @return User
+   */
+  public function createOrGetUser($name, $password): User
   {
     try {
       $dbh = DBConnect::connect();
@@ -48,10 +53,14 @@ class User implements JsonSerializable
       }
     } catch (PDOException $e) {
       echo $e->getMessage();
+      die();
     }
   }
 
-  public function jsonSerialize(): mixed
+  /**
+   * @return array
+   */
+  public function jsonSerialize(): array
   {
     return [
       'id' => $this->id,

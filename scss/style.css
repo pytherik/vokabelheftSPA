@@ -113,7 +113,7 @@
 .inner-success-modal {
   background-color: #41644A;
   width: 23rem;
-  height: 32rem;
+  height: 35rem;
   border-radius: 0.2rem;
   margin: 30vh auto;
   padding: 0.5rem;
@@ -223,7 +223,7 @@ textarea {
   width: 100%;
   border: none;
   outline: none;
-  background: #172863;
+  background: #213555;
   color: #ddd;
 }
 
@@ -407,7 +407,7 @@ textarea {
 }
 
 body {
-  background: #172863;
+  background: #213555;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   color: #ddd;
 }

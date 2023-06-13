@@ -1,13 +1,3 @@
-# Lastenheft
-
-- Onlinetoool zum lernen von Vokabeln
-- beide Richtungen (englisch-deutsch deutsch-englisch)
-- für mehrere Benutzer mit eigener Sammlung 
-- in eigener Sammlung Kommentare möglich
-- Vokabeln von allen einsehbar 
-- 14 tage zeit
-
-
 # Pflichtenheft
 
 ## Start der Anwendung

@@ -34,7 +34,16 @@ class UserPool implements JsonSerializable
     }
   }
 
+  /**
+   * @param $userId
+   * @param $added_at
+   * @param $wordId
+   * @param $lang
+   * @param $description
+   * @return UserPool
+   */
   public function addNewWord($userId, $added_at, $wordId, $lang, $description): UserPool
+  //info neuer Lerncontent wird dem user_pool hinzugefügt
   {
     try {
       $dbh = DBConnect::connect();
@@ -63,7 +72,12 @@ class UserPool implements JsonSerializable
     }
   }
 
+  /**
+   * @param $id
+   * @return string
+   */
   public function removeWordById($id): string
+  //info Lerncontent wird aus user_pool entfernt
   {
     try {
       $dbh = DBConnect::connect();
@@ -78,7 +92,15 @@ class UserPool implements JsonSerializable
     }
   }
 
+  /**
+   * @param $userId
+   * @param $wordId
+   * @param $lang
+   * @return string
+   */
   public function getDescriptionById($userId, $wordId, $lang): string
+    //info Die Beschreibung für ein Wort kann hier separat abgefragt werden.
+    // Ist für die Edit Funktion notwendig
   {
     try {
       $response = '';
@@ -101,7 +123,15 @@ class UserPool implements JsonSerializable
     return $response;
   }
 
+  /**
+   * @param $userId
+   * @param $wordId
+   * @param $lang
+   * @param $description
+   * @return string
+   */
   public function updateDescription($userId, $wordId, $lang, $description): string
+  //info Editierte Beschreibungen werden eingetragen.
   {
     $response = '';
     try {
@@ -119,7 +149,15 @@ class UserPool implements JsonSerializable
     return $response;
   }
 
+  /**
+   * @param int $userId
+   * @param int $wordId
+   * @param string $lang
+   * @return mixed|string|void
+   */
   public function getSingleObject(int $userId, int $wordId, string $lang)
+    //info wird nur zur Überprüfung benötigt, ob ein Wort im user_pool Bestand
+    // eines Benutzers ist
   {
     try {
       $dbh = DBConnect::connect();

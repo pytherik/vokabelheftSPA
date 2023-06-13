@@ -156,8 +156,7 @@ switch ($action) {
       $lang = $_POST['lang'];
       $date = $_POST['date'];
       $isRight = ($_POST['isRight'] === 'true') ? 1 : 0;
-      $response = (new Statistics())->updateStatistics($userId, $date, $wordId, $lang, $isRight);
-      echo json_encode($response);
+      (new Statistics())->updateStatistics($userId, $date, $wordId, $lang, $isRight);
     } else {
       echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
     }

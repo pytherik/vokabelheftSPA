@@ -45,8 +45,17 @@ class UserContent implements JsonSerializable
     }
   }
 
+  /**
+   * @param int $id
+   * @param string $lang
+   * @return array
+   */
   public function getAllAsObjects(int $id, string $lang): array
   {
+    //info Der Gesamtbestand der Wörter in der jeweiligen Sprache wird,
+    // bezogen auf den Benutzer oder alle Benutzer aus dem Bestand gelesen
+    // und in einer kombinierten Anfrage mit weiteren benötigten Informationen
+    // angereichert (wordclass, username, created_by, created_at)
     try {
       $dbh = DBConnect::connect();
       if ($lang === 'en') {
@@ -70,6 +79,9 @@ class UserContent implements JsonSerializable
     }
   }
 
+  /**
+   * @return array
+   */
   public function jsonSerialize(): array
   {
     return get_object_vars($this);

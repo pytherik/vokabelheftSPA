@@ -268,13 +268,13 @@ export class LearnView {
     const backBtn = document.getElementById('back-btn');
     //info Fokus auf Weiterlernen legen, je nach click verschiedene Seiten (learn oder start aufrufen)
     nextBtn.focus();
-    nextBtn.addEventListener('click', () => {
+    nextBtn.addEventListener('click', async () => {
       this.clearModal();
-      loadLearnPage(this.mode);
+      await loadLearnPage(this.mode);
     })
-    backBtn.addEventListener('click', () => {
+    backBtn.addEventListener('click', async () => {
       this.clearModal();
-      loadStartPage();
+      await loadStartPage();
     })
   }
 

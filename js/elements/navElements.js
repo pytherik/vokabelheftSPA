@@ -8,8 +8,8 @@ export const navElements = () => {
   navContainer.className = 'nav-container';
 
   const toggleLang = `<div class="toggle-lang">
-    <img class="lang-icon" id="lang-de" src="../assets/images/icons/btn-de.png" alt="deutsch" title="umschalten auf deutsch">
-    <img class="lang-icon" id="lang-en" src="../assets/images/icons/btn-en.png" alt="english" title="switch to english"> 
+    <img class="lang-icon" id="lang-de" src="./assets/images/icons/btn-de.png" alt="deutsch" title="umschalten auf deutsch">
+    <img class="lang-icon" id="lang-en" src="./assets/images/icons/btn-en.png" alt="english" title="switch to english"> 
   </div>`;
 
   const createButton = document.createElement('button');
