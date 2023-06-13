@@ -1,12 +1,15 @@
+import {urlActionSwitch} from "../config.js";
+
 export const getTranslation = async (id, wordclass) => {
+  const lang = localStorage.getItem('lang');
   try {
     console.log(id, wordclass);
     const formData = new FormData();
     formData.append('action', 'getTranslation');
     formData.append('id', id);
     formData.append('wordclass', wordclass)
-    formData.append('lang', localStorage.getItem('lang'));
-    const result = await fetch('http://localhost:63342/vokabelheftSPA/actionSwitch.php', {
+    formData.append('lang', lang);
+    const result = await fetch(urlActionSwitch, {
       body: formData,
       method: 'POST'
     })
@@ -17,15 +20,16 @@ export const getTranslation = async (id, wordclass) => {
 }
 
 export const showTranslation = (translation, wordclass, authorName, description) => {
-  const vonBy = (localStorage.getItem('lang') === 'en') ? 'by': 'von';
-  const descriptionTxt = (localStorage.getItem('lang') === 'en') ? 'Description:' : 'Beschreibung:';
-  if (localStorage.getItem('lang') === 'de') {
+  const lang = localStorage.getItem('lang');
+  const vonBy = (lang === 'en') ? 'by': 'von';
+  const descriptionTxt = (lang === 'en') ? 'Description:' : 'Beschreibung:';
+  if (lang === 'de') {
     if (wordclass === 'verb') wordclass = 'Verb';
     if (wordclass === 'noun') wordclass = 'Substantiv';
     if (wordclass === 'adjective') wordclass = 'Adjektiv';
     if (wordclass === 'other') wordclass = 'Andere';
   }
-  const translationsTxt = (localStorage.getItem('lang') === 'en') ? 'Translations': 'Überstzungen';
+  const translationsTxt = (lang === 'en') ? 'Translations': 'Überstzungen';
   const modal = document.querySelector('.modal-container');
   modal.style.display = 'block';
   const innerModal = document.querySelector('.inner-modal');

@@ -21,12 +21,12 @@ export class CrudView {
   }
 
   //info im Edit Modus werden die Übersetzungen nur angezeigt, sind nicht veränderbar
-  addTranslation = (translationValue) => {
+  addTranslation = (to, translationValue) => {
     const translationEl = document.createElement('div');
     translationEl.className = 'input-container';
 
     const translation = `<div class="input-element">
-                           <input type="text" class="modal-input no-border" value="${translationValue}" disabled> 
+                           <input type="text" class="modal-input no-border" value="${to}${translationValue}" disabled> 
                           </div>`;
 
     translationEl.insertAdjacentHTML('beforeend', translation);
@@ -233,13 +233,14 @@ export class CrudView {
     const translationTxt = (lang === 'en') ? 'Translations' : 'Bedeutungen';
     const descriptionTxt = (lang === 'en') ? 'Description' : 'Beschreibung';
     const radioWarning = (lang === 'en') ? 'chose a wordclass' : 'wähle eine Wortart';
-    const wordWarning = (lang === 'en') ? 'you must put sth. here!' : 'du musst etwas eintragen!';
-    const articleWarning = (lang ==='en') ? 'provide an article for nouns' : 'Substantiv: gültiger Artikel fehlt';
+    const wordWarning = (lang === 'en') ? 'must not be empty' : 'darf nicht leer sein';
+    const articleWarning = (lang ==='en') ? 'german noun must have an article' : 'Substantive brauchen einen Artikel';
     const modal = document.querySelector('.modal-container');
     const innerModal = document.querySelector('.inner-modal');
     innerModal.className = 'inner-modal';
     let translations = ['']
     let descriptionValue = '';
+    let to = '';
     let disabled = '';
     let hidden = '';
     let wordValue = ''
@@ -247,12 +248,12 @@ export class CrudView {
     //info Edit-Modus tritt ein, wenn eine wortId vorhanden ist (0 bedeutet nicht vorhanden)
     if (wordId > 0) {
       innerModal.className = 'inner-edit-modal';
-      wordTxt = (lang === 'en') ? 'Edit description for' : 'Beschreibung ändern';
+      wordTxt = (lang === 'en') ? 'Edit description' : 'Beschreibung ändern';
       if (lang === 'de') {
         if (wordclass === 'noun') wordclass = 'Substantiv';
         if (wordclass === 'verb') wordclass = 'Verb';
         if (wordclass === 'adjective') wordclass = 'Adjektiv';
-        if (wordclass === 'other') wordclass = 'Andere';
+        if (wordclass === 'other') wordclass = 'andere';
       }
       //info alle Informationen bereitstellen um vorhandene Werte anzuzeigen und nur das
       // editieren der Description zuzulassen
@@ -262,13 +263,20 @@ export class CrudView {
       const translation = await getTranslation(wordId, wordclass);
       descriptionValue = await getDescription(wordId, session.userId, localStorage.getItem('lang'));
       translations = translation.translations;
-      wordValue = translation.word;
+      if (lang === 'en' && wordclass === 'verb' ) {
+        wordValue = 'to ' + translation.word;
+      } else if (lang === 'de' && wordclass === 'Verb') {
+        wordValue = translation.word;
+        to = 'to ';
+      } else {
+        wordValue = translation.word;
+      }
     }
     modal.style.display = 'block';
-    const noun = (localStorage.getItem('lang') === 'en') ? 'noun' : 'Substantiv';
-    const verb = (localStorage.getItem('lang') === 'en') ? 'verb' : 'Verb';
-    const adjective = (localStorage.getItem('lang') === 'en') ? 'adjective' : 'Adjektiv';
-    const other = (localStorage.getItem('lang') === 'en') ? 'other' : 'Andere';
+    const noun = (lang === 'en') ? 'noun' : 'Substantiv';
+    const verb = (lang === 'en') ? 'verb' : 'Verb';
+    const adjective = (lang === 'en') ? 'adjective' : 'Adjektiv';
+    const other = (lang === 'en') ? 'other' : 'Andere';
 
     const quitButton = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">`;
     const authorContent = `<div>
@@ -292,7 +300,7 @@ export class CrudView {
                            <div class="modal-heading">${translationTxt}: </div>
                            <span id="translation-warning" class="warning" hidden>${wordWarning}<br></span>
                            <span id="translation-article-warning" class="warning" hidden>${articleWarning}<br></span>
-                           <input type="text" class="modal-input${noBorder}" value="${translations[0]}" 
+                           <input type="text" class="modal-input${noBorder}" value="${to}${translations[0]}" 
                            autocomplete="off" ${disabled}>
                            <button class="btn-modal btn-next" ${hidden}>&#43;</button>
                          </div>`;
@@ -307,10 +315,9 @@ export class CrudView {
     const inputsContainer = document.createElement('div');
     inputsContainer.insertAdjacentHTML('beforeend', translation)
 
-    //info alle weiteren bekommen einen minus Button
     if (translations.length > 1) {
       for (let j = 1; j < translations.length; j++) {
-        inputsContainer.insertAdjacentElement('beforeend', this.addTranslation(translations[j]));
+        inputsContainer.insertAdjacentElement('beforeend', this.addTranslation(to, translations[j]));
       }
     }
 

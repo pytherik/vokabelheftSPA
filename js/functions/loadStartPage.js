@@ -96,8 +96,14 @@ export const loadStartPage = async () => {
       let description = await getDescription(wordId, session.userId, localStorage.getItem('lang'));
       if (description === '') {
         description = (localStorage.getItem('lang') === 'en') ?
-          'click the edit button to add a description' :
-          'klick auf den Edit-Button um eine Beschreibung hinzuzufügen';
+          `click edit                            
+                           <span class="edit-small">
+                            <img class="edit-img" src="./assets/images/icons/edit2.png" alt="edit" >
+                           </span> to add a description` :
+          `füge mit Edit 
+                           <span class="edit-small">
+                            <img class="edit-img" src="./assets/images/icons/edit2.png" alt="edit" >
+                           </span> eine Beschreibung hinzu`;
       }
       console.log(description);
       console.log(translation);
