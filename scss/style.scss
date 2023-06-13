@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Comfortaa&family=Roboto:wght@400;500;700&family=Tsukimi+Rounded&display=swap');
+$font-fam-primary: 'Roboto', Arial, Helvetica, sans-serif;
+//$font-fam-primary: 'Tsukimi Rounded', Arial, Helvetica, sans-serif;
 $bg-color-primary: #172863ff;
-//$bg-color-primary: #444;
 $bg-color-secondary: #66666666;
 $font-color-main: #ddd;
 $btn-color-green: #88ac78aa;
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 @import 'mixins';
 @import 'buttons';
 @import 'modal';
@@ -38,7 +39,7 @@ $btn-color-green: #88ac78aa;
 }
 body {
   background: $bg-color-primary;
-  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-family: $font-fam-primary;
   color: $font-color-main;
 }
 

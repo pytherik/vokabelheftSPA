@@ -297,6 +297,7 @@ export class CrudView {
     innerModal.insertAdjacentHTML('beforeend', textArea);
     innerModal.insertAdjacentElement('beforeend', submit);
 
+    document.getElementById('word').focus();
     //info hinzufügen einer weiteren Übersetzung, 4 ist Maximum
     const nextButton = document.querySelector('.btn-next');
     nextButton.addEventListener('click', () => {
