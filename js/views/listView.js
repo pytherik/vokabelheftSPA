@@ -107,7 +107,6 @@ export class ListView {
     const titleAdd = (localStorage.getItem('lang') === 'en') ? 'add to book' : 'zum Heft hizufügen';
     const titleRemove = (localStorage.getItem('lang') === 'en') ? 'remove from book' : 'aus Heft entfernen';
     const titleEdit = (localStorage.getItem('lang') === 'en') ? 'edit' : 'bearbeiten';
-    console.log(userContent[0])
     userContent.forEach((content, idx) => {
       let addedAt = content.created_at;
       addedAt = addedAt.split('-').reverse().join('.');

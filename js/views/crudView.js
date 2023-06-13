@@ -2,6 +2,7 @@ import {session, urlActionSwitch} from "../config.js";
 import {loadStartPage} from "../functions/loadStartPage.js";
 import {getTranslation} from "../functions/translateFunctions.js";
 import {getDescription} from "../functions/getDescription.js";
+import {getDateTime} from "../functions/getDateTime.js";
 
 export class CrudView {
 
@@ -87,7 +88,6 @@ export class CrudView {
     let articleCheck = true;
     translations.forEach(tr => {
       if (lang === 'en' && wordclassValue === 'noun') {
-        console.log(tr)
         if ((tr.value.split(' ').length > 1 && !['der','die','das'].includes(tr.value.split(' ')[0]) ||
           (tr.value.split(' ').length === 1))){
           articleCheck = false;
@@ -133,7 +133,7 @@ export class CrudView {
   //info Aufnehmen einer neuen Vokabel in DB
   async createNewWord() {
     const lang = localStorage.getItem('lang');
-    const word = document.getElementById('word').value;
+    let word = document.getElementById('word').value;
     let wordId = 0;
     let newWordMessage = '';
     //info Holen aller Werte aus den Input-Feldern
@@ -141,17 +141,46 @@ export class CrudView {
     if (!this.validateInput(word, translations, lang)) {
       return;
     }
-    const translationsArr = [];
-    translations.forEach(tr => {
-      translationsArr.push(tr.value);
-    })
     const wordclass = document.querySelector(`input[name="class"]:checked`).value;
     const description = document.querySelector('.modal-textarea').value;
+
+    if (lang === 'de' && wordclass === 'noun') {
+      const wordArr = word.split(' ')
+      const capitalized = wordArr[1].charAt(0).toUpperCase() + wordArr[1].slice(1);
+      word = [wordArr[0], capitalized].join(' ');
+    }
+
+    if (lang === 'en' && wordclass === 'verb') {
+      if(word.split(' ').length > 1 && word.split(' ')[0] === 'to') {
+        word = word.split(' ')[1];
+      }
+    }
+
+    const translationsArr = [];
+    let translation = ''
+    translations.forEach(tr => {
+      if (lang === 'en' && wordclass === 'noun') {
+        const wordArr = tr.value.split(' ')
+        const capitalized = wordArr[1].charAt(0).toUpperCase() + wordArr[1].slice(1);
+        translation = [wordArr[0], capitalized].join(' ');
+      } else if (lang === 'de' && wordclass === 'verb') {
+        if(tr.value.split(' ').length > 1 && tr.value.split(' ')[0] === 'to') {
+          translation = tr.value.split(' ')[1];
+        } else {
+          translation = tr.value;
+        }
+      } else {
+        translation = tr.value;
+      }
+      translationsArr.push(translation);
+    })
+
     try {
       const formData = new FormData();
+      const dateTime = getDateTime();
       formData.append('action', 'createNewWord');
       formData.append('authorId', `${session.userId}`);
-      formData.append('createdAt', session.date);
+      formData.append('createdAt', dateTime);
       formData.append('lang', lang);
       formData.append('word', word);
       formData.append('wordclass', wordclass);
@@ -173,17 +202,17 @@ export class CrudView {
         //info und entweder diesem hinzugefügt oder nicht
         await this.addWordToUserPool(wordId);
         newWordMessage = (lang === 'en') ?
-          'The word already exists. It\'s been added to your book' :
-          'Das Wort gibt es schon. Es wurde deinem Heft hinzugefügt';
+          'Existing word. Added to your book now!' :
+          'Schon vorhanden. Jetzt auch im Heft!';
       } else {
         newWordMessage = (lang === 'en') ?
-          'The word already exists and is already in your book' :
-          'Das Wort gibt es schon und es ist schon im Heft';
+          'The word is already in your book' :
+          'Das Wort ist schon im Heft';
       }
     } else {
       newWordMessage = (lang === 'en') ?
-        'The word was added to book and collection' :
-        'Das Wort ist jetzt im Heft und in der Sammlung';
+        'Word added to book and collection!' :
+        'Wort erstellt in Heft und in Sammlung!';
     }
 
     //info Die Messages sind für 2 Sekunden sichtbar, dann wird Anzeige gelöscht
@@ -369,8 +398,8 @@ export class CrudView {
         body: formData,
         method: 'POST'
       })
-      const data = await result.json();
-      loadStartPage();
+      // const data = await result.json();
+      await loadStartPage();
     } catch (error) {
       console.log(error);
     }
@@ -387,8 +416,8 @@ export class CrudView {
         body: formData,
         method: 'POST'
       })
-      const data = await result.json();
-      loadStartPage();
+      // const data = await result.json();
+      await loadStartPage();
     } catch (error) {
       console.log(error);
     }

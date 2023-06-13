@@ -25,7 +25,7 @@
 }
 
 .edit {
-  background-color: #F2B6A0;
+  background-color: #EBD8B2;
   border: none;
 }
 
@@ -132,8 +132,7 @@
 }
 
 .inner-edit-modal {
-  justify-content: flex-start;
-  height: 25rem;
+  height: 31rem;
 }
 .inner-edit-modal .modal-description {
   margin-top: 1rem;
@@ -244,7 +243,7 @@ textarea {
 }
 
 .warning {
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: #EA906C;
 }
 
@@ -554,8 +553,8 @@ button {
 }
 
 .new-word-message {
-  font-size: 0.9rem;
-  color: #EA906C;
+  font-size: 1.3rem;
+  color: #FFDD83;
 }
 
 @media (max-width: 2000px) {

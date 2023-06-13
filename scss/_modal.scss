@@ -34,8 +34,7 @@
 }
 
 .inner-edit-modal {
-  justify-content: flex-start;
-  height: 25rem;
+  height: 31rem;
   .modal-description {
     margin-top: 1rem;
   }
@@ -142,7 +141,8 @@ textarea {
 }
 
 .warning {
-  font-size: .8rem;
+  font-size: 1rem;
+  //color: #FFDD83;
   color: #EA906C;
 }
 

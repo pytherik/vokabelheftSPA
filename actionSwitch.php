@@ -7,6 +7,8 @@ spl_autoload_register(function ($class) {
   include sprintf('classes/%s.php', $class);
 });
 
+//info Anfragen aus javaScript beinhalten die $action,
+// welche den case des switches aufruft
 $action = $_POST['action'];
 switch ($action) {
   case 'userLogin':
@@ -100,14 +102,10 @@ switch ($action) {
   case 'getDescription':
     session_start();
     $userId = $_POST['userId'];
-    if ($userId == $_SESSION['userId']) {
       $wordId = $_POST['wordId'];
       $lang = $_POST['lang'];
       $response = (new UserPool())->getDescriptionById($userId, $wordId, $lang);
       echo json_encode($response);
-    } else {
-      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
-    }
     break;
   case 'updateDescription':
     session_start();
