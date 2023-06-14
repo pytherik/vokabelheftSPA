@@ -47,8 +47,7 @@ export class CrudView {
         body: formData,
         method: 'POST'
       })
-      const response = await result.json();
-      console.log(response);
+      // const response = await result.json();
     } catch (error) {
       console.log(error);
     }
@@ -248,7 +247,7 @@ export class CrudView {
     //info Edit-Modus tritt ein, wenn eine wortId vorhanden ist (0 bedeutet nicht vorhanden)
     if (wordId > 0) {
       innerModal.className = 'inner-edit-modal';
-      wordTxt = (lang === 'en') ? 'Edit description' : 'Beschreibung ändern';
+      wordTxt = (lang === 'en') ? 'Edit description for' : 'Beschreibung ändern für';
       if (lang === 'de') {
         if (wordclass === 'noun') wordclass = 'Substantiv';
         if (wordclass === 'verb') wordclass = 'Verb';
@@ -286,7 +285,7 @@ export class CrudView {
                            <span id="word-warning" class="warning" hidden>${wordWarning}</span>
                            <span id="word-article-warning" class="warning" hidden>${articleWarning}</span>
                            <input type="text" class="modal-native${noBorder}" id="word" value="${wordValue}" 
-                           autocomplete="off" autofocus ${disabled}>
+                           autocomplete="off" ${disabled}>
                          </div>`;
     const wordclassCheck = `<div class="modal-heading">${wordclassTxt}: ${wordclass}</div>
                               <span id="radio-warning" class="warning" hidden>${radioWarning}</span>

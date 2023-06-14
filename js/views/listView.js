@@ -17,13 +17,16 @@ export class ListView {
     tableHeaderContent.className = 'tableSearchInput';
     const search = (localStorage.getItem('lang') === 'en') ? 'search' : 'suchen';
     const tableHeader = `<span class="table__header">${headerContent}</span>`;
-    const searchBar = `<input type="search" id="search" placeholder="${search}" autocomplete="off">`
+    const searchAllBar = `<input type="search" class="search" id="search-all" placeholder="${search}" autocomplete="off">`
+    const searchUserBar = `<input type="search" class="search" id="search-user" placeholder="${search}" autocomplete="off">`
     if (tableId === 'table2'){
       tableHeaderContent.insertAdjacentHTML('beforeend', tableHeader)
-      tableHeaderContent.insertAdjacentHTML('beforeend', searchBar);
+      tableHeaderContent.insertAdjacentHTML('beforeend', searchAllBar);
       table.insertAdjacentElement('beforeend', tableHeaderContent);
     } else {
-      table.insertAdjacentHTML('beforeend', tableHeader);
+      tableHeaderContent.insertAdjacentHTML('beforeend', tableHeader)
+      tableHeaderContent.insertAdjacentHTML('beforeend', searchUserBar);
+      table.insertAdjacentElement('beforeend', tableHeaderContent);
     }
     return table
   }
@@ -108,6 +111,8 @@ export class ListView {
     const titleRemove = (localStorage.getItem('lang') === 'en') ? 'remove from book' : 'aus Heft entfernen';
     const titleEdit = (localStorage.getItem('lang') === 'en') ? 'edit' : 'bearbeiten';
     userContent.forEach((content, idx) => {
+      let to = '';
+      if (localStorage.getItem('lang') === 'en' && content.wordclass === 'verb') to = 'to '
       let addedAt = content.created_at;
       addedAt = addedAt.split('-').reverse().join('.');
       row = `<div class="row" data-${dataId}-row="${content.word}">
@@ -118,7 +123,7 @@ export class ListView {
                     <span class="right">${('0' + Number(idx+1)).slice(-2)}.
                     <small><em>(${content.wordclass.slice(0, 1)})</em></small>
                     </span>
-                    <span> ${content.word}</span>
+                    <span> ${to}${content.word}</span>
                   </span>
                 </div>
               <div>
@@ -156,16 +161,20 @@ export class ListView {
       }
       latestEntries.insertAdjacentHTML('beforeend', row);
     });
+
     //info bei einem leeren Heft bekommt der User eine Information
     if (row === '') {
-      const message = (localStorage.getItem('lang') === 'en') ? 'Your Vocabulary Book is empty' : 'Dein Vokabelheft ist leer!';
+      const message = (localStorage.getItem('lang') === 'en') ?
+        'Your Vocabulary Book is empty' :
+        'Dein Vokabelheft ist leer!';
       const text = (localStorage.getItem('lang') === 'en') ?
-        `Create new vocabularies on your own or get some to your book by clicking the <img src="./assets/images/icons/add.png"> from all learners` :
-        `Erstelle eigene Vokabeln oder klicke das <img src="./assets/images/icons/add.png" alt="add to book"> von allen Lernenden und hole sie in dein Heft!!`;
+        `Create new vocabularies on your own or fetch some for your book by clicking the 
+          <img src="./assets/images/icons/add.png"> from all learners!` :
+        `Erstelle eigene Vokabeln oder klicke das 
+          <img src="./assets/images/icons/add.png" alt="add to book"> von allen Lernenden und hole sie in dein Heft!`;
       row = `<h2 class="message-empty">${message}</h2><div class="text-empty"><p>${text}</p></div>`;
       latestEntries.insertAdjacentHTML('beforeend', row);
     }
-
     return latestEntries;
   }
 

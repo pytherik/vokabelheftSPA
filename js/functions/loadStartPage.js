@@ -49,13 +49,11 @@ export const loadStartPage = async () => {
 
   //info nur Vokabeln des aktuellen Benutzers abfragen
   buttonUser.addEventListener('click', () => {
-    console.log('btn-user clicked');
     loadLearnPage(false);
   })
 
   //info Vokabeln von allen Benutzern abfragen
   buttonAllUsers.addEventListener('click', () => {
-    console.log('btn-all-users clicked');
     loadLearnPage(true);
   })
 
@@ -105,8 +103,6 @@ export const loadStartPage = async () => {
                             <img class="edit-img" src="./assets/images/icons/edit2.png" alt="edit" >
                            </span> eine Beschreibung hinzu`;
       }
-      console.log(description);
-      console.log(translation);
       showTranslation(translation, wordclass, authorName, description);
     })
   })
@@ -144,18 +140,31 @@ export const loadStartPage = async () => {
     creator.buildCreateForm();
   })
 
-  const searchInput = document.getElementById('search');
-  const words = document.querySelectorAll('[data-all-words-id-row]');
-  searchInput.addEventListener('input', (e) => {
+  //info Suchfunktion für alle Vokabeln
+  const searchAllInput = document.getElementById('search-all');
+  const allWords = document.querySelectorAll('[data-all-words-id-row]');
+  searchAllInput.addEventListener('input', (e) => {
     const value = e.target.value;
-    words.forEach(word => {
+    allWords.forEach(word => {
+      //info Ausblenden aller Wörter in denen value nicht enthalten ist
       const contentWord = word.dataset.allWordsIdRow;
       const isVisible = contentWord.includes(value)
       word.classList.toggle('hide', !isVisible);
-      // console.log(contentWord);
     })
   })
 
+  //info Suchfunktion für Vokabeln aus dem Heft
+  const searchInput = document.getElementById('search-user');
+  const words = document.querySelectorAll('[data-word-id-row]');
+  searchInput.addEventListener('input', (e) => {
+    const value = e.target.value;
+    words.forEach(word => {
+      //info Ausblenden aller Wörter in denen value nicht enthalten ist
+      const contentWord = word.dataset.wordIdRow;
+      const isVisible = contentWord.includes(value)
+      word.classList.toggle('hide', !isVisible);
+    })
+  })
 
   const logoutButton = document.querySelector('.btn-logout');
   logoutButton.addEventListener('click', () => logout());

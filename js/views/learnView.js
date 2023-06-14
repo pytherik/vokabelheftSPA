@@ -174,6 +174,7 @@ export class LearnView {
 
   //info die Antwort prüfen und Success-Modale aufrufen
   verifyAnswer = async (wordData, answer) => {
+    if (answer.split(' ')[0] === 'to') answer = answer.split(' ')[1];
     if (wordData.translations.includes(answer)) {
       await this.updateStatistics(wordData, true);
       this.showSuccess(wordData, answer, true);
@@ -210,11 +211,13 @@ export class LearnView {
     let heading = '';
     let comment = '';
     let hint = '';
+    let to = '';
     //info Boolean isCorrect entscheidet über Inhalt, Inhalt nach Sprache erzeugen
     if (isCorrect) {
+      if (lang === 'de' && wordData.wordclass === 'verb') to = 'to ';
       heading = (lang === 'en') ? 'Congratulations!' : 'Glückwunsch!';
       comment = (lang === 'en') ?
-        `${answer} is correct!` : `${answer} ist korrekt!`
+        `${to}${answer} is correct!` : `${to}${answer} ist korrekt!`
       if (wordData.translations.length > 1) {
         hint = (lang === 'en') ?
           `There are further translations for the word` :
@@ -231,27 +234,29 @@ export class LearnView {
 
       heading = (lang === 'en') ? 'WTF!' : 'Hmpf!';
       comment = (lang === 'en') ?
-        `${answer} is wrong!` : `${answer} ist falsch!`
+        `${to}${answer} is wrong!` : `${to}${answer} ist falsch!`
     }
 
     const nextBtnTxt = (lang === 'en') ? 'go on' : 'weiter';
     const backBtnTxt = (lang === 'en') ? 'stop it' : 'aufhören';
-
+    to = '';
     //info DOM Modal Elemente holen und Inhalte einfügen
     const modal = document.querySelector('.modal-container');
     modal.style.display = 'block';
     const innerModal = document.querySelector('.inner-modal');
+    if (lang === 'en' && wordData.wordclass === 'verb') to = 'to ';
     innerModal.className = 'inner-success-modal';
     let modalContent = `<div><h1 class="success-heading">${heading}</h1>
-                        <h2 class="success-comment">${comment}</h2>
+                        <div class="success-comment"><h2>${comment}</h2></div>
                         <div class="success-hint">${hint}</div>
-                        <div class="success-word">${wordData.word}</div></div>`;
+                        <div class="success-word">${to}${wordData.word}</div></div>`;
     //info wenn Antwort richtig war nur weitere Übersetzungen anzeigen, sonst alle
     if (isCorrect && wordData.translations.length > 1 || !isCorrect) {
+      if (lang === 'de' && wordData.wordclass === 'verb') to = 'to ';
       modalContent += `<div><ul class="modal-list">`;
       for (let i = 0; i < wordData.translations.length; i++) {
         if (wordData.translation !== answer){
-          modalContent += `<li class="list-item">${wordData.translations[i]}</li>`;
+          modalContent += `<li class="list-item">${to}${wordData.translations[i]}</li>`;
         }
       }
       modalContent += `</ul></div>`;
@@ -261,7 +266,13 @@ export class LearnView {
                        <button class="btn-success" id="back-btn">${backBtnTxt}</button></div></div>`;
     innerModal.insertAdjacentHTML('beforeend', modalContent);
     modal.insertAdjacentElement('beforeend', innerModal);
-
+    if (isCorrect) {
+      document.querySelector('.success-comment').classList.remove('wrong');
+      document.querySelector('.success-comment').classList.add('correct');
+    } else {
+      document.querySelector('.success-comment').classList.remove('correct');
+      document.querySelector('.success-comment').classList.add('wrong');
+    }
     const nextBtn = document.getElementById('next-btn');
     const backBtn = document.getElementById('back-btn');
     //info Fokus auf Weiterlernen legen, je nach click verschiedene Seiten (learn oder start aufrufen)

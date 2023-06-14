@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Comfortaa&family=Roboto:wght@400;500;700&family=Tsukimi+Rounded&display=swap');
 $font-fam-primary: 'Roboto', Arial, Helvetica, sans-serif;
 //$font-fam-primary: 'Tsukimi Rounded', Arial, Helvetica, sans-serif;
-$bg-color-primary: #213555;
+$bg-color-primary: #27374D;
 $bg-color-secondary: #66666666;
 $font-color-main: #ddd;
 $btn-color-green: #88ac78aa;
@@ -38,7 +38,8 @@ $btn-color-green: #88ac78aa;
   color:    #ccc;
 }
 body {
-  background: $bg-color-primary;
+  height: 100vh;
+  background-image: linear-gradient($bg-color-primary, #374259);
   font-family: $font-fam-primary;
   color: $font-color-main;
 }
@@ -170,11 +171,15 @@ button {
 .row.hide {
   display: none;
 }
+
+.row:nth-of-type(even) {
+  background: #aaaaaa11;
+}
 .tableSearchInput {
   display: flex;
   justify-content: space-between;
 }
-#search {
+.search {
   font-size: 1.2rem;
   width: 10rem;
   background-color: $bg-color-secondary;

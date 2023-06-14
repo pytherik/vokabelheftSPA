@@ -4,7 +4,6 @@ import {urlActionSwitch} from "../config.js";
 export const getTranslation = async (id, wordclass) => {
   const lang = localStorage.getItem('lang');
   try {
-    console.log(id, wordclass);
     const formData = new FormData();
     formData.append('action', 'getTranslation');
     formData.append('id', id);
@@ -22,7 +21,9 @@ export const getTranslation = async (id, wordclass) => {
 
 export const showTranslation = (translation, wordclass, authorName, description) => {
   const lang = localStorage.getItem('lang');
-  const vonBy = (lang === 'en') ? 'by': 'von';
+  const vonBy = (lang === 'en') ? 'by': 'von'
+  let to = '';
+
   const descriptionTxt = (lang === 'en') ? 'Description:' : 'Beschreibung:';
   if (lang === 'de') {
     if (wordclass === 'verb') wordclass = 'Verb';
@@ -30,6 +31,7 @@ export const showTranslation = (translation, wordclass, authorName, description)
     if (wordclass === 'adjective') wordclass = 'Adjektiv';
     if (wordclass === 'other') wordclass = 'Andere';
   }
+  if (wordclass === 'verb' && lang === 'en') to = 'to ';
   const translationsTxt = (lang === 'en') ? 'Translations': 'Überstzungen';
   const modal = document.querySelector('.modal-container');
   modal.style.display = 'block';
@@ -38,13 +40,14 @@ export const showTranslation = (translation, wordclass, authorName, description)
   let modalContent = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">
                       <div class="modal-author">${vonBy} ${authorName}</div>
                       <div>
-                        <span class="modal-word">${translation.word}</span> 
+                        <span class="modal-word">${to}${translation.word}</span> 
                         <span class="modal-wordclass"> <i>(${wordclass})</i>:</span>
                       </div>
                       <div class="modal-translation">${translationsTxt}:</div>
                         <ul class="translation">`;
   translation.translations.forEach(translation => {
-    modalContent += `<li class="modal-word">${translation}</li>`;
+    if (wordclass === 'Verb' && lang === 'de') to = 'to ';
+    modalContent += `<li class="modal-word">${to}${translation}</li>`;
   })
   modalContent += `</ul>
                   <div class="modal-description">${descriptionTxt}</div>

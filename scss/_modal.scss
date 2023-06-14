@@ -33,6 +33,10 @@
   }
 }
 
+.modal-description {
+  font-size: 1.3rem;
+}
+
 .inner-edit-modal {
   height: 31rem;
   .modal-description {
@@ -41,7 +45,7 @@
 }
 
 .inner-success-modal {
-  height: 21.5rem;
+  height: 25rem;
 }
 .modal-word {
   font-size: 1.2rem;
@@ -59,16 +63,30 @@
 }
 
 .success-comment {
-  margin-bottom: 2rem;
   text-align: center;
+  width: 75%;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  padding: 0.5rem;
+  border-radius: 3px;
+}
+.wrong {
+  background: #E5580755;
+}
+
+.correct {
+  background: #aaaaaa33;
 }
 
 .success-hint {
+  text-align: center;
   font-size: 1rem;
 }
 
 .success-word {
-  margin: .5rem;
+  font-size: 1.3rem;
+  text-align: center;
+  margin-top: .5rem;
 }
 
 .modal-buttons {
@@ -81,6 +99,14 @@
   border-radius: 5px;
   width: 8rem;
   height: 1.8rem;
+}
+.modal-list {
+  text-align: center;
+  background: #aaaaaa33;
+  width: 75%;
+  margin: 0 auto;
+  padding: 0.5rem;
+  border-radius: 3px;
 }
 
 .list-item {
@@ -168,9 +194,14 @@ textarea {
 
 .btn-submit {
   width: 100%;
-  height: 1.8rem;
+  height: 2.3rem;
+  border-radius: .3rem;
   font-size: 1rem;
   font-family: inherit;
-  background-color: #87abdbaa;
+  background-color: #87abdbcc;
   border: none;
+}
+
+.btn-submit:hover {
+  filter: brightness(120%);
 }

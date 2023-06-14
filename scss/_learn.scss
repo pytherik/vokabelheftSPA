@@ -9,13 +9,10 @@
   font-size: 1.5rem;
   margin-top: 1rem;
   width: 100%;
-  height: 30vh;
-  background: $bg-color-secondary;
-  padding: .8rem .9rem .5rem .2rem;
-  //border-radius: 10px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  box-sizing: content-box;
+  height: 12vh;
+  background: rgba(89, 99, 62, 0.466667);
+  padding: 1rem;
+  border-radius: .3rem;
   div {
     display: flex;
     justify-content: space-between;
@@ -36,7 +33,11 @@
 .quest-word {
   font-size: 2.4rem;
   text-align: center;
+  border: 1px solid #88888888;
+  border-radius: 3px;
+  background: #88888822;
   margin-bottom: 2rem;
+  padding: 0.3rem;
 }
 .wordclass {
   font-size: 1.3rem;

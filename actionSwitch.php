@@ -7,7 +7,7 @@ spl_autoload_register(function ($class) {
   include sprintf('classes/%s.php', $class);
 });
 
-//info Anfragen aus javaScript beinhalten die $action,
+//info Anfragen aus javaScript beinhalten die action,
 // welche den case des switches aufruft
 $action = $_POST['action'];
 switch ($action) {
