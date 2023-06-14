@@ -51,13 +51,13 @@ class English implements JsonSerializable
    * @param $id
    * @return English
    */
-  public function getObjectById($id): English
+  public function getObjectById($wordId): English
   {
     try {
       $dbh = DBConnect::connect();
-      $sql = "SELECT * FROM english WHERE id = :id";
+      $sql = "SELECT * FROM english WHERE id = :wordId";
       $stmt = $dbh->prepare($sql);
-      $stmt->bindParam('id', $id);
+      $stmt->bindParam('wordId', $wordId);
       $stmt->execute();
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
       return new English($row['id'], $row['word']);
@@ -75,7 +75,7 @@ class English implements JsonSerializable
   {
     try {
       $dbh = DBConnect::connect();
-      $sql = "SELECT * FROM english ORDER BY RAND() LIMIT 1";
+      $sql = RANDOM_ENGLISH_WORD;
       $stmt = $dbh->prepare($sql);
       $stmt->execute();
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -96,10 +96,10 @@ class English implements JsonSerializable
   }
 
   /**
-   * @param $userId
+   * @param string $userId
    * @return English
    */
-  public function getRandomUserObject($userId): English
+  public function getRandomUserObject(string $userId): English
   //info holt ein zufälliges englisches Wort aus dem Bestand des Benutzers im user_pool
   {
     try {

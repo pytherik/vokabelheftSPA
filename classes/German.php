@@ -48,16 +48,16 @@ class German implements JsonSerializable
   }
 
   /**
-   * @param $id
+   * @param $wordId
    * @return German
    */
-  public function getObjectById($id): German
+  public function getObjectById($wordId): German
   {
     try {
       $dbh = DBConnect::connect();
       $sql = "SELECT * FROM german WHERE id = :id";
       $stmt = $dbh->prepare($sql);
-      $stmt->bindParam('id', $id);
+      $stmt->bindParam('id', $wordId);
       $stmt->execute();
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
       return new German($row['id'], $row['word']);
@@ -75,7 +75,7 @@ class German implements JsonSerializable
   {
     try {
       $dbh = DBConnect::connect();
-      $sql = "SELECT * FROM german ORDER BY RAND() LIMIT 1";
+      $sql = RANDOM_GERMAN_WORD;
       $stmt = $dbh->prepare($sql);
       $stmt->execute();
       $row = $stmt->fetch(PDO::FETCH_ASSOC);

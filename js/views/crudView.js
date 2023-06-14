@@ -178,7 +178,7 @@ export class CrudView {
       const formData = new FormData();
       const dateTime = getDateTime();
       formData.append('action', 'createNewWord');
-      formData.append('authorId', `${session.userId}`);
+      formData.append('authorId', localStorage.getItem('userId'));
       formData.append('createdAt', dateTime);
       formData.append('lang', lang);
       formData.append('word', word);
@@ -396,8 +396,8 @@ export class CrudView {
       const formData = new FormData();
       formData.append('action', 'addWordToUserPool');
       formData.append('userId', localStorage.getItem('userId'));
-      formData.append('date', localStorage.getItem('date'));
       formData.append('wordId', wordId);
+      formData.append('date', localStorage.getItem('date'));
       formData.append('lang', lang);
       formData.append('description', description);
       const result = await fetch(urlActionSwitch, {

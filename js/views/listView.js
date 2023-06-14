@@ -192,14 +192,14 @@ export class ListView {
   //info holen der Vokabeln aus der Datenbank
   getUsercontent = async (allUsers) => {
     const lang = localStorage.getItem('lang');
-    let fetchId = this.userId;
+    let fetchId = localStorage.getItem('userId');
     if (allUsers) {
       fetchId = 0;
     }
     try {
       const formData = new FormData();
       formData.append('action', 'getUserContent');
-      formData.append('userId', this.userId);
+      formData.append('userId', localStorage.getItem('userId'));
       formData.append('fetchId', fetchId);
       formData.append('lang', lang);
       const response = await fetch(urlActionSwitch, {

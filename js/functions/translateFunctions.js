@@ -1,13 +1,15 @@
-import {urlActionSwitch} from "../config.js";
+import {session, urlActionSwitch} from "../config.js";
 //info Beim klicken auf ein Wort in den Listen werden die weiteren
 // Informationen wie Übersetzungen und Beschreibung geholt und dargestellt
 export const getTranslation = async (id, wordclass) => {
   const lang = localStorage.getItem('lang');
+  const userId = localStorage.getItem('userId')
   try {
     const formData = new FormData();
     formData.append('action', 'getTranslation');
-    formData.append('id', id);
-    formData.append('wordclass', wordclass)
+    formData.append('userId', userId);
+    formData.append('wordId', id);
+    formData.append('wordclass', wordclass);
     formData.append('lang', lang);
     const result = await fetch(urlActionSwitch, {
       body: formData,

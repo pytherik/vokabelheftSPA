@@ -9,8 +9,10 @@ spl_autoload_register(function ($class) {
 
 //info Anfragen aus javaScript beinhalten die action,
 // welche den case des switches aufruft
+$authorizationError = 'Deine UserId gehört nicht zu dir!';
 $action = $_POST['action'];
 switch ($action) {
+  //info kommt von main.js, user anlegen oder holen
   case 'userLogin':
     if (isset($_POST['name']) && isset($_POST['password'])) {
       $name = $_POST['name'];
@@ -21,116 +23,102 @@ switch ($action) {
       echo json_encode($user);
     }
     break;
+  //info kommt von listView.js, alle bzw. user Vokabeln holen
   case 'getUserContent':
     session_start();
-    $id = $_POST['userId'];
+    $userId = $_POST['userId'];
     $lang = $_POST['lang'];
     $fetchId = $_POST['fetchId'];
-    if ($id == $_SESSION['userId']) {
-      $content = (new UserContent())->getAllAsObjects($fetchId, $lang);
-      echo json_encode($content);
-    } else {
-      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
-    }
+    $content = (new UserContent())->getAllAsObjects($fetchId, $lang);
+    echo json_encode($content);
     break;
+  //info kommt von loadStartPage.js->functions/translateFunctions.js, Übersetzungen zu wordId holen
   case 'getTranslation':
     session_start();
-    $id = $_POST['id'];
+    $userId = $_POST['userId'];
+    $wordId = $_POST['wordId'];
     $lang = $_POST['lang'];
     $wordclass = $_POST['wordclass'];
     if ($lang === 'en') {
-      $translation = (new English())->getObjectById($id);
+      $translation = (new English())->getObjectById($wordId);
     } else {
-      $translation = (new German())->getObjectById($id);
+      $translation = (new German())->getObjectById($wordId);
     }
     echo json_encode($translation);
     break;
+  //info kommt von crudView.js, trägt Vokabel aus Gesamtbestand in user_pool ein
   case 'addWordToUserPool':
     session_start();
-    $id = $_POST['userId'];
-    if ($id == $_SESSION['userId']) {
-      $date = $_POST['date'];
-      $wordId = $_POST['wordId'];
-      $lang = $_POST['lang'];
-      $description = $_POST['description'];
-      $newWord = (new UserPool())->addNewWord($id, $date, $wordId, $lang, $description);
-      echo json_encode($newWord);
-    } else {
-      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
-    }
+    $userId = $_POST['userId'];
+    $date = $_POST['date'];
+    $wordId = $_POST['wordId'];
+    $lang = $_POST['lang'];
+    $description = $_POST['description'];
+    $newWord = (new UserPool())->addNewWord($userId, $date, $wordId, $lang, $description);
+    echo json_encode($newWord);
     break;
+  //info kommt von crudView.js, löscht Vokabel aus user_pool Bestand
   case 'removeWordFromUserPool':
     session_start();
-    $id = $_POST['userId'];
-    if ($id == $_SESSION['userId']) {
-      $wordId = $_POST['id'];
-      $response = (new UserPool())->removeWordById($wordId);
-      echo json_encode($response);
-    } else {
-      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
-    }
+    $userId = $_POST['userId'];
+    $wordId = $_POST['id'];
+    $response = (new UserPool())->removeWordById($wordId);
+    echo json_encode($response);
     break;
+  //info kommt von crudView.js, gehört zu createNewWord, überprüft, ob sich das Wort
+  // im user_pool befindet, Rückgabewert: boolean
   case 'getSinglePoolObject':
     session_start();
     $userId = $_POST['userId'];
-    if ($userId == $_SESSION['userId']) {
-      $wordId = $_POST['wordId'];
-      $lang = $_POST['lang'];
-      $response = (new UserPool())->getSingleObject($userId, $wordId, $lang);
-      echo json_encode($response);
-    } else {
-      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
-    }
+    $wordId = $_POST['wordId'];
+    $lang = $_POST['lang'];
+    $response = (new UserPool())->getSingleObject($userId, $wordId, $lang);
+    echo json_encode($response);
     break;
+  //info kommt von crudView.js, pflegt neue Vokabel in die Tabellen
+  // german, english, english_german und user_pool ein
   case 'createNewWord':
     session_start();
-    $authorId = $_POST['authorId'];
-    if ($authorId == $_SESSION['userId']) {
-      $createdAt = $_POST['createdAt'];
-      $lang = $_POST['lang'];
-      $word = $_POST['word'];
-      $wordclass = $_POST['wordclass'];
-      $translations = json_decode($_POST['translations']);
-      $description = $_POST['description'];
-      $response = (new EnglishGerman())->createNewWord($authorId, $createdAt,
-        $lang, $word, $wordclass, $translations, $description);
-      echo json_encode($response);
-    } else {
-      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
-    }
+    $userId = $_POST['authorId'];
+    $createdAt = $_POST['createdAt'];
+    $lang = $_POST['lang'];
+    $word = $_POST['word'];
+    $wordclass = $_POST['wordclass'];
+    $translations = json_decode($_POST['translations']);
+    $description = $_POST['description'];
+    $response = (new EnglishGerman())->createNewWord($userId, $createdAt,
+      $lang, $word, $wordclass, $translations, $description);
+    echo json_encode($response);
     break;
+  //info kommt von crudView.js->functions/getDescription.js holt Beschreibung zu wortId
   case 'getDescription':
     session_start();
     $userId = $_POST['userId'];
-      $wordId = $_POST['wordId'];
-      $lang = $_POST['lang'];
-      $response = (new UserPool())->getDescriptionById($userId, $wordId, $lang);
-      echo json_encode($response);
+    $wordId = $_POST['wordId'];
+    $lang = $_POST['lang'];
+    $response = (new UserPool())->getDescriptionById($userId, $wordId, $lang);
+    echo json_encode($response);
     break;
+  //info kommt von crudView.js eintragen der geänderten Beschreibung in Tabelle user_pool
   case 'updateDescription':
     session_start();
     $userId = $_POST['userId'];
-    if ($userId == $_SESSION['userId']) {
-      $wordId = $_POST['wordId'];
-      $lang = $_POST['lang'];
-      $description = $_POST['description'];
-      $response = (new UserPool())->updateDescription($userId, $wordId, $lang, $description);
-      echo json_encode($response);
-    } else {
-      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
-    }
+    $wordId = $_POST['wordId'];
+    $lang = $_POST['lang'];
+    $description = $_POST['description'];
+    $response = (new UserPool())->updateDescription($userId, $wordId, $lang, $description);
+    echo json_encode($response);
     break;
+  // info kommt von learnView.js, holen des Lerner-Erfolgs aus Tabelle statistics
   case 'getStatistics':
     session_start();
     $userId = $_POST['userId'];
-    if ($userId == $_SESSION['userId']) {
-      $date = $_POST['date'];
-      $response = (new Statistics())->getStatistics($userId, $date);
-      echo json_encode($response);
-    } else {
-      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
-    }
+    $date = $_POST['date'];
+    $response = (new Statistics())->getStatistics($userId, $date);
+    echo json_encode($response);
     break;
+  // info kommt von learnView, holen eines Zufallswortes incl. Wortart
+  // aus Tabellen english
   case 'getRandomWord':
     $userId = $_POST['userId'];
     $lang = $_POST['lang'];
@@ -149,15 +137,11 @@ switch ($action) {
   case 'updateStatistics':
     session_start();
     $userId = $_POST['userId'];
-    if ($userId == $_SESSION['userId']) {
-      $wordId = $_POST['wordId'];
-      $lang = $_POST['lang'];
-      $date = $_POST['date'];
-      $isRight = ($_POST['isRight'] === 'true') ? 1 : 0;
-      (new Statistics())->updateStatistics($userId, $date, $wordId, $lang, $isRight);
-    } else {
-      echo json_encode('Deine UserId scheint nicht deine eigene zu sein');
-    }
+    $wordId = $_POST['wordId'];
+    $lang = $_POST['lang'];
+    $date = $_POST['date'];
+    $isRight = ($_POST['isRight'] === 'true') ? 1 : 0;
+    (new Statistics())->updateStatistics($userId, $date, $wordId, $lang, $isRight);
     break;
   default:
     echo 'default case has happened!';

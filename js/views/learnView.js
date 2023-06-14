@@ -44,7 +44,7 @@ export class LearnView {
     const headerContent1 = (localStorage.getItem('lang') === 'en') ? `of ${today} at ${time}` : `Von ${today} um ${time}`;
     const table1 = this.buildTableElement(headerContent1, 'stats-today');
 
-    const headerContent2 = (localStorage.getItem('lang') === 'en') ? `since ${firstDay}, ${firstTime} until today` : `seit ${firstDay}, ${firstTime} bis heute`;
+    const headerContent2 = (localStorage.getItem('lang') === 'en') ? `since ${firstDay} until today` : `seit ${firstDay} bis heute`;
     const table2 = this.buildTableElement(headerContent2, 'stats-total');
 
 
@@ -103,7 +103,6 @@ export class LearnView {
     questContainer.className = 'question';
     //info hole Zufallswort
     const wordData = await this.getRandomWord();
-
     //info Textinhalte nach Sprachmodus festlegen
     let wordclassTxt = `Wordclass: ${wordData.wordclass}`;
     const word = wordData.word;

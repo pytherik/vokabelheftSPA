@@ -48,9 +48,9 @@ if(!username) {
     } else {
     try {
       const formData = new FormData();
+      formData.append('action', 'userLogin');
       formData.append('name', nameInput.value);
       formData.append('password', passInput.value);
-      formData.append('action', 'userLogin');
       const response = await fetch(urlActionSwitch,
         {
           body: formData,

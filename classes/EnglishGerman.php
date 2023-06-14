@@ -44,7 +44,7 @@ class EnglishGerman
    * @param $description
    * @return string
    */
-  public function createNewWord($authorId,
+  public function createNewWord($userId,
                                 $createdAt,
                                 $lang,
                                 $word,
@@ -55,7 +55,7 @@ class EnglishGerman
     // english, german und english_german eintragen. $lang gibt die
     // Sprache an, unter welcher das Wort eingetragen wird, die
     // jeweils andere Sprache wird hier als translation bezeichnet.
-    // Gleichzeitig wird das Wort im user_pool des Benutzers($authorId)
+    // Gleichzeitig wird das Wort im user_pool des Benutzers($userId)
     // angelegt, damit es ihm nach der Erstellung als Lerncontent zur
     // verfügung steht. Ist das Wort schon vorhanden, wird die Id des
     // Wortes zurückgegeben, damit weiter geprüft werden kann, ob dem Benutzer
@@ -104,12 +104,12 @@ class EnglishGerman
           $sql = INSERT_ENGLISH_GERMAN;
           $stmt = $dbh->prepare($sql);
           $stmt->bindParam('createdAt', $createdAt);
-          $stmt->bindParam('createdBy', $authorId);
+          $stmt->bindParam('createdBy', $userId);
           //info eine zweite Anfrage stellt auch die Übersetzungen
           // als Lerncontent im user_pool bereit
           $sql2 = ($lang === 'en') ? INSERT_GERMAN_INTO_USER_POOL : INSERT_ENGLISH_INTO_USER_POOL;
           $stmt2 = $dbh->prepare($sql2);
-          $stmt2->bindParam('user_id', $authorId);
+          $stmt2->bindParam('user_id', $userId);
           $stmt2->bindParam('added_at', $createdAt);
 
           if ($lang === 'en') {
@@ -134,7 +134,7 @@ class EnglishGerman
         //info das Wort wird im user_pool als Lerncontent bereitgestellt
         $sql = ($lang === 'en') ? INSERT_ENGLISH_INTO_USER_POOL: INSERT_GERMAN_INTO_USER_POOL;
         $stmt = $dbh->prepare($sql);
-        $stmt->bindParam('user_id', $authorId);
+        $stmt->bindParam('user_id', $userId);
         $stmt->bindParam('added_at', $createdAt);
         if ($lang === 'en') {
           $stmt->bindParam('english_id', $wordId);
