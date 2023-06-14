@@ -175,12 +175,10 @@ export class LearnView {
   //info die Antwort prüfen und Success-Modale aufrufen
   verifyAnswer = async (wordData, answer) => {
     if (wordData.translations.includes(answer)) {
-      const result = await this.updateStatistics(wordData, true);
-      console.log(result);
+      await this.updateStatistics(wordData, true);
       this.showSuccess(wordData, answer, true);
     } else {
-      const result = await this.updateStatistics(wordData, false);
-      console.log(result);
+      await this.updateStatistics(wordData, false);
       this.showSuccess(wordData, answer, false);
     }
   }
@@ -200,7 +198,7 @@ export class LearnView {
         body: formData,
         method: 'POST'
       })
-      return await response.json();
+      // return await response.json();
     } catch (error) {
       console.log(error);
     }

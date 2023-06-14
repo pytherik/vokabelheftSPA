@@ -1,5 +1,6 @@
 import {urlActionSwitch} from "../config.js";
-
+//info Beim klicken auf ein Wort in den Listen werden die weiteren
+// Informationen wie Übersetzungen und Beschreibung geholt und dargestellt
 export const getTranslation = async (id, wordclass) => {
   const lang = localStorage.getItem('lang');
   try {
