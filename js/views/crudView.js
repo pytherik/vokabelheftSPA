@@ -277,7 +277,7 @@ export class CrudView {
     const adjective = (lang === 'en') ? 'adjective' : 'Adjektiv';
     const other = (lang === 'en') ? 'other' : 'Andere';
 
-    const quitButton = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">`;
+    const quitButton = `<img src="./assets/images/icons/quit.png" id="quit" alt="quit">`;
     const authorContent = `<div>
                              <span class="new-word-message"></span>
                              <div class="modal-author">${authorTxt}: ${author}</div>`

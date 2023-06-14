@@ -39,7 +39,7 @@ export const showTranslation = (translation, wordclass, authorName, description)
   modal.style.display = 'block';
   const innerModal = document.querySelector('.inner-modal');
   innerModal.className = 'inner-show-modal';
-  let modalContent = `<img src="../../assets/images/icons/quit.png" id="quit" alt="quit">
+  let modalContent = `<img src="./assets/images/icons/quit.png" id="quit" alt="quit">
                       <div class="modal-author">${vonBy} ${authorName}</div>
                       <div>
                         <span class="modal-word">${to}${translation.word}</span> 

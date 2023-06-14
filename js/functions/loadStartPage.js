@@ -147,8 +147,8 @@ export const loadStartPage = async () => {
     const value = e.target.value;
     allWords.forEach(word => {
       //info Ausblenden aller Wörter in denen value nicht enthalten ist
-      const contentWord = word.dataset.allWordsIdRow;
-      const isVisible = contentWord.includes(value)
+      const contentWord = word.dataset.allWordsIdRow.toLowerCase();
+      const isVisible = contentWord.includes(value.toLowerCase())
       word.classList.toggle('hide', !isVisible);
     })
   })
@@ -160,8 +160,8 @@ export const loadStartPage = async () => {
     const value = e.target.value;
     words.forEach(word => {
       //info Ausblenden aller Wörter in denen value nicht enthalten ist
-      const contentWord = word.dataset.wordIdRow;
-      const isVisible = contentWord.includes(value)
+      const contentWord = word.dataset.wordIdRow.toLowerCase();
+      const isVisible = contentWord.includes(value.toLowerCase())
       word.classList.toggle('hide', !isVisible);
     })
   })
