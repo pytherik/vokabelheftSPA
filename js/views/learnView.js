@@ -41,7 +41,7 @@ export class LearnView {
     const firstTime = firstDayAt[1];
 
     //info Tabellenüberschriften hinzufügen
-    const headerContent1 = (localStorage.getItem('lang') === 'en') ? `of ${today} at ${time}` : `Von ${today} um ${time}`;
+    const headerContent1 = (localStorage.getItem('lang') === 'en') ? `${today} at ${time}` : `${today} um ${time}`;
     const table1 = this.buildTableElement(headerContent1, 'stats-today');
 
     const headerContent2 = (localStorage.getItem('lang') === 'en') ? `since ${firstDay} until today` : `seit ${firstDay} bis heute`;

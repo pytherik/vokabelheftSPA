@@ -114,6 +114,7 @@ export class ListView {
       let to = '';
       if (localStorage.getItem('lang') === 'en' && content.wordclass === 'verb') to = 'to '
       let addedAt = content.created_at;
+      addedAt = addedAt.split(' ')[0];
       addedAt = addedAt.split('-').reverse().join('.');
       row = `<div class="row" data-${dataId}-row="${content.word}">
                <div>
