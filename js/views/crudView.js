@@ -36,18 +36,19 @@ export class CrudView {
   //info Ablegen der im Edit erstellten oder geänderten Description in DB
   async updateDescription(wordId) {
     const description = document.querySelector('.modal-textarea').value;
+    console.log(description);
     try {
       const formData = new FormData();
       formData.append('action', 'updateDescription');
       formData.append('wordId', wordId);
-      formData.append('userId', session.userId);
+      formData.append('userId', localStorage.getItem('userId'));
       formData.append('lang', localStorage.getItem('lang'));
       formData.append('description', description);
       const result = await fetch(urlActionSwitch, {
         body: formData,
         method: 'POST'
       })
-      // const response = await result.json();
+      await result.json();
     } catch (error) {
       console.log(error);
     }

@@ -133,7 +133,7 @@ class UserPool implements JsonSerializable
   public function updateDescription($userId, $wordId, $lang, $description): string
   //info Editierte Beschreibungen werden eingetragen.
   {
-    $response = '';
+    $response = "irgendwas stimmt hier nicht. description: $description";
     try {
       $dbh = DBConnect::connect();
       $sql = ($lang === 'en') ? UPDATE_ENGLISH_DESCRIPTION : UPDATE_GERMAN_DESCRIPTION;
