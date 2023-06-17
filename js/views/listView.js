@@ -95,6 +95,7 @@ export class ListView {
       //info zum setzten des plus Buttons oder des Häkchens wird myContent(eigenes Heft)
       // benötigt, um zu Prüfen ob die Vokabel schon im Heft ist
       myContent = await this.getUsercontent(false)
+
       //info setzten der Id's zur späteren Unterscheidung für die event listener
       lastestEntriesId = 'all-users-table';
       dataId = 'all-words-id'
@@ -103,14 +104,17 @@ export class ListView {
     //info allUsers wird beim erstellen der Tabellen zweimal aufgerufen
     // (true oder false in getLatestEntries gesetzt)
     const userContent = await this.getUsercontent(allUsers);
+
     const latestEntries = document.createElement('div');
     latestEntries.className = 'latest-entries';
     latestEntries.id = lastestEntriesId;
+
     let row = '';
     const titleAdd = (localStorage.getItem('lang') === 'en') ? 'add to book' : 'zum Heft hizufügen';
     const titleRemove = (localStorage.getItem('lang') === 'en') ? 'remove from book' : 'aus Heft entfernen';
     const titleEdit = (localStorage.getItem('lang') === 'en') ? 'edit' : 'bearbeiten';
     userContent.forEach((content, idx) => {
+      //info wird bei englischen Verben auf 'to' gesetzt und dem Wort vorangestellt
       let to = '';
       if (localStorage.getItem('lang') === 'en' && content.wordclass === 'verb') to = 'to '
       let addedAt = content.created_at;
@@ -135,7 +139,7 @@ export class ListView {
         //info Überprüfung ob das Wort schon im Heft ist, Auswahl der Buttons
         const result = this.checkUserContent(myContent, content.word_id);
         if (result === true) {
-          row += `<span class="included">&#10004</span>
+          row += `<span class="included">&#10004</span> 
                 </div>
               </div>`;
         } else {

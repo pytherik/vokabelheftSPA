@@ -7,13 +7,14 @@ import {logout} from "./logout.js";
 const container = document.querySelector('.container');
 const title = document.querySelector('title');
 
+//info Entscheidung über den Lernmodus ist je nach Buttonclick
+// 'meine Vokabeln üben' = false oder 'alle Vokabeln üben' = true
 export const loadLearnPage = async (mode) => {
   const username = localStorage.getItem('username');
   let page = '';
   title.innerText = 'Learn'
   container.innerHTML = '';
 
-  //info mode für Lernmodus: eigene (false) oder alle (true) Vokabeln
   if (mode) {
      page = (localStorage.getItem('lang') === 'en') ?
        `Hello ${username}! Practice all learners' vocabulary`:

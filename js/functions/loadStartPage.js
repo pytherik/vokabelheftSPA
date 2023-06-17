@@ -48,9 +48,7 @@ export const loadStartPage = async () => {
   const buttonAllUsers = document.getElementById('btn-all-users');
 
   //info nur Vokabeln des aktuellen Benutzers abfragen
-  buttonUser.addEventListener('click', () => {
-    loadLearnPage(false);
-  })
+  buttonUser.addEventListener('click', () => loadLearnPage(false));
 
   //info Vokabeln von allen Benutzern abfragen
   buttonAllUsers.addEventListener('click', () => {
@@ -64,12 +62,13 @@ export const loadStartPage = async () => {
   const wordButtons = document.querySelectorAll('[data-word-id]');
   const allWordsButtons = document.querySelectorAll('[data-all-words-id]');
 
+  const creator = new CrudView();
+
 
   //info Plus-Buttons zum hinzufügen einer Vokabel
   addButtons.forEach(addButton => {
     addButton.addEventListener('click', () => {
       const wordId = addButton.dataset.addWordId;
-      const creator = new CrudView();
       creator.addWordToUserPool(wordId);
     })
   })
@@ -79,8 +78,7 @@ export const loadStartPage = async () => {
     removeButton.addEventListener('click', () => {
       //info wordId ist user_pool Tabellen-Id
       const wordId = removeButton.dataset.removeWordId;
-      const remover = new CrudView();
-      remover.removeWordFromUserPool(wordId);
+      creator.removeWordFromUserPool(wordId);
     })
   })
 
@@ -127,18 +125,13 @@ export const loadStartPage = async () => {
       const wordId = editButton.dataset.editWordId;
       const wordclass = editButton.dataset.editWordclass;
       const authorName = editButton.dataset.editAuthorName;
-      // const authorId = editButton.dataset.editAuthorId
-      const editor = new CrudView();
-      await editor.buildCreateForm(Number(wordId), wordclass, authorName);
+      await creator.buildCreateForm(Number(wordId), wordclass, authorName);
     })
   })
 
   //info Modal mit Erstellen-Formular wird erstellt
-  const newWord = document.querySelector('.btn-create');
-  newWord.addEventListener('click', () => {
-    const creator = new CrudView();
-    creator.buildCreateForm();
-  })
+  document.querySelector('.btn-create').addEventListener(
+    'click', creator.buildCreateForm);
 
   //info Suchfunktion für alle Vokabeln
   const searchAllInput = document.getElementById('search-all');
