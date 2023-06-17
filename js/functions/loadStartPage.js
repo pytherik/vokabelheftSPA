@@ -166,6 +166,5 @@ export const loadStartPage = async () => {
     })
   })
 
-  const logoutButton = document.querySelector('.btn-logout');
-  logoutButton.addEventListener('click', () => logout());
+  document.querySelector('.btn-logout').addEventListener('click', logout);
 }
