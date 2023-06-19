@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'config.php';
 include 'queries.php';
 //info Einbinden aller Klassen und der Konfigurations und Query Dateien,
@@ -18,14 +19,14 @@ switch ($action) {
       $name = $_POST['name'];
       $password = $_POST['password'];
       $user = (new User())->createOrGetUser($name, $password);
-      session_start();
+//      session_start();
       $_SESSION['userId'] = $user->getId();
       echo json_encode($user);
     }
     break;
   //info kommt von listView.js, alle bzw. user Vokabeln holen
   case 'getUserContent':
-    session_start();
+//    session_start();
     $userId = $_POST['userId'];
     $lang = $_POST['lang'];
     $fetchId = $_POST['fetchId'];
@@ -34,7 +35,7 @@ switch ($action) {
     break;
   //info kommt von loadStartPage.js->functions/translateFunctions.js, Übersetzungen zu wordId holen
   case 'getTranslation':
-    session_start();
+//    session_start();
     $userId = $_POST['userId'];
     $wordId = $_POST['wordId'];
     $lang = $_POST['lang'];
@@ -48,7 +49,7 @@ switch ($action) {
     break;
   //info kommt von crudView.js, trägt Vokabel aus Gesamtbestand in user_pool ein
   case 'addWordToUserPool':
-    session_start();
+//    session_start();
     $userId = $_POST['userId'];
     $date = $_POST['date'];
     $wordId = $_POST['wordId'];
@@ -59,7 +60,7 @@ switch ($action) {
     break;
   //info kommt von crudView.js, löscht Vokabel aus user_pool Bestand
   case 'removeWordFromUserPool':
-    session_start();
+//    session_start();
     $userId = $_POST['userId'];
     $wordId = $_POST['id'];
     $response = (new UserPool())->removeWordById($wordId);
@@ -68,7 +69,7 @@ switch ($action) {
   //info kommt von crudView.js, gehört zu createNewWord, überprüft, ob sich das Wort
   // im user_pool befindet, Rückgabewert: boolean
   case 'getSinglePoolObject':
-    session_start();
+//    session_start();
     $userId = $_POST['userId'];
     $wordId = $_POST['wordId'];
     $lang = $_POST['lang'];
@@ -78,7 +79,7 @@ switch ($action) {
   //info kommt von crudView.js, pflegt neue Vokabel in die Tabellen
   // german, english, english_german und user_pool ein
   case 'createNewWord':
-    session_start();
+//    session_start();
     $userId = $_POST['authorId'];
     $createdAt = $_POST['createdAt'];
     $lang = $_POST['lang'];
@@ -92,7 +93,7 @@ switch ($action) {
     break;
   //info kommt von crudView.js->functions/getDescription.js holt Beschreibung zu wortId
   case 'getDescription':
-    session_start();
+//    session_start();
     $userId = $_POST['userId'];
     $wordId = $_POST['wordId'];
     $lang = $_POST['lang'];
@@ -101,7 +102,7 @@ switch ($action) {
     break;
   //info kommt von crudView.js eintragen der geänderten Beschreibung in Tabelle user_pool
   case 'updateDescription':
-    session_start();
+//    session_start();
     $userId = $_POST['userId'];
     $wordId = $_POST['wordId'];
     $lang = $_POST['lang'];
@@ -111,7 +112,7 @@ switch ($action) {
     break;
   // info kommt von learnView.js, holen des Lerner-Erfolgs aus Tabelle statistics
   case 'getStatistics':
-    session_start();
+//    session_start();
     $userId = $_POST['userId'];
     $date = $_POST['date'];
     $response = (new Statistics())->getStatistics($userId, $date);
@@ -135,7 +136,7 @@ switch ($action) {
     echo json_encode($response);
     break;
   case 'updateStatistics':
-    session_start();
+//    session_start();
     $userId = $_POST['userId'];
     $wordId = $_POST['wordId'];
     $lang = $_POST['lang'];
